@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: central-oondemand
-  namespace: central-oondemand
+  name: central-oondemand-homolog
+  namespace: central-oondemand-homolog
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: central-oondemand
+      app: central-oondemand-homolog
   template:
     metadata:
       labels:
-        app: central-oondemand
+        app: central-oondemand-homolog
     spec:
       containers:
-        - name: central-oondemand-container
+        - name: central-oondemand-homolog-container
           image: ghcr.io/oondemand/central-oondemand:${IMAGE_TAG}-homolog
           ports:
             - containerPort: 4000
