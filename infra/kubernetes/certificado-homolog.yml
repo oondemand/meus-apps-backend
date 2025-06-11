@@ -2,12 +2,12 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: app-tls
-  namespace: central-oondemand
+  namespace: central-oondemand-homolog
 spec:
   secretName: app-tls
   issuerRef:
     name: letsencrypt-nginx
     kind: ClusterIssuer
   dnsNames:
-    - api.app1.central.oondemand.online
-    - app1.central.oondemand.online
+    - homolo.app1.central.oondemand.online
+    - homolo.api.app1.central.oondemand.online

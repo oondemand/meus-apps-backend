@@ -11,10 +11,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api.oondemand.com.br
+        - api.app1.central.oondemand.online
       secretName: app-tls
   rules:
-    - host: api.oondemand.com.br
+    - host: api.app1.central.oondemand.online
       http:
         paths:
           - path: /cst-rakuten(/|$)(.*)
