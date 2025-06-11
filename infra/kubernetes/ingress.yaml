@@ -17,7 +17,7 @@ spec:
     - host: api.app1.central.oondemand.online
       http:
         paths:
-          - path: /cst-rakuten(/|$)(.*)
+          - path: /
             pathType: ImplementationSpecific
             backend:
               service:

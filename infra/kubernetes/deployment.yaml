@@ -4,7 +4,7 @@ metadata:
   name: central-oondemand
   namespace: central-oondemand
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: central-oondemand

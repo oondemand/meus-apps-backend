@@ -3,12 +3,12 @@ const router = express.Router();
 
 const BaseOmie = require("../models/BaseOmie");
 const Usuario = require("../models/Usuario");
-const Lista = require("../models/Lista");
-const Banco = require("../models/Banco");
-const Estado = require("../models/Estado");
+// const Lista = require("../models/Lista");
+// const Banco = require("../models/Banco");
+// const Estado = require("../models/Estado");
 const Etapa = require("../models/Etapa");
 const Sistema = require("../models/Sistema");
-const ListaOmie = require("../models/ListaOmie");
+// const ListaOmie = require("../models/ListaOmie");
 
 const bancos = require("../seeds/bancos.json");
 const estados = require("../seeds/estados.json");
@@ -47,20 +47,20 @@ const seed = async (req, res) => {
   const novoUsuario = new Usuario(usuario);
   await novoUsuario.save();
 
-  for (const lista of listas) {
-    const novaLista = new Lista(lista);
-    await novaLista.save();
-  }
+  // for (const lista of listas) {
+  //   const novaLista = new Lista(lista);
+  //   await novaLista.save();
+  // }
 
-  for (const banco of bancos) {
-    const novoBanco = new Banco(banco);
-    await novoBanco.save();
-  }
+  // for (const banco of bancos) {
+  //   const novoBanco = new Banco(banco);
+  //   await novoBanco.save();
+  // }
 
-  for (const estado of estados) {
-    const novoEstado = new Estado(estado);
-    await novoEstado.save();
-  }
+  // for (const estado of estados) {
+  //   const novoEstado = new Estado(estado);
+  //   await novoEstado.save();
+  // }
 
   for (const etapa of etapas) {
     const novaEtapa = new Etapa(etapa);
@@ -72,10 +72,10 @@ const seed = async (req, res) => {
     await novoSistema.save();
   }
 
-  for (const listaomie of listaomies) {
-    const novaListaOmie = new ListaOmie(listaomie);
-    await novaListaOmie.save();
-  }
+  // for (const listaomie of listaomies) {
+  //   const novaListaOmie = new ListaOmie(listaomie);
+  //   await novaListaOmie.save();
+  // }
 
   return sendResponse({
     res,
