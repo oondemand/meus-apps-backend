@@ -1,0 +1,78 @@
+const PessoaBusiness = require("./business");
+const Pessoa = require("../../models/Pessoa");
+const FiltersUtils = require("../../utils/pagination/filter");
+const PaginationUtils = require("../../utils/pagination");
+const PessoaNaoEncontradaError = require("../errors/pessoa/pessoaNaoEncontradaError");
+
+const criar = async ({ pessoa }) => {
+  return PessoaBusiness.criar({ pessoa });
+};
+
+const atualizar = async ({ id, pessoa }) => {
+  const pessoaAtualizada = await Pessoa.findByIdAndUpdate(id, pessoa, {
+    new: true,
+  });
+  if (!pessoaAtualizada) return new PessoaNaoEncontradaError();
+  return pessoaAtualizada;
+};
+
+const buscarPorId = async ({ id }) => {
+  const pessoa = await Pessoa.findById(id);
+  if (!pessoa || !id) throw new PessoaNaoEncontradaError();
+  return pessoa;
+};
+
+const buscarPorDocumento = async ({ documento }) => {
+  const pessoa = await Pessoa.findOne({ documento });
+  if (!pessoa || !documento) throw new PessoaNaoEncontradaError();
+  return pessoa;
+};
+
+const excluir = async ({ id }) => {
+  return await PessoaBusiness.excluir({ id });
+};
+
+const listarComPaginacao = async ({
+  pageIndex,
+  pageSize,
+  searchTerm,
+  filtros,
+  ...rest
+}) => {
+  const schema = Pessoa.schema;
+  const camposBusca = ["status", "nome", "email", "tipo"];
+
+  const query = FiltersUtils.buildQuery({
+    filtros,
+    schema,
+    searchTerm,
+    camposBusca,
+  });
+
+  const { page, limite, skip } = PaginationUtils.buildPaginationQuery({
+    pageIndex,
+    pageSize,
+  });
+
+  const [pessoas, totalDePessoas] = await Promise.all([
+    Pessoa.find({
+      $and: [...query, { status: { $ne: "arquivado" } }],
+    })
+      .skip(skip)
+      .limit(limite),
+    Pessoa.countDocuments({
+      $and: [...query, { status: { $ne: "arquivado" } }],
+    }),
+  ]);
+
+  return { pessoas, totalDePessoas, page, limite };
+};
+
+module.exports = {
+  criar,
+  buscarPorId,
+  atualizar,
+  excluir,
+  listarComPaginacao,
+  buscarPorDocumento,
+};

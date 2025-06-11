@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: app-tls
+  namespace: central-oondemand
+spec:
+  secretName: app-tls
+  issuerRef:
+    name: letsencrypt-nginx
+    kind: ClusterIssuer
+  dnsNames:
+    - api.cst.oondemand.com.br
+    - cst.oondemand.com.br

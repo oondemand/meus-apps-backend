@@ -1,0 +1,11 @@
+**/node_modules/
+**/logs/
+**/build/
+**/uploads/
+
+**/.env
+**/.env.prod
+**/package-lock.json
+
+.vscode
+script.js
