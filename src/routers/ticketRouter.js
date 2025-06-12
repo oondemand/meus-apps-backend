@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const TicketController = require("../controllers/ticket");
 const multer = require("multer");
-
 const {
   registrarAcaoMiddleware,
 } = require("../middlewares/registrarAcaoMiddleware");
 const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
-
 const storage = multer.memoryStorage({});
 
 const fileFilter = (req, file, cb) => {
@@ -40,7 +38,7 @@ router.post(
 );
 
 router.get("/", TicketController.getAllTickets);
-// router.get("/arquivados", TicketController.getArchivedTickets);
+router.get("/arquivados", TicketController.getArchivedTickets);
 // router.get("/pagos", TicketController.getTicketsPago);
 
 // router.get(
