@@ -68,7 +68,11 @@ const importarPessoa = async (req, res) => {
     usuario: req.usuario,
   });
 
-  importacao.arquivoErro = arrayToExcelBuffer({ array: arquivoDeErro });
+  importacao.arquivoErro = arrayToExcelBuffer({
+    array: arquivoDeErro,
+    title: "errors",
+  });
+
   importacao.arquivoLog = Buffer.from(detalhes.errors);
   importacao.detalhes = detalhes;
 
@@ -85,10 +89,12 @@ const exportar = async (req, res) => {
     searchTerm,
   });
 
+  const buffer = arrayToExcelBuffer({ array: json, title: "exported" });
+
   sendResponse({
     res,
     statusCode: 200,
-    json,
+    buffer,
   });
 };
 

@@ -151,7 +151,7 @@ const exportarPessoa = async ({ filtros, pageIndex, pageSize, searchTerm }) => {
     Object.entries(mapExporter()).forEach(([header, key]) => {
       const accessor = key?.split(".") || [];
       const value = accessor.reduce((acc, curr) => acc?.[curr], pessoa);
-      newRow[header] = value;
+      newRow[header] = value ?? "";
     });
 
     return newRow;
