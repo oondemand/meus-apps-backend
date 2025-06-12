@@ -17,7 +17,11 @@ const listaomies = require("../seeds/listaomies.json");
 const sistemas = require("../seeds/sistemas.json");
 const etapas = require("../seeds/etapas.json");
 
-const { sendErrorResponse, sendResponse } = require("../utils/helpers");
+const {
+  sendErrorResponse,
+  sendResponse,
+  asyncHandler,
+} = require("../utils/helpers");
 
 const seed = async (req, res) => {
   const { baseOmie, usuario } = req.body;
@@ -84,5 +88,5 @@ const seed = async (req, res) => {
   });
 };
 
-router.post("/", seed);
+router.post("/", asyncHandler(seed));
 module.exports = router;

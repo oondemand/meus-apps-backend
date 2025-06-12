@@ -6,6 +6,7 @@ const {
   registrarAcaoMiddleware,
 } = require("../middlewares/registrarAcaoMiddleware");
 const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
+const { asyncHandler } = require("../utils/helpers");
 const storage = multer.memoryStorage({});
 
 const fileFilter = (req, file, cb) => {
@@ -34,11 +35,11 @@ router.post(
     acao: ACOES.ADICIONADO,
     entidade: ENTIDADES.TICKET,
   }),
-  TicketController.createTicket
+  asyncHandler(TicketController.createTicket)
 );
 
-router.get("/", TicketController.getAllTickets);
-router.get("/arquivados", TicketController.getArchivedTickets);
+router.get("/", asyncHandler(TicketController.getAllTickets));
+router.get("/arquivados", asyncHandler(TicketController.getArchivedTickets));
 // router.get("/pagos", TicketController.getTicketsPago);
 
 // router.get(
