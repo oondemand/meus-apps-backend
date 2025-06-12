@@ -22,14 +22,14 @@ const buscarPorId = async ({ id }) => {
   return pessoa;
 };
 
+const excluir = async ({ id }) => {
+  return await PessoaBusiness.excluir({ id });
+};
+
 const buscarPorDocumento = async ({ documento }) => {
   const pessoa = await Pessoa.findOne({ documento });
   if (!pessoa || !documento) throw new PessoaNaoEncontradaError();
   return pessoa;
-};
-
-const excluir = async ({ id }) => {
-  return await PessoaBusiness.excluir({ id });
 };
 
 const listarComPaginacao = async ({
@@ -39,12 +39,11 @@ const listarComPaginacao = async ({
   filtros,
   ...rest
 }) => {
-  const schema = Pessoa.schema;
   const camposBusca = ["status", "nome", "email", "tipo"];
 
   const query = FiltersUtils.buildQuery({
     filtros,
-    schema,
+    schema: Pessoa.schema,
     searchTerm,
     camposBusca,
   });

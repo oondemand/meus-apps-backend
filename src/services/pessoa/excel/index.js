@@ -117,8 +117,8 @@ const processarJsonPessoas = async ({ json, usuario }) => {
     } catch (error) {
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;
-      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PRESTADOR: ${
-        row[2]
+      detalhes.errors += `❌ [ERROR AO PROCESSAR LINHA]: ${i + 1} [PESSOA: ${
+        row[1]
       }] - \nDETALHES DO ERRO: ${error}\n\n`;
     }
   }
