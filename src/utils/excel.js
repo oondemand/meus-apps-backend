@@ -24,14 +24,14 @@ exports.excelToJson = ({
   return jsonData;
 };
 
-exports.arrayToExcelBuffer = ({ array }) => {
+exports.arrayToExcelBuffer = ({ array, title }) => {
   if (!array || array.length === 0) {
     return null;
   }
 
   const errorWorkbook = XLSX.utils.book_new();
   const errorWorksheet = XLSX.utils.json_to_sheet(array);
-  XLSX.utils.book_append_sheet(errorWorkbook, errorWorksheet, "Erros");
+  XLSX.utils.book_append_sheet(errorWorkbook, errorWorksheet, title);
 
   return XLSX.write(errorWorkbook, {
     type: "buffer",

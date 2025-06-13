@@ -1,37 +1,36 @@
-const PessoaService = require("../../services/pessoa");
-const PessoaExcel = require("../../services/pessoa/excel");
-const ImportacaoService = require("../../services/importacao");
 const { sendPaginatedResponse, sendResponse } = require("../../utils/helpers");
-const { arrayToExcelBuffer, excelToJson } = require("../../utils/excel");
+const ServicoService = require("../../services/servico");
+const ServicoExcel = require("../../services/servico/excel");
+const { arrayToExcelBuffer } = require("../../utils/excel");
+const ImportacaoService = require("../../services/importacao");
 
 const criar = async (req, res) => {
-  const pessoa = await PessoaService.criar({ pessoa: req.body });
-  sendResponse({ res, statusCode: 201, pessoa });
+  const servico = await ServicoService.criar({ servico: req.body });
+  sendResponse({ res, statusCode: 201, servico });
 };
 
 const atualizar = async (req, res) => {
-  const pessoa = await PessoaService.atualizar({
+  const servico = await ServicoService.atualizar({
     id: req.params.id,
-    pessoa: req.body,
+    servico: req.body,
   });
-  sendResponse({ res, statusCode: 200, pessoa });
+  sendResponse({ res, statusCode: 200, servico });
 };
 
 const excluir = async (req, res) => {
-  const pessoaExcluida = await PessoaService.excluir({ id: req.params.id });
-  sendResponse({ res, statusCode: 200, pessoa: pessoaExcluida });
+  const servicoExcluida = await ServicoService.excluir({ id: req.params.id });
+  sendResponse({ res, statusCode: 200, servico: servicoExcluida });
 };
 
 const obterPorId = async (req, res) => {
-  const pessoa = await PessoaService.buscarPorId({ id: req.params.id });
-  return pessoa;
+  const servico = await ServicoService.buscarPorId({ id: req.params.id });
+  return servico;
 };
 
 const listar = async (req, res) => {
   const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
-
-  const { limite, page, pessoas, totalDePessoas } =
-    await PessoaService.listarComPaginacao({
+  const { limite, page, servicos, totalDeServicos } =
+    await ServicoService.listarComPaginacao({
       filtros: rest,
       pageIndex,
       pageSize,
@@ -41,20 +40,20 @@ const listar = async (req, res) => {
   sendPaginatedResponse({
     res,
     statusCode: 200,
-    results: pessoas,
+    results: servicos,
     pagination: {
       currentPage: page,
-      totalPages: Math.ceil(totalDePessoas / limite),
-      totalItems: totalDePessoas,
       itemsPerPage: limite,
+      totalItems: totalDeServicos,
+      totalPages: Math.ceil(totalDeServicos / limite),
     },
   });
 };
 
-const importarPessoa = async (req, res) => {
+const importarServico = async (req, res) => {
   const importacao = await ImportacaoService.criar({
     arquivo: req.files[0],
-    tipo: "pessoa",
+    tipo: "servico",
   });
 
   sendResponse({
@@ -63,7 +62,7 @@ const importarPessoa = async (req, res) => {
     importacao,
   });
 
-  const { arquivoDeErro, detalhes } = await PessoaExcel.importarPessoa({
+  const { arquivoDeErro, detalhes } = await ServicoExcel.importarServico({
     arquivo: req.files[0],
     usuario: req.usuario,
   });
@@ -82,7 +81,7 @@ const importarPessoa = async (req, res) => {
 const exportar = async (req, res) => {
   const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
 
-  const { json } = await PessoaExcel.exportarPessoa({
+  const { json } = await ServicoExcel.exportarServico({
     filtros: rest,
     pageIndex,
     pageSize,
@@ -99,11 +98,11 @@ const exportar = async (req, res) => {
 };
 
 module.exports = {
+  listar,
   criar,
   atualizar,
-  excluir,
-  listar,
   obterPorId,
-  importarPessoa,
+  excluir,
   exportar,
+  importarServico,
 };

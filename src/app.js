@@ -48,7 +48,7 @@ app.use("/tickets", require("./routers/ticketRouter"));
 // app.use("/aprovacoes", require("./routers/aprovacaoRouter"));
 app.use("/etapas", require("./routers/etapaRouter"));
 // app.use("/logs", require("./routers/logRouter"));
-// app.use("/servicos", require("./routers/servicoRouter"));
+app.use("/servicos", require("./routers/servicoRouter"));
 // app.use("/documentos-fiscais", require("./routers/documentoFiscalRouter"));
 // app.use("/documentos-cadastrais", require("./routers/documentoCadastralRouter"));
 app.use("/registros", require("./routers/controleAlteracao"));
@@ -60,7 +60,7 @@ app.use("/importacoes", require("./routers/importacaoRouter"));
 // app.use("/dashboard", require("./routers/dashoboardRouter"));
 // app.use("/sistema", require("./routers/sistemaRouter"));
 // app.use("/lista-omie", require("./routers/listasOmieRouter"));
-// app.use("/assistentes", require("./routers/assistenteRouter"));
+app.use("/assistentes", require("./routers/assistenteRouter"));
 
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use(errorMiddleware);

@@ -5,6 +5,7 @@ const {
   registrarAcaoMiddleware,
 } = require("../middlewares/registrarAcaoMiddleware");
 const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
+const { asyncHandler } = require("../utils/helpers");
 
 router.post(
   "/",
@@ -12,10 +13,10 @@ router.post(
     acao: ACOES.ADICIONADO,
     entidade: ENTIDADES.CONFIGURACAO_ETAPA,
   }),
-  EtapaController.criarEtapa
+  asyncHandler(EtapaController.criarEtapa)
 );
-router.get("/ativas", EtapaController.listarEtapasAtivas);
-router.get("/", EtapaController.listarEtapas);
+router.get("/ativas", asyncHandler(EtapaController.listarEtapasAtivas));
+router.get("/", asyncHandler(EtapaController.listarEtapas));
 // router.get("/:id", EtapaController.obterEtapa);
 
 // router.put(

@@ -25,32 +25,18 @@ const createTicket = async (req, res) => {
   });
 };
 
-// const updateTicket = async (req, res) => {
-//   const ticket = await Ticket.findByIdAndUpdate(
-//     req.params.id,
-//     { ...req.body },
-//     { new: true, runValidators: true }
-//   );
+const updateTicket = async (req, res) => {
+  const ticket = await TicketService.atualizar({
+    id: req.params.id,
+    ticket: req.body,
+  });
 
-//   if (!ticket) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 404,
-//       message: "Ticket não encontrado",
-//     });
-//   }
-
-//   const ticketPopulado = await Ticket.findById(ticket._id)
-//     .populate("baseOmie")
-//     .populate("servicos")
-//     .populate("prestador");
-
-//   sendResponse({
-//     res,
-//     statusCode: 200,
-//     ticket: ticketPopulado,
-//   });
-// };
+  sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
 
 const getAllTickets = async (req, res) => {
   const tickets = await TicketService.listar();
@@ -328,118 +314,43 @@ const getAllTickets = async (req, res) => {
 //   });
 // };
 
-// const getArchivedTickets = async (req, res) => {
-//   const {
-//     ["prestador.nome"]: prestadorNome,
-//     ["prestador.tipo"]: prestadorTipo,
-//     ["prestador.documento"]: prestadorDocumento,
-//     status,
-//     searchTerm = "",
-//     sortBy,
-//     pageIndex,
-//     pageSize,
-//     ...rest
-//   } = req.query;
+const getArchivedTickets = async (req, res) => {
+  const {
+    ["prestador.nome"]: nome,
+    ["prestador.tipo"]: tipo,
+    ["prestador.documento"]: documento,
+    searchTerm = "",
+    pageIndex,
+    pageSize,
+    ...rest
+  } = req.query;
 
-//   const prestadorFiltersQuery = filterUtils.queryFiltros({
-//     filtros: {
-//       nome: prestadorNome,
-//       tipo: prestadorTipo,
-//       documento: prestadorDocumento,
-//     },
-//     schema: Prestador.schema,
-//   });
+  const { page, limite, tickets, totalDeTickets } =
+    await TicketService.listarComPaginacao({
+      filtros: rest,
+      pageIndex,
+      pageSize,
+      searchTerm,
+    });
 
-//   const prestadoresQuerySearchTerm = filterUtils.querySearchTerm({
-//     schema: Prestador.schema,
-//     searchTerm,
-//     camposBusca: ["nome", "tipo", "documento"],
-//   });
-
-//   let prestadoresIds = [];
-
-//   if (
-//     Object.keys(prestadorFiltersQuery).length > 0 ||
-//     Object.keys(prestadoresQuerySearchTerm).length > 0
-//   ) {
-//     prestadoresIds = await Prestador.find({
-//       $and: [prestadorFiltersQuery, { $or: [prestadoresQuerySearchTerm] }],
-//     }).select("_id");
-//   }
-
-//   const prestadorConditions =
-//     prestadoresIds.length > 0
-//       ? [{ prestador: { $in: prestadoresIds.map((e) => e._id) } }]
-//       : [];
-
-//   const filtersQuery = filterUtils.queryFiltros({
-//     filtros: rest,
-//     schema: Ticket.schema,
-//   });
-
-//   const searchTermCondition = filterUtils.querySearchTerm({
-//     searchTerm,
-//     schema: Ticket.schema,
-//     camposBusca: ["titulo", "createdAt"],
-//   });
-
-//   const queryResult = {
-//     $and: [
-//       filtersQuery,
-//       { status: "arquivado" },
-//       {
-//         $or: [
-//           ...(Object.keys(searchTermCondition).length > 0
-//             ? [searchTermCondition]
-//             : []),
-//           ...prestadorConditions,
-//         ],
-//       },
-//     ],
-//   };
-
-//   let sorting = {};
-
-//   if (sortBy) {
-//     const [campo, direcao] = sortBy.split(".");
-//     const campoFormatado = campo.replaceAll("_", ".");
-//     sorting[campoFormatado] = direcao === "desc" ? -1 : 1;
-//   }
-
-//   const page = parseInt(pageIndex) || 0;
-//   const limite = parseInt(pageSize) || 10;
-//   const skip = page * limite;
-
-//   const [tickets, totalDeTickets] = await Promise.all([
-//     Ticket.find(queryResult)
-//       .populate("prestador", "nome documento")
-//       .populate({
-//         path: "servicos",
-//         options: { virtuals: true },
-//       })
-//       .skip(skip)
-//       .limit(limite),
-//     Ticket.countDocuments(queryResult),
-//   ]);
-
-//   sendPaginatedResponse({
-//     res,
-//     statusCode: 200,
-//     results: tickets,
-//     pagination: {
-//       currentPage: page,
-//       totalPages: Math.ceil(totalDeTickets / limite),
-//       totalItems: totalDeTickets,
-//       itemsPerPage: limite,
-//     },
-//   });
-// };
+  sendPaginatedResponse({
+    res,
+    statusCode: 200,
+    results: tickets,
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(totalDeTickets / limite),
+      totalItems: totalDeTickets,
+      itemsPerPage: limite,
+    },
+  });
+};
 
 // const getTicketsPago = async (req, res) => {
 //   const {
-//     ["prestador.nome"]: prestadorNome,
-//     ["prestador.tipo"]: prestadorTipo,
-//     ["prestador.documento"]: prestadorDocumento,
+//     ["prestador.nome"]: nome,
+//     ["prestador.tipo"]: tipo,
+//     ["prestador.documento"]: documento,
 //     status,
 //     searchTerm = "",
 //     sortBy,
@@ -450,9 +361,9 @@ const getAllTickets = async (req, res) => {
 
 //   const prestadorFiltersQuery = filterUtils.queryFiltros({
 //     filtros: {
-//       nome: prestadorNome,
-//       tipo: prestadorTipo,
-//       documento: prestadorDocumento,
+//       nome: nome,
+//       tipo: tipo,
+//       documento: documento,
 //     },
 //     schema: Prestador.schema,
 //   });
@@ -674,4 +585,6 @@ const getAllTickets = async (req, res) => {
 module.exports = {
   createTicket,
   getAllTickets,
+  updateTicket,
+  getArchivedTickets,
 };
