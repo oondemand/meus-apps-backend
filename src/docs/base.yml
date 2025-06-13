@@ -1,0 +1,7 @@
+openapi: 3.0.0
+info:
+  title: Central oondemand api documentação
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths: {}
