@@ -6,7 +6,7 @@
 
 ### Features
 
-* enhance Excel export functionality with dynamic sheet titles and handle null values ([d2d1952](https://github.com/oondemand/central-oondemand/commit/d2d195235139bb639a53aa8277b6c8bde12104ea))
+## 0.0.9 (2025-06-11)
 
 ## 0.0.8 (2025-06-11)
 
