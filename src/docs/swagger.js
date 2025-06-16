@@ -7,6 +7,8 @@ const components = YAML.load(path.join(__dirname, "/components.yaml"));
 const auth = YAML.load(path.join(__dirname, "/paths/auth.yaml"));
 const usuarios = YAML.load(path.join(__dirname, "/paths/usuarios.yaml"));
 const pessoas = YAML.load(path.join(__dirname, "/paths/pessoas.yaml"));
+const servicos = YAML.load(path.join(__dirname, "/paths/servicos.yaml"));
+const assistentes = YAML.load(path.join(__dirname, "/paths/assistentes.yaml"));
 
 const controleAlteracao = YAML.load(
   path.join(__dirname, "/paths/controleAlteracao.yaml")
@@ -22,6 +24,8 @@ base.paths = {
   ...controleAlteracao,
   ...usuarios,
   ...pessoas,
+  ...servicos,
+  ...assistentes,
 };
 
 module.exports = base;

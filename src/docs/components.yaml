@@ -106,4 +106,42 @@ schemas:
         type: string
       detalhes:
         type: object
-        additionalProperties: true
+
+  Servico:
+    type: object
+    properties:
+      _id:
+        type: string
+      tipoServicoTomado:
+        type: string
+      descricao:
+        type: string
+      valor:
+        type: number
+      dataContratacao:
+        type: string
+        format: date-time
+      dataConclusao:
+        type: string
+        format: date-time
+      status:
+        type: string
+
+  Assistente:
+    type: object
+    properties:
+      _id:
+        type: string
+      modulo:
+        type: string
+      assistente:
+        type: string
+      status:
+        type: string
+        enum: ["ativo", "inativo"]
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time

@@ -1,0 +1,137 @@
+/servicos/:
+  post:
+    tags:
+      - Serviços
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              tipoServicoTomado:
+                type: string
+                example: "Manutenção"
+              descricao:
+                type: string
+                example: "Manutenção preventiva do sistema"
+              valor:
+                type: number
+                example: 1500.50
+              dataContratacao:
+                type: string
+                format: date-time
+                example: "2024-03-20T10:00:00Z"
+              dataConclusao:
+                type: string
+                format: date-time
+                example: "2024-03-25T15:00:00Z"
+              status:
+                type: string
+                example: "ativo"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Servico"
+  get:
+    tags:
+      - Serviços
+    description: |
+      Retorna uma lista paginada de serviços. Permite filtrar por qualquer campo do modelo de serviço.
+      Exemplos de filtros:
+      - tipoServicoTomado=Manutenção
+      - status=ativo
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BasePaginatedResponse"
+                - type: object
+                  properties:
+                    results:
+                      items:
+                        $ref: "#/components/schemas/Servico"
+
+/servicos/exportar:
+  get:
+    tags:
+      - Serviços
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+            schema:
+              type: string
+              format: binary
+
+/servicos/importar:
+  post:
+    tags:
+      - Serviços
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Importacao"
+
+/servicos/{id}:
+  patch:
+    tags:
+      - Serviços
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do serviço
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Servico"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Servico"
+  delete:
+    tags:
+      - Serviços
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do serviço
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Servico"
