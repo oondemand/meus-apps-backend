@@ -72,3 +72,44 @@ schemas:
         type: string
       status:
         type: string
+
+  Pessoa:
+    type: object
+    properties:
+      _id:
+        type: string
+      grupo:
+        type: string
+      tipo:
+        type: string
+        enum: ["pf", "pj", "ext"]
+      nome:
+        type: string
+        maxLength: 100
+      documento:
+        type: string
+        maxLength: 20
+      status:
+        type: string
+        enum: ["ativo", "inativo", "arquivado"]
+      label:
+        type: string
+
+  Importacao:
+    type: object
+    properties:
+      _id:
+        type: string
+      arquivo:
+        type: string
+      tipo:
+        type: string
+      arquivoErro:
+        type: string
+        format: binary
+      arquivoLog:
+        type: string
+        format: binary
+      detalhes:
+        type: object
+        additionalProperties: true

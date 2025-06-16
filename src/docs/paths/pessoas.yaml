@@ -1,0 +1,161 @@
+/pessoas/:
+  post:
+    tags:
+      - Pessoas
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nome
+            properties:
+              grupo:
+                type: string
+                example: "Grupo A"
+              tipo:
+                type: string
+                enum: ["pf", "pj", "ext"]
+                example: "pf"
+              nome:
+                type: string
+                maxLength: 100
+                example: "João da Silva"
+              documento:
+                type: string
+                maxLength: 20
+                example: "123.456.789-00"
+              status:
+                type: string
+                enum: ["ativo", "inativo", "arquivado"]
+                default: "ativo"
+                example: "ativo"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Pessoa"
+  get:
+    tags:
+      - Pessoas
+    description: |
+      Retorna uma lista paginada de pessoas. Permite filtrar por qualquer campo do modelo de pessoa.
+      Exemplos de filtros:
+      - tipo=pf
+      - nome=João
+      - status=ativo
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BasePaginatedResponse"
+                - type: object
+                  properties:
+                    results:
+                      items:
+                        $ref: "#/components/schemas/Pessoa"
+
+/pessoas/exportar:
+  get:
+    tags:
+      - Pessoas
+    description: Exporta a lista de pessoas para um arquivo Excel
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+            schema:
+              type: string
+              format: binary
+
+/pessoas/importar:
+  post:
+    tags:
+      - Pessoas
+    description: Importa pessoas a partir de um arquivo Excel
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Importacao"
+
+/pessoas/{id}:
+  get:
+    tags:
+      - Pessoas
+    summary: Obtém uma pessoa específica
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID da pessoa
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pessoa"
+  patch:
+    tags:
+      - Pessoas
+    summary: Atualiza uma pessoa específica
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID da pessoa
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Pessoa"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pessoa"
+  delete:
+    tags:
+      - Pessoas
+    summary: Remove uma pessoa específica
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID da pessoa
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pessoa"
