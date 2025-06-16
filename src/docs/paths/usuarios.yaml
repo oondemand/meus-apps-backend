@@ -85,7 +85,6 @@
   get:
     tags:
       - Usuários
-    summary: Obtém um usuário específico
     parameters:
       - in: path
         name: id

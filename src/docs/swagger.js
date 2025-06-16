@@ -9,6 +9,11 @@ const usuarios = YAML.load(path.join(__dirname, "/paths/usuarios.yaml"));
 const pessoas = YAML.load(path.join(__dirname, "/paths/pessoas.yaml"));
 const servicos = YAML.load(path.join(__dirname, "/paths/servicos.yaml"));
 const assistentes = YAML.load(path.join(__dirname, "/paths/assistentes.yaml"));
+const etapas = YAML.load(path.join(__dirname, "/paths/etapas.yaml"));
+const importacoes = YAML.load(path.join(__dirname, "/paths/importacoes.yaml"));
+const listas = YAML.load(path.join(__dirname, "/paths/listas.yaml"));
+const status = YAML.load(path.join(__dirname, "/paths/status.yaml"));
+const ativacao = YAML.load(path.join(__dirname, "/paths/ativacao.yaml"));
 
 const controleAlteracao = YAML.load(
   path.join(__dirname, "/paths/controleAlteracao.yaml")
@@ -26,6 +31,11 @@ base.paths = {
   ...pessoas,
   ...servicos,
   ...assistentes,
+  ...etapas,
+  ...importacoes,
+  ...listas,
+  ...status,
+  ...ativacao
 };
 
 module.exports = base;

@@ -10,7 +10,7 @@ parameters:
     name: pageIndex
     schema:
       type: integer
-      default: 1
+      default: 0
     description: Número da página
 
   PageSizeParam:
@@ -145,3 +145,40 @@ schemas:
       updatedAt:
         type: string
         format: date-time
+
+  Etapa:
+    type: object
+    properties:
+      _id:
+        type: string
+      nome:
+        type: string
+      codigo:
+        type: string
+      posicao:
+        type: integer
+      status:
+        type: string
+        enum: ["ativo", "inativo", "arquivado"]
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+
+  Lista:
+    type: object
+    properties:
+      _id:
+        type: string
+      codigo:
+        type: string
+      data:
+        type: array
+        maxItems: 500
+        items:
+          type: object
+          properties:
+            valor:
+              type: string

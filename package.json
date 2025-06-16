@@ -1,10 +1,6 @@
 {
   "name": "central-oondemand",
-<<<<<<< HEAD
-  "version": "0.1.1",
-=======
   "version": "0.1.2",
->>>>>>> bbae42a721fd2c3be13b3131f0627d50002d0347
   "description": "Backend para central oondemand",
   "main": "src/server.js",
   "scripts": {
