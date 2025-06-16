@@ -1,24 +1,64 @@
-/auth/login:
+/auth/esqueci-minha-senha:
   post:
-    summary: Login na aplicação
     tags:
       - Autenticação
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: jhondoe@email.com
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Usuario"
+
+/auth/login:
+  post:
+    tags:
+      - Autenticação
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: jhondoe@email.com
+              senha:
+                type: string
+                example: 12345a
     responses:
       "200":
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                _id:
-                  type: string
-                  example: "684ab3c2fecc277456970f08"
-                nome:
-                  type: string
-                  example: "Jhon doe"
-                tipo:
-                  type: "string"
-                  example: admin
-                idioma:
-                  type: string
-                  example: "pt-br"
+              allOf:
+                - $ref: "#/components/schemas/Usuario"
+                - type: object
+                  properties:
+                    token:
+                      type: string
+
+/auth/validar-token:
+  get:
+    tags:
+      - Autenticação
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Usuario"
+                - type: object
+                  properties:
+                    token:
+                      type: string
