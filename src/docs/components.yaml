@@ -82,16 +82,12 @@ schemas:
         type: string
       tipo:
         type: string
-        enum: ["pf", "pj", "ext"]
       nome:
         type: string
-        maxLength: 100
       documento:
         type: string
-        maxLength: 20
       status:
         type: string
-        enum: ["ativo", "inativo", "arquivado"]
       label:
         type: string
 
@@ -106,10 +102,8 @@ schemas:
         type: string
       arquivoErro:
         type: string
-        format: binary
       arquivoLog:
         type: string
-        format: binary
       detalhes:
         type: object
         additionalProperties: true

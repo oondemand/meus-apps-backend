@@ -16,20 +16,15 @@
                 example: "Grupo A"
               tipo:
                 type: string
-                enum: ["pf", "pj", "ext"]
                 example: "pf"
               nome:
                 type: string
-                maxLength: 100
                 example: "João da Silva"
               documento:
                 type: string
-                maxLength: 20
                 example: "123.456.789-00"
               status:
                 type: string
-                enum: ["ativo", "inativo", "arquivado"]
-                default: "ativo"
                 example: "ativo"
     responses:
       201:
@@ -67,7 +62,6 @@
   get:
     tags:
       - Pessoas
-    description: Exporta a lista de pessoas para um arquivo Excel
     parameters:
       - $ref: "#/components/parameters/PageIndexParam"
       - $ref: "#/components/parameters/PageSizeParam"
@@ -83,7 +77,6 @@
   post:
     tags:
       - Pessoas
-    description: Importa pessoas a partir de um arquivo Excel
     requestBody:
       required: true
       content:
@@ -105,7 +98,6 @@
   get:
     tags:
       - Pessoas
-    summary: Obtém uma pessoa específica
     parameters:
       - in: path
         name: id
@@ -122,7 +114,6 @@
   patch:
     tags:
       - Pessoas
-    summary: Atualiza uma pessoa específica
     parameters:
       - in: path
         name: id
@@ -145,7 +136,6 @@
   delete:
     tags:
       - Pessoas
-    summary: Remove uma pessoa específica
     parameters:
       - in: path
         name: id
