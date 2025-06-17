@@ -14,6 +14,8 @@
 
 * atualizar nome do projeto para "Central Oondemand" e adicionar seção sobre desenvolvimento de coleções na documentação ([ed5b333](https://github.com/oondemand/central-oondemand/commit/ed5b333728e5eeb478954c58db8062520511b2df))
 
+## 0.1.3 (2025-06-13)
+
 ## 0.1.2 (2025-06-13)
 
 ## 0.1.1 (2025-06-12)
