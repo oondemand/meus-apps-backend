@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: central-oondemand-ingress
+  name: central-oondemand-backend-ingress
   namespace: central-oondemand
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-nginx
@@ -21,6 +21,6 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: central-oondemand-service
+                name: central-oondemand-backend-service
                 port:
                   number: 80
