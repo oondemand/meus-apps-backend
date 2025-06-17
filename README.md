@@ -1,8 +1,8 @@
-# CST-Backend
+# Central Oondemand
 
-![GitHub stars](https://img.shields.io/github/stars/oondemand/cst-backend)
-![GitHub issues](https://img.shields.io/github/issues/oondemand/cst-backend)
-![GitHub license](https://img.shields.io/github/license/oondemand/cst-backend)
+![GitHub stars](https://img.shields.io/github/stars/oondemand/central-oondemand)
+![GitHub issues](https://img.shields.io/github/issues/oondemand/central-oondemand)
+![GitHub license](https://img.shields.io/github/license/oondemand/central-oondemand)
 [![Required Node.JS >=18.0.0](https://img.shields.io/static/v1?label=node&message=%20%3E=18.0.0&logo=node.js&color=3f893e)](https://nodejs.org/about/releases)
 
 ## Sumário
@@ -13,10 +13,11 @@
 4. [Instalação](#4-instalação)
 5. [Deploy Automático - Ambiente de Homologação](#5-deploy-automático---ambiente-de-homologação)
 6. [Guia de Contribuição](#6-guia-de-contribuição)
+7. [Desenvolvimento de Coleções](#7-desenvolvimento-de-coleções)
 
 ## 1. Visão Geral do Sistema
 
-O **CST-Backend** é uma aplicação backend que gerencia processos relacionados a prestadores de serviços, tickets, serviços, integrações com a API da Omie, além de funcionalidades de autenticação e autorização de usuários. A aplicação segue uma arquitetura RESTful, permitindo comunicação eficiente com clientes front-end e serviços externos.
+O **Central Oondemand** é uma aplicação backend que gerencia processos relacionados a prestadores de serviços, tickets, serviços, integrações com a API da Omie, além de funcionalidades de autenticação e autorização de usuários. A aplicação segue uma arquitetura RESTful, permitindo comunicação eficiente com clientes front-end e serviços externos.
 
 ## 2. Tecnologias Utilizadas
 
@@ -65,8 +66,8 @@ src/
 1. Clone o repositório
 
 ```bash
-git clone https://github.com/oondemand/cst-backend.git
-cd cst-backend
+git clone https://github.com/oondemand/central-oondemand.git
+cd central-oondemand
 ```
 
 2. Inicialise o banco de dados
@@ -202,3 +203,12 @@ Exemplos:
 
 Se tiver dúvidas ou sugestões, abra uma **Issue** para discutirmos.  
 Sua colaboração é sempre bem-vinda! 🚀
+
+## 7. Desenvolvimento de Coleções
+
+Para informações detalhadas sobre como construir novos coleções no sistema, consulte nossa [documentação de desenvolvimento de coleções](/src/docs/help/index.md). Esta documentação fornece um guia completo sobre:
+
+- Estrutura básica de uma coleção
+- Padrões de desenvolvimento
+- Boas práticas
+- Exemplos práticos

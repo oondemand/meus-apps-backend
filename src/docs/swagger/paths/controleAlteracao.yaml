@@ -1,0 +1,24 @@
+/registros:
+  get:
+    tags:
+      - Registro
+    description: |
+      Retorna uma lista paginada de usuários. Permite filtrar por qualquer campo do modelo de usuário.
+      Exemplos de filtros:
+      - usuario.nome=Jhon doe
+      - origem=omie
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BasePaginatedResponse"
+                - type: object
+                  properties:
+                    results:
+                      items:
+                        $ref: "#/components/schemas/HistoricoItem"

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: central-oondemand-homolog-ingress
+  name: central-oondemand-backend-homolog-ingress
   namespace: central-oondemand-homolog
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-nginx
@@ -12,16 +12,16 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - homolo.api.app1.central.oondemand.online
+        - homolog.api.app1.central.oondemand.online
       secretName: app-tls
   rules:
-    - host: homolo.api.app1.central.oondemand.online
+    - host: homolog.api.app1.central.oondemand.online
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: central-oondemand-homolog-service
+                name: central-oondemand-backend-homolog-service
                 port:
                   number: 80

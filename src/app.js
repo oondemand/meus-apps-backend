@@ -5,6 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("node:path");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./docs/swagger");
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 app.use("/", require("./routers/statusRouter"));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/auth", require("./routers/authRouter"));
 // app.use("/webhooks/", require("./routers/webhookRouter"));
 app.use("/ativacao", require("./routers/seedRouter"));

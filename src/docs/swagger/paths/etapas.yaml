@@ -1,0 +1,76 @@
+/etapas/:
+  post:
+    tags:
+      - Etapas
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nome
+              - codigo
+              - posicao
+            properties:
+              nome:
+                type: string
+                example: "Análise Inicial"
+              codigo:
+                type: string
+                example: "ANALISE_INICIAL"
+              posicao:
+                type: integer
+                example: 1
+              status:
+                type: string
+                enum: ["ativo", "inativo", "arquivado"]
+                default: "ativo"
+                example: "ativo"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Etapa"
+  get:
+    tags:
+      - Etapas
+    description: |
+      Retorna uma lista paginada de etapas. Permite filtrar por qualquer campo do modelo de etapa.
+      Exemplos de filtros:
+      - codigo=ANALISE_INICIAL
+      - status=ativo
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BasePaginatedResponse"
+                - type: object
+                  properties:
+                    results:
+                      items:
+                        $ref: "#/components/schemas/Etapa"
+
+/etapas/ativas:
+  get:
+    tags:
+      - Etapas
+    description: Retorna uma lista de todas as etapas ativas
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                etapas:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Etapa" 
