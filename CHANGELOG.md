@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2025-06-17)
+
+### Features
+
+* adicionar nova versão 0.2.0 ao changelog, atualizando nome do projeto para "Central Oondemand" e incluindo seção sobre desenvolvimento de coleções ([1bbdaf0](https://github.com/oondemand/central-oondemand-backend/commit/1bbdaf05b538684d5536a057253d9c454da692e7))
+
 ## 0.2.0 (2025-06-17)
 
 ### Features
