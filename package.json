@@ -1,6 +1,6 @@
 {
   "name": "central-oondemand",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Backend para central oondemand",
   "main": "src/server.js",
   "scripts": {
