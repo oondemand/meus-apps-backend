@@ -1,22 +1,13 @@
-// const Ticket = require("../../models/Ticket");
-// const Arquivo = require("../models/Arquivo");
-// const { criarNomePersonalizado } = require("../utils/formatters");
-// const Prestador = require("../models/Prestador");
-// const Servico = require("../models/Servico");
-// const Sistema = require("../models/Sistema");
-// const { isEqual } = require("date-fns");
-// const filterUtils = require("../utils/filter");
-// const DocumentoFiscal = require("../models/DocumentoFiscal");
 const {
   sendResponse,
   sendErrorResponse,
   sendPaginatedResponse,
 } = require("../../utils/helpers");
 
-const TicketService = require("../../services/ticket");
+const ServicoTomadoTicketService = require("../../services/servicoTomadoTicket");
 
 const createTicket = async (req, res) => {
-  const ticket = TicketService.criar({ ticket: req.body });
+  const ticket = ServicoTomadoTicketService.criar({ ticket: req.body });
 
   sendResponse({
     res,
@@ -26,7 +17,7 @@ const createTicket = async (req, res) => {
 };
 
 const updateTicket = async (req, res) => {
-  const ticket = await TicketService.atualizar({
+  const ticket = await ServicoTomadoTicketService.atualizar({
     id: req.params.id,
     ticket: req.body,
   });
@@ -39,7 +30,7 @@ const updateTicket = async (req, res) => {
 };
 
 const getAllTickets = async (req, res) => {
-  const tickets = await TicketService.listar();
+  const tickets = await ServicoTomadoTicketService.listar();
 
   sendResponse({
     res,
@@ -326,7 +317,7 @@ const getArchivedTickets = async (req, res) => {
   } = req.query;
 
   const { page, limite, tickets, totalDeTickets } =
-    await TicketService.listarComPaginacao({
+    await ServicoTomadoTicketService.listarComPaginacao({
       filtros: rest,
       pageIndex,
       pageSize,

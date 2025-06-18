@@ -1,4 +1,4 @@
-const Ticket = require("../../models/Ticket");
+const ServicoTomadoTicket = require("../../models/ServicoTomadoTicket");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
 
@@ -20,18 +20,18 @@ const buscarIdsPessoasFiltrados = async ({ filtros, searchTerm }) => {
 };
 
 const criar = async ({ ticket }) => {
-  const novoTicket = new Ticket({ ...ticket, etapa: "requisicao" });
+  const novoTicket = new ServicoTomadoTicket({ ...ticket, etapa: "requisicao" });
   await novoTicket.save();
   return novoTicket;
 };
 
 const listar = async () => {
-  const tickets = await Ticket.find({ status: { $nin: ["arquivado"] } });
+  const tickets = await ServicoTomadoTicket.find({ status: { $nin: ["arquivado"] } });
   return tickets;
 };
 
 const atualizar = async ({ id, ticket }) => {
-  const ticketAtualizado = await Ticket.findByIdAndUpdate(id, ticket);
+  const ticketAtualizado = await ServicoTomadoTicket.findByIdAndUpdate(id, ticket);
   return ticketAtualizado;
 };
 
@@ -44,7 +44,7 @@ const listarComPaginacao = async ({
 }) => {
   const queryTicket = FiltersUtils.buildQuery({
     filtros,
-    schema: Ticket.schema,
+    schema: ServicoTomadoTicket.schema,
     searchTerm,
     camposBusca: ["titulo", "createdAt"],
   });
@@ -59,8 +59,8 @@ const listarComPaginacao = async ({
   });
 
   const [tickets, totalDeTickets] = await Promise.all([
-    Ticket.find(queryCombinada).skip(skip).limit(limite),
-    Ticket.countDocuments(queryCombinada),
+    ServicoTomadoTicket.find(queryCombinada).skip(skip).limit(limite),
+    ServicoTomadoTicket.countDocuments(queryCombinada),
   ]);
 
   return { tickets, totalDeTickets, page, limite };

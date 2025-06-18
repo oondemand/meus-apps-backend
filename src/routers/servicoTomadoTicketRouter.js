@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const TicketController = require("../controllers/ticket");
+const ServicoTomadoTicketController = require("../controllers/servicoTomadoTicket");
 const multer = require("multer");
 const {
   registrarAcaoMiddleware,
@@ -22,93 +22,96 @@ const upload = multer({
 // router.post(
 //   "/:id/upload",
 //   upload.array("arquivos", 10),
-//   TicketController.uploadFiles
+//   ServicoTomadoTicketController.uploadFiles
 // );
 
-// router.get("/:id/arquivos", TicketController.listFilesFromTicket);
-// router.delete("/arquivo/:ticketId/:id", TicketController.deleteFileFromTicket);
-// router.get("/arquivo/:id", TicketController.getArquivoPorId);
+// router.get("/:id/arquivos", ServicoTomadoTicketController.listFilesFromTicket);
+// router.delete("/arquivo/:ticketId/:id", ServicoTomadoTicketController.deleteFileFromTicket);
+// router.get("/arquivo/:id", ServicoTomadoTicketController.getArquivoPorId);
 
 router.post(
   "/",
   registrarAcaoMiddleware({
     acao: ACOES.ADICIONADO,
-    entidade: ENTIDADES.TICKET,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  asyncHandler(TicketController.createTicket)
+  asyncHandler(ServicoTomadoTicketController.createTicket)
 );
 
-router.get("/", asyncHandler(TicketController.getAllTickets));
-router.get("/arquivados", asyncHandler(TicketController.getArchivedTickets));
-// router.get("/pagos", TicketController.getTicketsPago);
+router.get("/", asyncHandler(ServicoTomadoTicketController.getAllTickets));
+router.get(
+  "/arquivados",
+  asyncHandler(ServicoTomadoTicketController.getArchivedTickets)
+);
+// router.get("/pagos", ServicoTomadoTicketController.getTicketsPago);
 
 // router.get(
 //   "/usuario-prestador/:usuarioId",
-//   TicketController.getTicketsByUsuarioPrestador
+//   ServicoTomadoTicketController.getTicketsByUsuarioPrestador
 // );
-// router.get("/:id", TicketController.getTicketById);
+// router.get("/:id", ServicoTomadoTicketController.getTicketById);
 
 // router.post(
 //   "/arquivar/:id",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ARQUIVADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.arquivarTicket
+//   ServicoTomadoTicketController.arquivarTicket
 // );
 
 // router.patch(
 //   "/:id",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.updateTicket
+//   ServicoTomadoTicketController.updateTicket
 // );
 
 // router.delete(
 //   "/:id",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.DELETADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.deleteTicket
+//   ServicoTomadoTicketController.deleteTicket
 // );
 
 // router.post(
 //   "/adicionar-servico/:ticketId/:servicoId/",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.addServico
+//   ServicoTomadoTicketController.addServico
 // );
 
 // router.post(
 //   "/remover-servico/:servicoId",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.removeServico
+//   ServicoTomadoTicketController.removeServico
 // );
 
 // router.post(
 //   "/adicionar-documento-fiscal/:ticketId/:documentoFiscalId/",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.addDocumentoFiscal
+//   ServicoTomadoTicketController.addDocumentoFiscal
 // );
 
 // router.post(
 //   "/remover-documento-fiscal/:documentoFiscalId",
 //   registrarAcaoMiddleware({
 //     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.TICKET,
+//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
 //   }),
-//   TicketController.removeDocumentoFiscal
+//   ServicoTomadoTicketController.removeDocumentoFiscal
 // );
 
 module.exports = router;

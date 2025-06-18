@@ -46,10 +46,15 @@ app.use(logMiddleware);
 
 app.use("/usuarios", require("./routers/usuarioRouter"));
 app.use("/pessoas", require("./routers/pessoaRouter"));
-app.use("/tickets", require("./routers/ticketRouter"));
+app.use(
+  "/servico-tomado/tickets",
+  require("./routers/servicoTomadoTicketRouter")
+);
 // app.use("/baseomies", require("./routers/baseOmieRouter"));
 // app.use("/aprovacoes", require("./routers/aprovacaoRouter"));
 app.use("/etapas", require("./routers/etapaRouter"));
+// app.use("/esteiras", require("./routers/esteiraRouter"));
+
 // app.use("/logs", require("./routers/logRouter"));
 app.use("/servicos", require("./routers/servicoRouter"));
 // app.use("/documentos-fiscais", require("./routers/documentoFiscalRouter"));
