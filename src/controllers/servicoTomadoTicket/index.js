@@ -39,6 +39,18 @@ const getAllTickets = async (req, res) => {
   });
 };
 
+const obterTicket = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.obterPorId({
+    id: req.params.id,
+  });
+
+  sendResponse({
+    res,
+    statusCode: 201,
+    ticket,
+  });
+};
+
 // const getTicketsByUsuarioPrestador = async (req, res) => {
 //   const { usuarioId } = req.params;
 
@@ -578,4 +590,5 @@ module.exports = {
   getAllTickets,
   updateTicket,
   getArchivedTickets,
+  obterTicket,
 };

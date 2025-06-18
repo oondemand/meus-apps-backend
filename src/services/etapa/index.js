@@ -9,8 +9,8 @@ const criar = async ({ etapa }) => {
   return etapaNova;
 };
 
-const listarEtapasAtivas = async () => {
-  return await Etapa.find({ status: "ativo" }).sort({ posicao: 1 });
+const listarEtapasAtivasPorEsteira = async ({ esteira }) => {
+  return await Etapa.find({ status: "ativo", esteira }).sort({ posicao: 1 });
 };
 
 const atualizar = async ({ id, etapa }) => {
@@ -62,7 +62,7 @@ const listarComPaginacao = async ({
 
 module.exports = {
   criar,
-  listarEtapasAtivas,
+  listarEtapasAtivasPorEsteira,
   atualizar,
   buscarPorId,
   excluir,

@@ -15,7 +15,10 @@ router.post(
   }),
   asyncHandler(EtapaController.criarEtapa)
 );
-router.get("/ativas", asyncHandler(EtapaController.listarEtapasAtivas));
+router.get(
+  "/ativas/:esteira",
+  asyncHandler(EtapaController.listarEtapasAtivasPorEsteira)
+);
 router.get("/", asyncHandler(EtapaController.listarEtapas));
 // router.get("/:id", EtapaController.obterEtapa);
 

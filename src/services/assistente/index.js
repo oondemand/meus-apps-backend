@@ -54,8 +54,12 @@ const listarComPaginacao = async ({
   });
 
   const [assistentes, totalDeAssistentes] = await Promise.all([
-    Assistente.find({ $and: query }).skip(skip).limit(limite),
-    Assistente.countDocuments({ $and: query }),
+    Assistente.find({ $and: [{ status: { $ne: "arquivado" } }, ...query] })
+      .skip(skip)
+      .limit(limite),
+    Assistente.countDocuments({
+      $and: [{ status: { $ne: "arquivado" } }, ...query],
+    }),
   ]);
 
   return { page, limite, assistentes, totalDeAssistentes };

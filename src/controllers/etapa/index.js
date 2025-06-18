@@ -34,8 +34,10 @@ const listarEtapas = async (req, res) => {
   });
 };
 
-const listarEtapasAtivas = async (req, res) => {
-  const etapas = await EtapaService.listarEtapasAtivas();
+const listarEtapasAtivasPorEsteira = async (req, res) => {
+  const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
+    esteira: req.params.esteira,
+  });
   sendResponse({
     res,
     statusCode: 200,
@@ -68,7 +70,7 @@ const excluir = async (req, res) => {
 module.exports = {
   criarEtapa,
   listarEtapas,
-  listarEtapasAtivas,
+  listarEtapasAtivasPorEsteira,
   atualizarEtapa,
   excluir,
 };

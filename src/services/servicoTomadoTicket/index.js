@@ -20,19 +20,31 @@ const buscarIdsPessoasFiltrados = async ({ filtros, searchTerm }) => {
 };
 
 const criar = async ({ ticket }) => {
-  const novoTicket = new ServicoTomadoTicket({ ...ticket, etapa: "requisicao" });
+  const novoTicket = new ServicoTomadoTicket({
+    ...ticket,
+    etapa: "requisicao",
+  });
   await novoTicket.save();
   return novoTicket;
 };
 
 const listar = async () => {
-  const tickets = await ServicoTomadoTicket.find({ status: { $nin: ["arquivado"] } });
+  const tickets = await ServicoTomadoTicket.find({
+    status: { $nin: ["arquivado"] },
+  });
   return tickets;
 };
 
 const atualizar = async ({ id, ticket }) => {
-  const ticketAtualizado = await ServicoTomadoTicket.findByIdAndUpdate(id, ticket);
+  const ticketAtualizado = await ServicoTomadoTicket.findByIdAndUpdate(
+    id,
+    ticket
+  );
   return ticketAtualizado;
+};
+
+const obterPorId = async ({ id }) => {
+  return await ServicoTomadoTicket.findById(id);
 };
 
 const listarComPaginacao = async ({
@@ -71,4 +83,5 @@ module.exports = {
   listar,
   atualizar,
   listarComPaginacao,
+  obterPorId,
 };

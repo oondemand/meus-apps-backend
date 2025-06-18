@@ -114,4 +114,6 @@ router.get(
 //   ServicoTomadoTicketController.removeDocumentoFiscal
 // );
 
+router.get("/:id", asyncHandler(ServicoTomadoTicketController.obterTicket));
+
 module.exports = router;
