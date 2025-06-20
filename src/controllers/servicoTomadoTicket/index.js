@@ -6,6 +6,30 @@ const {
 
 const ServicoTomadoTicketService = require("../../services/servicoTomadoTicket");
 
+const aprovar = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.aprovar({
+    id: req.params.id,
+  });
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
+
+const reprovar = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.reprovar({
+    id: req.params.id,
+  });
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
+
 const createTicket = async (req, res) => {
   const ticket = ServicoTomadoTicketService.criar({ ticket: req.body });
 
@@ -564,32 +588,25 @@ const getArchivedTickets = async (req, res) => {
 //   });
 // };
 
-// const arquivarTicket = async (req, res) => {
-//   const { id } = req.params;
-//   const ticket = await Ticket.findById(id);
+const excluir = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.excluir({
+    id: req.params.id,
+  });
 
-//   if (!ticket) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 404,
-//       message: "Ticket não encontrado",
-//     });
-//   }
-
-//   ticket.status = "arquivado";
-//   await ticket.save();
-
-//   return sendResponse({
-//     res,
-//     statusCode: 200,
-//     ticket,
-//   });
-// };
+  return sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
 
 module.exports = {
+  excluir,
+  aprovar,
+  reprovar,
+  obterTicket,
+  updateTicket,
   createTicket,
   getAllTickets,
-  updateTicket,
   getArchivedTickets,
-  obterTicket,
 };

@@ -51,14 +51,14 @@ router.get(
 // );
 // router.get("/:id", ServicoTomadoTicketController.getTicketById);
 
-// router.post(
-//   "/arquivar/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ARQUIVADO,
-//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
-//   }),
-//   ServicoTomadoTicketController.arquivarTicket
-// );
+router.post(
+  "/arquivar/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ARQUIVADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  ServicoTomadoTicketController.excluir
+);
 
 router.patch(
   "/:id",
@@ -67,6 +67,24 @@ router.patch(
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
   asyncHandler(ServicoTomadoTicketController.updateTicket)
+);
+
+router.post(
+  "/:id/aprovar",
+  registrarAcaoMiddleware({
+    acao: ACOES.APROVADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  asyncHandler(ServicoTomadoTicketController.aprovar)
+);
+
+router.post(
+  "/:id/reprovar",
+  registrarAcaoMiddleware({
+    acao: ACOES.REPROVADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  asyncHandler(ServicoTomadoTicketController.reprovar)
 );
 
 // router.delete(

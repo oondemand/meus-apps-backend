@@ -1,6 +1,8 @@
 const ServicoTomadoTicket = require("../../models/ServicoTomadoTicket");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
+const { aprovar } = require("./aprovar");
+const { reprovar } = require("./reprovar");
 
 const buscarIdsPessoasFiltrados = async ({ filtros, searchTerm }) => {
   if (!filtros && !searchTerm) return [];
@@ -49,6 +51,13 @@ const obterPorId = async ({ id }) => {
   return await ServicoTomadoTicket.findById(id);
 };
 
+const excluir = async ({ id }) => {
+  const ticket = await ServicoTomadoTicket.findById(id);
+
+  ticket.status = "arquivado";
+  await ticket.save();
+};
+
 const listarComPaginacao = async ({
   filtros,
   pessoaFiltros,
@@ -83,6 +92,9 @@ const listarComPaginacao = async ({
 module.exports = {
   criar,
   listar,
+  aprovar,
+  excluir,
+  reprovar,
   atualizar,
   listarComPaginacao,
   obterPorId,
