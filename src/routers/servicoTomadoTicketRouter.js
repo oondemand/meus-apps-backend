@@ -60,14 +60,14 @@ router.get(
 //   ServicoTomadoTicketController.arquivarTicket
 // );
 
-// router.patch(
-//   "/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
-//   }),
-//   ServicoTomadoTicketController.updateTicket
-// );
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  asyncHandler(ServicoTomadoTicketController.updateTicket)
+);
 
 // router.delete(
 //   "/:id",

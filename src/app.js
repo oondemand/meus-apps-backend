@@ -47,7 +47,7 @@ app.use(logMiddleware);
 app.use("/usuarios", require("./routers/usuarioRouter"));
 app.use("/pessoas", require("./routers/pessoaRouter"));
 app.use(
-  "/servico-tomado/tickets",
+  "/servicos-tomados/tickets",
   require("./routers/servicoTomadoTicketRouter")
 );
 // app.use("/baseomies", require("./routers/baseOmieRouter"));

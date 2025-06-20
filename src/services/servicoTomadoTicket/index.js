@@ -38,8 +38,10 @@ const listar = async () => {
 const atualizar = async ({ id, ticket }) => {
   const ticketAtualizado = await ServicoTomadoTicket.findByIdAndUpdate(
     id,
-    ticket
-  );
+    ticket,
+    { new: true }
+  ).populate("pessoa");
+
   return ticketAtualizado;
 };
 
