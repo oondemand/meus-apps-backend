@@ -57,7 +57,7 @@ router.post(
     acao: ACOES.ARQUIVADO,
     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
   }),
-  ServicoTomadoTicketController.excluir
+  asyncHandler(ServicoTomadoTicketController.excluir)
 );
 
 router.patch(

@@ -56,6 +56,7 @@ const excluir = async ({ id }) => {
 
   ticket.status = "arquivado";
   await ticket.save();
+  return ticket; 
 };
 
 const listarComPaginacao = async ({
