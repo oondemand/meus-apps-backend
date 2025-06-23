@@ -280,66 +280,31 @@ const obterTicket = async (req, res) => {
 //   });
 // };
 
-// const deleteFileFromTicket = async (req, res) => {
-//   const { id, ticketId } = req.params;
+const removerArquivo = async (req, res) => {
+  const arquivo = await ServicoTomadoTicketService.removerArquivo({
+    arquivoId: req.params.id,
+    ticketId: req.params.ticketId,
+  });
 
-//   const arquivo = await Arquivo.findByIdAndDelete(id);
-//   const ticket = await Ticket.findByIdAndUpdate(ticketId, {
-//     $pull: { arquivos: id },
-//   });
+  sendResponse({
+    res,
+    statusCode: 200,
+    arquivo,
+  });
+};
 
-//   sendResponse({
-//     res,
-//     statusCode: 200,
-//     arquivo,
-//   });
-// };
+const anexarArquivos = async (req, res) => {
+  const arquivos = await ServicoTomadoTicketService.adicionarArquivo({
+    arquivos: req.files,
+    id: req.params.id,
+  });
 
-// const uploadFiles = async (req, res) => {
-//   const ticketId = req.params.id;
-//   const ticket = await Ticket.findById(ticketId);
-//   if (!ticket) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 404,
-//       message: "Ticket não encontrado",
-//     });
-//   }
-
-//   if (!req.files || req.files.length === 0) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Nenhum arquivo enviado.",
-//     });
-//   }
-
-//   const arquivosSalvos = await Promise.all(
-//     req.files.map(async (file) => {
-//       const arquivo = new Arquivo({
-//         nome: criarNomePersonalizado({ nomeOriginal: file.originalname }),
-//         nomeOriginal: file.originalname,
-//         path: file.path,
-//         mimetype: file.mimetype,
-//         size: file.size,
-//         ticket: ticket._id,
-//         buffer: file.buffer,
-//       });
-
-//       await arquivo.save();
-//       return arquivo;
-//     })
-//   );
-
-//   ticket.arquivos.push(...arquivosSalvos.map((a) => a._id));
-//   await ticket.save();
-
-//   sendResponse({
-//     res,
-//     statusCode: 201,
-//     arquivos: arquivosSalvos,
-//   });
-// };
+  sendResponse({
+    res,
+    statusCode: 201,
+    arquivos,
+  });
+};
 
 const getArchivedTickets = async (req, res) => {
   const {
@@ -471,75 +436,30 @@ const getArchivedTickets = async (req, res) => {
 //   });
 // };
 
-// const getArquivoPorId = async (req, res) => {
-//   const arquivo = await Arquivo.findById(req.params.id);
-//   sendResponse({
-//     res,
-//     statusCode: 200,
-//     arquivo,
-//   });
-// };
+const adicionarServico = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.adicionarServico({
+    servicoId: req.params.servicoId,
+    ticketId: req.params.ticketId,
+  });
 
-//TODO:
-// const addServico = async (req, res) => {
-//   const { ticketId, servicoId } = req.params;
-//   const servico = await Servico.findById(servicoId);
-//   const ticket = await Ticket.findById(ticketId);
+  return sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
 
-//   if (
-//     ticket?.dataRegistro &&
-//     !isEqual(servico?.dataRegistro, ticket?.dataRegistro)
-//   ) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Data registro conflitante.",
-//     });
-//   }
+const removerServico = async (req, res) => {
+  const ticket = await ServicoTomadoTicketService.removerServico({
+    servicoId: req.params.servicoId,
+  });
 
-//   ticket.dataRegistro = servico?.dataRegistro;
-//   ticket.servicos = [...ticket?.servicos, servico?._id];
-//   await ticket.save();
-
-//   servico.status = "processando";
-//   await servico.save();
-
-//   const populatedTicket = await Ticket.findById(ticket._id).populate(
-//     "servicos"
-//   );
-
-//   return sendResponse({
-//     res,
-//     statusCode: 200,
-//     ticket: populatedTicket,
-//   });
-// };
-
-// const removeServico = async (req, res) => {
-//   const { servicoId } = req.params;
-//   await Servico.findByIdAndUpdate(
-//     servicoId,
-//     { status: "aberto" },
-//     { new: true }
-//   );
-
-//   const ticket = await Ticket.findOneAndUpdate(
-//     { servicos: servicoId }, // Busca o ticket que contém este serviço
-//     { $pull: { servicos: servicoId } }, // Remove o serviço do array
-//     { new: true }
-//   ).populate("servicos");
-
-//   if (ticket?.servicos.length === 0) {
-//     ticket.dataRegistro = null;
-//     await ticket.save();
-//   }
-
-//   return sendResponse({
-//     res,
-//     statusCode: 200,
-//     ticket,
-//   });
-// };
+  return sendResponse({
+    res,
+    statusCode: 200,
+    ticket,
+  });
+};
 
 // const addDocumentoFiscal = async (req, res) => {
 //   const { ticketId, documentoFiscalId } = req.params;
@@ -609,4 +529,8 @@ module.exports = {
   createTicket,
   getAllTickets,
   getArchivedTickets,
+  adicionarServico,
+  removerServico,
+  anexarArquivos,
+  removerArquivo,
 };

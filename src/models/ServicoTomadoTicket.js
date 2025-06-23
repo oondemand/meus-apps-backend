@@ -9,6 +9,7 @@ const ServicoTomadoTicketSchema = new mongoose.Schema(
     etapa: { type: String, required: true },
     pessoa: { type: mongoose.Schema.Types.ObjectId, ref: "Pessoa" },
     arquivos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Arquivo" }],
+    servicos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Servico" }],
     conta_corrente: { type: String },
     codigo_categoria: { type: String },
     status: {

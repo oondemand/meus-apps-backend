@@ -97,6 +97,11 @@ const exportar = async (req, res) => {
   });
 };
 
+const listarTodosAtivos = async (req, res) => {
+  const servicos = await ServicoService.listarTodosAtivos();
+  sendResponse({ res, statusCode: 200, servicos });
+};
+
 module.exports = {
   listar,
   criar,
@@ -105,4 +110,5 @@ module.exports = {
   excluir,
   exportar,
   importarServico,
+  listarTodosAtivos,
 };

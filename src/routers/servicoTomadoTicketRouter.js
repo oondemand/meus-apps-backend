@@ -19,14 +19,18 @@ const upload = multer({
   limits: { fileSize: 1 * 1024 * 1024 }, // Limite de 1MB por arquivo
 });
 
-// router.post(
-//   "/:id/upload",
-//   upload.array("arquivos", 10),
-//   ServicoTomadoTicketController.uploadFiles
-// );
+router.post(
+  "/:id/upload",
+  upload.array("arquivos", 10),
+  asyncHandler(ServicoTomadoTicketController.anexarArquivos)
+);
+
+router.delete(
+  "/arquivo/:ticketId/:id",
+  asyncHandler(ServicoTomadoTicketController.removerArquivo)
+);
 
 // router.get("/:id/arquivos", ServicoTomadoTicketController.listFilesFromTicket);
-// router.delete("/arquivo/:ticketId/:id", ServicoTomadoTicketController.deleteFileFromTicket);
 // router.get("/arquivo/:id", ServicoTomadoTicketController.getArquivoPorId);
 
 router.post(
@@ -43,8 +47,8 @@ router.get(
   "/arquivados",
   asyncHandler(ServicoTomadoTicketController.getArchivedTickets)
 );
-// router.get("/pagos", ServicoTomadoTicketController.getTicketsPago);
 
+// router.get("/pagos", ServicoTomadoTicketController.getTicketsPago);
 // router.get(
 //   "/usuario-prestador/:usuarioId",
 //   ServicoTomadoTicketController.getTicketsByUsuarioPrestador
@@ -96,23 +100,23 @@ router.post(
 //   ServicoTomadoTicketController.deleteTicket
 // );
 
-// router.post(
-//   "/adicionar-servico/:ticketId/:servicoId/",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
-//   }),
-//   ServicoTomadoTicketController.addServico
-// );
+router.post(
+  "/adicionar-servico/:ticketId/:servicoId/",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  asyncHandler(ServicoTomadoTicketController.adicionarServico)
+);
 
-// router.post(
-//   "/remover-servico/:servicoId",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
-//   }),
-//   ServicoTomadoTicketController.removeServico
-// );
+router.post(
+  "/remover-servico/:servicoId",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.SERVICO_TOMADO_TICKET,
+  }),
+  asyncHandler(ServicoTomadoTicketController.removerServico)
+);
 
 // router.post(
 //   "/adicionar-documento-fiscal/:ticketId/:documentoFiscalId/",

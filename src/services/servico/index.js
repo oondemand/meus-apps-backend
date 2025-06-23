@@ -69,10 +69,16 @@ const listarComPaginacao = async ({
   return { servicos, totalDeServicos, page, limite };
 };
 
+const listarTodosAtivos = async () => {
+  const servicos = await Servico.find({ status: "aberto" });
+  return servicos;
+};
+
 module.exports = {
   criar,
   atualizar,
   excluir,
   buscarPorId,
   listarComPaginacao,
+  listarTodosAtivos,
 };
