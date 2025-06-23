@@ -5,6 +5,9 @@
 // const Etapa = require("../../models/Etapa");
 
 const DocumentoCadastralService = require("../../services/documentoCadastral");
+const DocumentoCadastralExcel = require("../../services/documentoCadastral/excel");
+const { arrayToExcelBuffer } = require("../../utils/excel");
+const ImportacaoService = require("../../services/importacao");
 
 // const DocumentoCadastral = require("../../models/DocumentoCadastral");
 
@@ -239,10 +242,59 @@ const reprovarDocumento = async (req, res) => {
   });
 };
 
+const exportar = async (req, res) => {
+  const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
+
+  const { json } = await DocumentoCadastralExcel.exportar({
+    filtros: rest,
+    pageIndex,
+    pageSize,
+    searchTerm,
+  });
+
+  const buffer = arrayToExcelBuffer({ array: json, title: "exported" });
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    buffer,
+  });
+};
+
+const importar = async (req, res) => {
+  const importacao = await ImportacaoService.criar({
+    arquivo: req.files[0],
+    tipo: "documento-cadastral",
+  });
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    importacao,
+  });
+
+  const { arquivoDeErro, detalhes } = await DocumentoCadastralExcel.importar({
+    arquivo: req.files[0],
+    usuario: req.usuario,
+  });
+
+  importacao.arquivoErro = arrayToExcelBuffer({
+    array: arquivoDeErro,
+    title: "errors",
+  });
+
+  importacao.arquivoLog = Buffer.from(detalhes.errors);
+  importacao.detalhes = detalhes;
+
+  await importacao.save();
+};
+
 module.exports = {
   criar,
   listar,
   excluir,
+  importar,
+  exportar,
   atualizar,
   anexarArquivo,
   removerArquivo,

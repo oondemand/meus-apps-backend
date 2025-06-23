@@ -17,8 +17,7 @@ const documentoCadastralSchema = new mongoose.Schema(
     },
     descricao: { type: String },
     motivoRecusa: { type: String },
-    observacaoPessoa: { type: String },
-    observacaoInterna: { type: String },
+    observacao: { type: String },
     arquivo: { type: mongoose.Schema.Types.ObjectId, ref: "Arquivo" },
     status: {
       type: String,

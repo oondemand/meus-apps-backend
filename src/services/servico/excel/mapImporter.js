@@ -1,5 +1,5 @@
 const mapImporter = async ({ row }) => {
-  const pessoa = {
+  const servico = {
     tipoServicoTomado: row[0],
     descricao: row[1],
     valor: row[2],
@@ -7,7 +7,7 @@ const mapImporter = async ({ row }) => {
     dataConclusao: row[4],
   };
 
-  return pessoa;
+  return servico;
 };
 
 module.exports = { mapImporter };

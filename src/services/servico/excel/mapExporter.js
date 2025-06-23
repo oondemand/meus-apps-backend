@@ -1,5 +1,5 @@
 const mapExporter = () => {
-  const pessoa = {
+  const servico = {
     "Tipo serviço tomado": "tipoServicoTomado",
     Descrição: "descricao",
     Valor: "valor",
@@ -7,7 +7,7 @@ const mapExporter = () => {
     "Data conclusão": "dataConclusao",
   };
 
-  return pessoa;
+  return servico;
 };
 
 module.exports = { mapExporter };

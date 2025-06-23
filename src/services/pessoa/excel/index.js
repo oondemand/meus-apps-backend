@@ -106,13 +106,12 @@ const processarJsonPessoas = async ({ json, usuario }) => {
       await criarNovoGrupo({ grupo: pessoaObj?.grupo, usuario });
 
       if (!pessoa) {
-        pessoa = await criarNovaPessoa({
+        await criarNovaPessoa({
           pessoa: pessoaObj,
           usuario,
         });
 
         detalhes.novasPessoas += 1;
-        await pessoa.save();
       }
     } catch (error) {
       arquivoDeErro.push(row);

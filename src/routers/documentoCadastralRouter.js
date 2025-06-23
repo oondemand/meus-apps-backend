@@ -11,6 +11,13 @@ const { ACOES, ENTIDADES } = require("../constants/controleAlteracao");
 const { asyncHandler } = require("../utils/helpers");
 
 router.get("/", asyncHandler(DocumentoCadastralController.listar));
+router.get("/exportar", asyncHandler(DocumentoCadastralController.exportar));
+
+router.post(
+  "/importar",
+  uploadExcel.array("file"),
+  asyncHandler(DocumentoCadastralController.importar)
+);
 
 // router.get(
 //   "/prestador/:prestadorId",

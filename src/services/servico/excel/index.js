@@ -106,13 +106,12 @@ const processarJsonServicos = async ({ json, usuario }) => {
       // await criarNovoTipoDeServico({ tipo: servicoObj?.tipo, usuario });
 
       // if (!servico) {
-      const servico = await criarNovaServico({
+      await criarNovaServico({
         servico: servicoObj,
         usuario,
       });
 
       detalhes.novosServicos += 1;
-      await servico.save();
       // }
     } catch (error) {
       arquivoDeErro.push(row);
