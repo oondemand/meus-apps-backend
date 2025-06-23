@@ -59,7 +59,10 @@ app.use("/etapas", require("./routers/etapaRouter"));
 // app.use("/logs", require("./routers/logRouter"));
 app.use("/servicos", require("./routers/servicoRouter"));
 // app.use("/documentos-fiscais", require("./routers/documentoFiscalRouter"));
-// app.use("/documentos-cadastrais", require("./routers/documentoCadastralRouter"));
+app.use(
+  "/documentos-cadastrais",
+  require("./routers/documentoCadastralRouter")
+);
 app.use("/registros", require("./routers/controleAlteracao"));
 app.use("/listas", require("./routers/listaRouter"));
 // app.use("/estados", require("./routers/estadoRouter"));
