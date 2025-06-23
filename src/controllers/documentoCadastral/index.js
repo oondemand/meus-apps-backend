@@ -90,31 +90,18 @@ const criar = async (req, res) => {
 //   });
 // };
 
-// const updateDocumentoCadastral = async (req, res) => {
-//   const { id } = req.params;
-//   const updateData = req.body;
+const atualizar = async (req, res) => {
+  const documentoCadastral = await DocumentoCadastralService.atualizar({
+    id: req.params.id,
+    documentoCadastral: req.body,
+  });
 
-//   const documentoCadastral = await DocumentoCadastral.findById(id);
-
-//   if (!documentoCadastral) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 404,
-//       message: "Documento Cadastral não encontrado",
-//     });
-//   }
-
-//   const documentoCadastralAtualizado =
-//     await DocumentoCadastral.findByIdAndUpdate(id, updateData, {
-//       new: true,
-//     });
-
-//   return sendResponse({
-//     res,
-//     statusCode: 200,
-//     documentoCadastral: documentoCadastralAtualizado,
-//   });
-// };
+  return sendResponse({
+    res,
+    statusCode: 200,
+    documentoCadastral,
+  });
+};
 
 const listar = async (req, res) => {
   const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
@@ -188,170 +175,77 @@ const listar = async (req, res) => {
 //   }
 // };
 
-// const excluirDocumentoCadastral = async (req, res) => {
-//   try {
-//     const documentoCadastralId = req.params.id;
+const excluir = async (req, res) => {
+  const documentoCadastral = await DocumentoCadastralService.excluir({
+    id: req.params.id,
+  });
 
-//     await Ticket.updateMany(
-//       { documentosCadastrais: documentoCadastralId },
-//       { $pull: { documentosCadastrais: documentoCadastralId } }
-//     );
+  return sendResponse({
+    res,
+    statusCode: 200,
+    data: documentoCadastral,
+  });
+};
 
-//     const documentoCadastral = await DocumentoCadastral.findByIdAndDelete(
-//       documentoCadastralId
-//     );
+const anexarArquivo = async (req, res) => {
+  const arquivo = await DocumentoCadastralService.anexarArquivo({
+    arquivo: req.file,
+    id: req.params.documentoCadastralId,
+  });
 
-//     if (!documentoCadastral) {
-//       return sendErrorResponse({
-//         res,
-//         statusCode: 404,
-//         message: "Documento Cadastral não encontrado",
-//       });
-//     }
+  return sendResponse({
+    res,
+    statusCode: 200,
+    arquivo,
+  });
+};
 
-//     return sendResponse({
-//       res,
-//       statusCode: 200,
-//       data: documentoCadastral,
-//     });
-//   } catch (error) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Erro ao excluir documento cadastral",
-//       error: error.message,
-//     });
-//   }
-// };
+const removerArquivo = async (req, res) => {
+  const arquivo = await DocumentoCadastralService.removerArquivo({
+    id: req.params.documentoCadastralId,
+    arquivoId: req.params.id,
+  });
 
-// const anexarArquivo = async (req, res) => {
-//   try {
-//     const arquivo = req.file;
-//     const documentoCadastralId = req.params.documentoCadastralId;
+  return sendResponse({
+    res,
+    statusCode: 200,
+    arquivo,
+  });
+};
 
-//     const documentoCadastral = await DocumentoCadastral.findById(
-//       documentoCadastralId
-//     );
+const aprovarDocumento = async (req, res) => {
+  const documentoCadastral = await DocumentoCadastralService.atualizar({
+    id: req.params.id,
+    documentoCadastral: { statusValidacao: "aprovado" },
+  });
 
-//     const novoArquivo = new Arquivo({
-//       nome: criarNomePersonalizado({ nomeOriginal: arquivo.originalname }),
-//       nomeOriginal: arquivo.originalname,
-//       mimetype: arquivo.mimetype,
-//       size: arquivo.size,
-//       buffer: arquivo.buffer,
-//       tipo: "documento-cadastral",
-//     });
+  return sendResponse({
+    res,
+    statusCode: 200,
+    data: documentoCadastral,
+  });
+};
 
-//     await novoArquivo?.save();
+const reprovarDocumento = async (req, res) => {
+  const documentoCadastral = await DocumentoCadastralService.atualizar({
+    id: req.params.id,
+    documentoCadastral: { ...req.body, statusValidacao: "recusado" },
+  });
 
-//     documentoCadastral.arquivo = novoArquivo._id;
-//     await documentoCadastral.save();
-
-//     return sendResponse({
-//       res,
-//       statusCode: 200,
-//       arquivo: novoArquivo,
-//     });
-//   } catch (error) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Ouve um erro ao anexar o arquivo",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// const excluirArquivo = async (req, res) => {
-//   try {
-//     const { id, documentoCadastralId } = req.params;
-
-//     const arquivo = await Arquivo.findByIdAndDelete(id);
-
-//     await DocumentoCadastral.findByIdAndUpdate(documentoCadastralId, {
-//       $unset: { arquivo: id },
-//     });
-
-//     return sendResponse({
-//       res,
-//       statusCode: 200,
-//       arquivo,
-//     });
-//   } catch (error) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 500,
-//       message: "Erro ao deletar arquivo do ticket",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// const aprovarDocumento = async (req, res) => {
-//   try {
-//     const documentoCadastral = await DocumentoCadastral.findById(req.params.id);
-
-//     if (!documentoCadastral) {
-//       return sendErrorResponse({
-//         res,
-//         statusCode: 404,
-//         message: "Documento Cadastral não encontrado",
-//       });
-//     }
-
-//     documentoCadastral.statusValidacao = "aprovado";
-//     await documentoCadastral.save();
-
-//     return sendResponse({
-//       res,
-//       statusCode: 200,
-//       data: documentoCadastral,
-//     });
-//   } catch (error) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Erro ao aprovar documento",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// const reprovarDocumento = async (req, res) => {
-//   try {
-//     const { motivoRecusa, observacaoInterna, observacaoPrestador } = req.body;
-//     const documentoCadastral = await DocumentoCadastral.findById(req.params.id);
-
-//     if (!documentoCadastral) {
-//       return sendErrorResponse({
-//         res,
-//         statusCode: 404,
-//         message: "Documento Cadastral não encontrado",
-//       });
-//     }
-
-//     documentoCadastral.statusValidacao = "recusado";
-//     documentoCadastral.motivoRecusa = motivoRecusa;
-//     documentoCadastral.observacaoInterna = observacaoInterna;
-//     documentoCadastral.observacaoPrestador = observacaoPrestador;
-//     await documentoCadastral.save();
-
-//     return sendResponse({
-//       res,
-//       statusCode: 200,
-//       data: documentoCadastral,
-//     });
-//   } catch (error) {
-//     return sendErrorResponse({
-//       res,
-//       statusCode: 400,
-//       message: "Erro ao reprovar documento",
-//       error: error.message,
-//     });
-//   }
-// };
+  return sendResponse({
+    res,
+    statusCode: 200,
+    data: documentoCadastral,
+  });
+};
 
 module.exports = {
-  listar,
   criar,
+  listar,
+  excluir,
+  atualizar,
+  anexarArquivo,
+  removerArquivo,
+  aprovarDocumento,
+  reprovarDocumento,
 };

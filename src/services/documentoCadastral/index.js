@@ -1,6 +1,9 @@
 const DocumentoCadastral = require("../../models/DocumentoCadastral");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
+const Arquivo = require("../../models/Arquivo");
+const { criarNomePersonalizado } = require("../../utils/formatters");
+const ArquivoNaoEncontradoError = require("../errors/arquivo/arquivoNaoEncontradoError");
 
 const criar = async ({ documentoCadastral }) => {
   const novoDocumentoCadastral = new DocumentoCadastral(documentoCadastral);
@@ -27,6 +30,10 @@ const buscarPorId = async ({ id }) => {
 
 const excluir = async ({ id }) => {
   const documentoCadastral = await DocumentoCadastral.findById(id);
+
+  if (!documentoCadastral || !id)
+    throw new DocumentoCadastralNaoEncontradaError();
+
   documentoCadastral.status = "arquivado";
   return await documentoCadastral.save();
 };
@@ -67,10 +74,43 @@ const listarComPaginacao = async ({
   return { documentosCadastrais, totalDeDocumentosCadastrais, page, limite };
 };
 
+const anexarArquivo = async ({ arquivo, id }) => {
+  const documentoCadastral = await DocumentoCadastral.findById(id);
+
+  const novoArquivo = new Arquivo({
+    nome: criarNomePersonalizado({ nomeOriginal: arquivo.originalname }),
+    nomeOriginal: arquivo.originalname,
+    mimetype: arquivo.mimetype,
+    size: arquivo.size,
+    buffer: arquivo.buffer,
+    tipo: "documento-cadastral",
+  });
+
+  await novoArquivo?.save();
+
+  documentoCadastral.arquivo = novoArquivo._id;
+  await documentoCadastral.save();
+
+  return novoArquivo;
+};
+
+const removerArquivo = async ({ id, arquivoId }) => {
+  const arquivo = await Arquivo.findByIdAndDelete(arquivoId);
+  if (!arquivo || !arquivoId) throw new ArquivoNaoEncontradoError();
+
+  await DocumentoCadastral.findByIdAndUpdate(id, {
+    $unset: { arquivo: arquivoId },
+  });
+
+  return arquivo;
+};
+
 module.exports = {
-  listarComPaginacao,
   criar,
-  atualizar,
   excluir,
+  atualizar,
   buscarPorId,
+  anexarArquivo,
+  removerArquivo,
+  listarComPaginacao,
 };

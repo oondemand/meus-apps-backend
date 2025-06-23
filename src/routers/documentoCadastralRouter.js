@@ -3,7 +3,7 @@ const DocumentoCadastralController = require("../controllers/documentoCadastral"
 
 const router = express.Router();
 
-const { uploadExcel } = require("../config/multer");
+const { uploadExcel, uploadPDF } = require("../config/multer");
 const {
   registrarAcaoMiddleware,
 } = require("../middlewares/registrarAcaoMiddleware");
@@ -22,14 +22,14 @@ router.get("/", asyncHandler(DocumentoCadastralController.listar));
 //   DocumentoCadastralController.listarDocumentoCadastralPorUsuarioPrestador
 // );
 
-// router.delete(
-//   "/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.EXCLUIDO,
-//     entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
-//   }),
-//   DocumentoCadastralController.excluirDocumentoCadastral
-// );
+router.delete(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.EXCLUIDO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  asyncHandler(DocumentoCadastralController.excluir)
+);
 
 router.post(
   "/",
@@ -46,43 +46,43 @@ router.post(
 //   DocumentoCadastralController.criarDocumentoCadastralPorUsuarioPrestador
 // );
 
-// router.post(
-//   "/anexar-arquivo/:documentoCadastralId",
-//   upload.single("file"),
-//   DocumentoCadastralController.anexarArquivo
-// );
+router.post(
+  "/anexar-arquivo/:documentoCadastralId",
+  uploadPDF.single("file"),
+  asyncHandler(DocumentoCadastralController.anexarArquivo)
+);
 
-// router.delete(
-//   "/excluir-arquivo/:documentoCadastralId/:id",
-//   DocumentoCadastralController.excluirArquivo
-// );
+router.delete(
+  "/excluir-arquivo/:documentoCadastralId/:id",
+  asyncHandler(DocumentoCadastralController.removerArquivo)
+);
 
-// router.patch(
-//   "/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.ALTERADO,
-//     entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
-//   }),
-//   DocumentoCadastralController.updateDocumentoCadastral
-// );
+router.patch(
+  "/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.ALTERADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  asyncHandler(DocumentoCadastralController.atualizar)
+);
 
-// router.post(
-//   "/aprovar-documento/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.APROVADO,
-//     entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
-//   }),
-//   DocumentoCadastralController.aprovarDocumento
-// );
+router.post(
+  "/aprovar-documento/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.APROVADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  asyncHandler(DocumentoCadastralController.aprovarDocumento)
+);
 
-// router.post(
-//   "/reprovar-documento/:id",
-//   registrarAcaoMiddleware({
-//     acao: ACOES.REPROVADO,
-//     entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
-//   }),
-//   DocumentoCadastralController.reprovarDocumento
-// );
+router.post(
+  "/reprovar-documento/:id",
+  registrarAcaoMiddleware({
+    acao: ACOES.REPROVADO,
+    entidade: ENTIDADES.DOCUMENTO_CADASTRAL,
+  }),
+  asyncHandler(DocumentoCadastralController.reprovarDocumento)
+);
 
 // router.post("/importar", uploadExcel.array("file"), importarDocumentoCadastral);
 module.exports = router;
