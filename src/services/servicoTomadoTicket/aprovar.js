@@ -9,9 +9,10 @@ const aprovar = async ({ id }) => {
     esteira: "servicos-tomados",
   });
 
+  const ultimaEtapa = etapas.length - 1;
   const etapaAtualIndex = etapas.findIndex((e) => e.codigo === ticket.etapa);
 
-  if (etapaAtualIndex >= etapas.length - 1 || etapaAtualIndex < 0) {
+  if (etapaAtualIndex >= ultimaEtapa || etapaAtualIndex < 0) {
     throw new GenericError("Não foi possível aprovar ticket, etapa inválida");
   }
 
