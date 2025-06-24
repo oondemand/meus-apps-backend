@@ -4,6 +4,11 @@ const servicoSchema = new mongoose.Schema({
   tipoServicoTomado: String,
   descricao: String,
   valor: Number,
+  pessoa: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Pessoa",
+    required: [true, "Pessoa é obrigatório"],
+  },
   dataContratacao: Date,
   dataConclusao: Date,
   status: {

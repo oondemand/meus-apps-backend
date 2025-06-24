@@ -1,4 +1,5 @@
 const PlanejamentoService = require("../../services/planejamento");
+const { sendPaginatedResponse } = require("../../utils/helpers");
 
 const listar = async (req, res) => {
   const {
@@ -19,8 +20,10 @@ const listar = async (req, res) => {
       searchTerm,
     });
 
-  res.status(200).json({
-    servicos,
+  sendPaginatedResponse({
+    res,
+    results: servicos,
+    statusCode: 200,
     pagination: {
       currentPage: page,
       totalPages: Math.ceil(totalDeServicos / limite),
