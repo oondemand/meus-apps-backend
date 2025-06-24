@@ -1,3 +1,4 @@
+const { LISTAS } = require("../../constants/listas");
 const Lista = require("../../models/Lista");
 const GenericError = require("../errors/generic");
 const ListaNaoEncontradaError = require("../errors/lista/listaNaoEncontrada");
@@ -7,15 +8,21 @@ const create = async ({ codigo }) => {
   return await novaLista.save();
 };
 
-const addItem = async ({ id, valor }) => {
-  const lista = await Lista.findById(id).populate("data");
-  if (!lista) throw new ListaNaoEncontradaError();
+const addItem = async ({ codigo, valor }) => {
+  let lista = await Lista.findOne({ codigo }).populate("data");
+
+  if (!lista) {
+    lista = new Lista({
+      codigo,
+    });
+  }
+
   lista.data.push({ valor });
   return await lista.save();
 };
 
-const removeItem = async ({ id, itemId }) => {
-  const lista = await Lista.findById(id).populate("data");
+const removeItem = async ({ codigo, itemId }) => {
+  const lista = await Lista.findOne({ codigo }).populate("data");
   lista.data = lista.data.filter((item) => item._id != itemId);
   await lista.save();
   return lista;
@@ -36,8 +43,8 @@ const obterListaPorCodigo = async ({ codigo }) => {
   return lista;
 };
 
-const atualizarItem = async ({ id, itemId, valor }) => {
-  const lista = await Lista.findById(id).populate("data");
+const atualizarItem = async ({ codigo, itemId, valor }) => {
+  const lista = await Lista.findOne({ codigo }).populate("data");
   if (!lista) throw new ListaNaoEncontradaError();
 
   const index = lista.data.findIndex((item) => item._id == itemId);
@@ -55,6 +62,10 @@ const atualizarItem = async ({ id, itemId, valor }) => {
   return lista;
 };
 
+const listarCodigoDeListas = async () => {
+  return LISTAS;
+};
+
 module.exports = {
   create,
   addItem,
@@ -62,4 +73,5 @@ module.exports = {
   obterListas,
   atualizarItem,
   obterListaPorCodigo,
+  listarCodigoDeListas,
 };

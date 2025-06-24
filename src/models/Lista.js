@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const { LISTAS } = require("../constants/listas");
 
 const ListaSchema = new mongoose.Schema({
-  codigo: { type: String, required: true, unique: true },
+  codigo: { type: String, enum: LISTAS, required: true, unique: true },
   data: {
     type: [{ valor: String }],
     validate: {

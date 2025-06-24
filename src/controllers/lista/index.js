@@ -1,6 +1,10 @@
 const { sendResponse } = require("../../utils/helpers");
 const { registrarAcao } = require("../../services/controleService");
-const { ENTIDADES, ACOES, ORIGENS } = require("../../constants/controleAlteracao");
+const {
+  ENTIDADES,
+  ACOES,
+  ORIGENS,
+} = require("../../constants/controleAlteracao");
 const ListaService = require("../../services/lista");
 
 const createLista = async (req, res) => {
@@ -10,7 +14,7 @@ const createLista = async (req, res) => {
 
 const addItem = async (req, res) => {
   const lista = await ListaService.addItem({
-    id: req.params.id,
+    codigo: req.params.codigo,
     valor: req.body.valor,
   });
 
@@ -31,8 +35,8 @@ const addItem = async (req, res) => {
 };
 
 const removeItem = async (req, res) => {
-  const { id, itemId } = req.params;
-  const lista = await ListaService.removeItem({ id, itemId });
+  const { codigo, itemId } = req.params;
+  const lista = await ListaService.removeItem({ codigo, itemId });
 
   const entidade = Object.entries(ENTIDADES).find(([key, value]) =>
     value.includes(lista.codigo)
@@ -56,10 +60,10 @@ const getListas = async (req, res) => {
 };
 
 const updateItem = async (req, res) => {
-  const { id } = req.params;
+  const { codigo } = req.params;
   const { itemId, valor } = req.body;
 
-  const lista = ListaService.atualizarItem({ id, itemId, valor });
+  const lista = ListaService.atualizarItem({ codigo, itemId, valor });
   const entidade = Object.entries(ENTIDADES).find(([key, value]) =>
     value.includes(lista.codigo)
   )?.[1];
@@ -84,11 +88,20 @@ const getListaPorCodigo = async (req, res) => {
   sendResponse({ res, statusCode: 200, lista });
 };
 
+const obterCodigos = async (req, res) => {
+  const codigos = await ListaService.listarCodigoDeListas();
+  sendResponse({
+    res,
+    statusCode: 200,
+    codigos,
+  });
+};
 module.exports = {
-  createLista,
   addItem,
-  removeItem,
   getListas,
+  removeItem,
   updateItem,
+  createLista,
+  obterCodigos,
   getListaPorCodigo,
 };
