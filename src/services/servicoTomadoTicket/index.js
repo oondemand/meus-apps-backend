@@ -123,13 +123,28 @@ const adicionarServico = async ({ ticketId, servicoId }) => {
   if (!servico) throw new ServicoNaoEncontradoError();
   if (!ticket) throw new TicketNaoEncontradoError();
 
+  servico.statusProcessamento = "processando";
+  await servico.save();
+
   ticket.servicos = [...ticket?.servicos, servico?._id];
   await ticket.save();
 
-  return ticket;
+  const ticketPopulado = await ServicoTomadoTicket.findById(
+    ticket._id
+  ).populate("servicos");
+
+  return ticketPopulado;
 };
 
 const removerServico = async ({ servicoId }) => {
+  const servico = await Servico.findByIdAndUpdate(
+    servicoId,
+    { statusProcessamento: "aberto" },
+    { new: true }
+  );
+
+  if (!servico) throw new ServicoNaoEncontradoError();
+
   const ticket = await ServicoTomadoTicket.findOneAndUpdate(
     { servicos: servicoId }, // Busca o ticket que contém este serviço
     { $pull: { servicos: servicoId } }, // Remove o serviço do array

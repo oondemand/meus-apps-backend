@@ -16,6 +16,11 @@ const servicoSchema = new mongoose.Schema({
     enum: ["ativo", "inativo", "arquivado"],
     default: "ativo",
   },
+  statusProcessamento: {
+    type: String,
+    enum: ["aberto", "pendente", "processando", "pago", "pago-externo"],
+    default: "aberto",
+  },
 });
 
 module.exports = mongoose.model("Servico", servicoSchema);

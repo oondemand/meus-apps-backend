@@ -60,7 +60,8 @@ const listarComPaginacao = async ({
       $and: [...query, { status: { $ne: "arquivado" } }],
     })
       .skip(skip)
-      .limit(limite),
+      .limit(limite)
+      .populate("pessoa"),
     Servico.countDocuments({
       $and: [...query, { status: { $ne: "arquivado" } }],
     }),
@@ -69,8 +70,12 @@ const listarComPaginacao = async ({
   return { servicos, totalDeServicos, page, limite };
 };
 
-const listarTodosAtivos = async () => {
-  const servicos = await Servico.find({ status: "aberto" });
+const listarTodosPorPessoa = async ({ pessoaId }) => {
+  const servicos = await Servico.find({
+    statusProcessamento: "aberto",
+    pessoa: pessoaId,
+  }).populate("pessoa", "nome documento");
+
   return servicos;
 };
 
@@ -80,5 +85,5 @@ module.exports = {
   excluir,
   buscarPorId,
   listarComPaginacao,
-  listarTodosAtivos,
+  listarTodosPorPessoa,
 };

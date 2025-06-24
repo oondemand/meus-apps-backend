@@ -1,5 +1,5 @@
 const PlanejamentoService = require("../../services/planejamento");
-const { sendPaginatedResponse } = require("../../utils/helpers");
+const { sendPaginatedResponse, sendResponse } = require("../../utils/helpers");
 
 const listar = async (req, res) => {
   const {
@@ -33,6 +33,46 @@ const listar = async (req, res) => {
   });
 };
 
+const estatisticas = async (req, res) => {
+  const estatisticas = await PlanejamentoService.estatisticas();
+  sendResponse({ res, statusCode: 200, estatisticas });
+};
+
+const processarMultiplosServicos = async (req, res) => {
+  const result = await PlanejamentoService.processarMultiplosServicos({
+    ids: req.body.ids,
+    statusProcessamento: req.body.statusProcessamento,
+    usuario: req.usuario,
+  });
+
+  sendResponse({ res, statusCode: 200, result });
+};
+
+const processarServico = async (req, res) => {
+  const servico = PlanejamentoService.processarServico({
+    id: req.params.id,
+    servico: req.body,
+    usuario: req.usuario,
+  });
+
+  sendResponse({ res, statusCode: 200, servico });
+};
+
+const sincronizarEsteira = async (req, res) => {
+  await PlanejamentoService.sincronizarEsteira({
+    usuario: req.usuario,
+  });
+
+  return sendResponse({
+    res,
+    statusCode: 200,
+  });
+};
+
 module.exports = {
   listar,
+  estatisticas,
+  processarMultiplosServicos,
+  processarServico,
+  sincronizarEsteira,
 };
