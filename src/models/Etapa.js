@@ -7,6 +7,11 @@ const etapaSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    esteira: {
+      type: String,
+      enum: ["servicos-tomados", "pedido-venda"],
+      required: true,
+    },
     codigo: {
       type: String,
       required: true,
@@ -25,7 +30,7 @@ const etapaSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Etapa = mongoose.model("Etapa", etapaSchema);

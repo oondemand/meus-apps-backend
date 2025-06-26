@@ -97,6 +97,18 @@ const exportar = async (req, res) => {
   });
 };
 
+const listarServicoPorPessoa = async (req, res) => {
+  const servicos = await ServicoService.listarTodosPorPessoa({
+    pessoaId: req.params.pessoaId,
+  });
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    servicos,
+  });
+};
+
 module.exports = {
   listar,
   criar,
@@ -105,4 +117,5 @@ module.exports = {
   excluir,
   exportar,
   importarServico,
+  listarServicoPorPessoa,
 };

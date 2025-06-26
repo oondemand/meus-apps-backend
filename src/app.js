@@ -46,23 +46,32 @@ app.use(logMiddleware);
 
 app.use("/usuarios", require("./routers/usuarioRouter"));
 app.use("/pessoas", require("./routers/pessoaRouter"));
-app.use("/tickets", require("./routers/ticketRouter"));
+app.use("/arquivos", require("./routers/arquivoRouter"));
+app.use(
+  "/servicos-tomados/tickets",
+  require("./routers/servicoTomadoTicketRouter")
+);
 // app.use("/baseomies", require("./routers/baseOmieRouter"));
 // app.use("/aprovacoes", require("./routers/aprovacaoRouter"));
 app.use("/etapas", require("./routers/etapaRouter"));
+// app.use("/esteiras", require("./routers/esteiraRouter"));
+
 // app.use("/logs", require("./routers/logRouter"));
 app.use("/servicos", require("./routers/servicoRouter"));
 // app.use("/documentos-fiscais", require("./routers/documentoFiscalRouter"));
-// app.use("/documentos-cadastrais", require("./routers/documentoCadastralRouter"));
+app.use(
+  "/documentos-cadastrais",
+  require("./routers/documentoCadastralRouter")
+);
 app.use("/registros", require("./routers/controleAlteracao"));
 app.use("/listas", require("./routers/listaRouter"));
 // app.use("/estados", require("./routers/estadoRouter"));
 // app.use("/bancos", require("./routers/bancoRouter"));
-// app.use("/planejamento", require("./routers/planejamentoRouter"));
+app.use("/planejamento", require("./routers/planejamentoRouter"));
 app.use("/importacoes", require("./routers/importacaoRouter"));
 // app.use("/dashboard", require("./routers/dashoboardRouter"));
 // app.use("/sistema", require("./routers/sistemaRouter"));
-// app.use("/lista-omie", require("./routers/listasOmieRouter"));
+app.use("/lista-omie", require("./routers/listasOmieRouter"));
 app.use("/assistentes", require("./routers/assistenteRouter"));
 
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));

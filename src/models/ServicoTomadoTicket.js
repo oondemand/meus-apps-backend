@@ -1,22 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TicketSchema = new mongoose.Schema(
+const ServicoTomadoTicketSchema = new mongoose.Schema(
   {
     baseOmie: { type: Schema.Types.ObjectId, ref: "BaseOmie" },
     titulo: { type: String, required: true },
     observacao: { type: String, default: "" },
     etapa: { type: String, required: true },
     pessoa: { type: mongoose.Schema.Types.ObjectId, ref: "Pessoa" },
-    // data: { type: Date, default: Date.now },
-    // prestador: { type: mongoose.Schema.Types.ObjectId, ref: "Prestador" },
-    // servicos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Servico" }],
-    // documentosFiscais: [
-    //   { type: mongoose.Schema.Types.ObjectId, ref: "DocumentoFiscal" },
-    // ],
-    // contaPagarOmie: { type: Schema.Types.ObjectId, ref: "ContaPagar" },
     arquivos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Arquivo" }],
-    // dataRegistro: { type: Date },
+    servicos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Servico" }],
     conta_corrente: { type: String },
     codigo_categoria: { type: String },
     status: {
@@ -34,4 +27,7 @@ const TicketSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Ticket", TicketSchema);
+module.exports = mongoose.model(
+  "ServicoTomadoTicket",
+  ServicoTomadoTicketSchema
+);

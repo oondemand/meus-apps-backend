@@ -3,7 +3,7 @@ const ENTIDADES = {
   SERVICO: "servico",
   DOCUMENTO_FISCAL: "documento-fiscal",
   DOCUMENTO_CADASTRAL: "documento-cadastral",
-  TICKET: "ticket",
+  SERVICO_TOMADO_TICKET: "servico-tomado.ticket",
   CONFIGURACAO_USUARIO: "configuracao.usuario",
   CONFIGURACAO_SISTEMA: "configuracao.sistema",
   CONFIGURACAO_SISTEMA_APP_PRESTADOR: "configuracao.sistema.app-prestador",

@@ -1,6 +1,7 @@
 const Servico = require("../../models/Servico");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
+const PessoaService = require("../pessoa");
 
 const criar = async ({ servico }) => {
   const novoServico = new Servico(servico);
@@ -43,11 +44,17 @@ const listarComPaginacao = async ({
     "status",
   ];
 
-  const query = FiltersUtils.buildQuery({
+  const [filters, or] = FiltersUtils.buildQuery({
     filtros,
     schema: Servico.schema,
     searchTerm,
     camposBusca,
+  });
+
+  const pessoaQuery = await PessoaService.buscarIdsPessoasFiltrados({
+    filtros: {},
+    searchTerm,
+    camposBusca: ["nome", "documento"],
   });
 
   const { page, limite, skip } = PaginationUtils.buildPaginationQuery({
@@ -57,16 +64,44 @@ const listarComPaginacao = async ({
 
   const [servicos, totalDeServicos] = await Promise.all([
     Servico.find({
-      $and: [...query, { status: { $ne: "arquivado" } }],
+      $and: [
+        filters,
+        {
+          $or: [
+            ...or["$or"],
+            { pessoa: { $in: pessoaQuery.map((e) => e._id) } },
+          ],
+        },
+        { status: { $ne: "arquivado" } },
+      ],
     })
       .skip(skip)
-      .limit(limite),
+      .limit(limite)
+      .populate("pessoa"),
     Servico.countDocuments({
-      $and: [...query, { status: { $ne: "arquivado" } }],
+      $and: [
+        filters,
+        {
+          $or: [
+            ...or["$or"],
+            { pessoa: { $in: pessoaQuery.map((e) => e._id) } },
+          ],
+        },
+        { status: { $ne: "arquivado" } },
+      ],
     }),
   ]);
 
   return { servicos, totalDeServicos, page, limite };
+};
+
+const listarTodosPorPessoa = async ({ pessoaId }) => {
+  const servicos = await Servico.find({
+    statusProcessamento: "aberto",
+    pessoa: pessoaId,
+  }).populate("pessoa", "nome documento");
+
+  return servicos;
 };
 
 module.exports = {
@@ -75,4 +110,5 @@ module.exports = {
   excluir,
   buscarPorId,
   listarComPaginacao,
+  listarTodosPorPessoa,
 };

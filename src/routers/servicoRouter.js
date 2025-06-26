@@ -46,4 +46,9 @@ router.post(
   asyncHandler(ServicoController.importarServico)
 );
 
+router.get(
+  "/pessoa/:pessoaId",
+  asyncHandler(ServicoController.listarServicoPorPessoa)
+);
+
 module.exports = router;

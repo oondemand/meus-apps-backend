@@ -8,11 +8,11 @@ const Usuario = require("../models/Usuario");
 // const Estado = require("../models/Estado");
 const Etapa = require("../models/Etapa");
 const Sistema = require("../models/Sistema");
-// const ListaOmie = require("../models/ListaOmie");
+const ListaOmie = require("../models/ListaOmie");
 
-const bancos = require("../seeds/bancos.json");
-const estados = require("../seeds/estados.json");
-const listas = require("../seeds/listas.json");
+// const bancos = require("../seeds/bancos.json");
+// const estados = require("../seeds/estados.json");
+// const listas = require("../seeds/listas.json");
 const listaomies = require("../seeds/listaomies.json");
 const sistemas = require("../seeds/sistemas.json");
 const etapas = require("../seeds/etapas.json");
@@ -76,10 +76,10 @@ const seed = async (req, res) => {
     await novoSistema.save();
   }
 
-  // for (const listaomie of listaomies) {
-  //   const novaListaOmie = new ListaOmie(listaomie);
-  //   await novaListaOmie.save();
-  // }
+  for (const listaomie of listaomies) {
+    const novaListaOmie = new ListaOmie(listaomie);
+    await novaListaOmie.save();
+  }
 
   return sendResponse({
     res,

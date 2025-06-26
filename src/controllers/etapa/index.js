@@ -1,15 +1,8 @@
-const Etapa = require("../../models/Etapa");
-const filtersUtils = require("../../utils/pagination/filter");
-
-const {
-  sendResponse,
-  sendErrorResponse,
-  sendPaginatedResponse,
-} = require("../../utils/helpers");
+const EtapaService = require("../../services/etapa");
+const { sendResponse, sendPaginatedResponse } = require("../../utils/helpers");
 
 const criarEtapa = async (req, res) => {
-  const etapa = new Etapa(req.body);
-  await etapa.save();
+  const etapa = await EtapaService.criar({ etapa: req.body });
   sendResponse({
     res,
     statusCode: 201,
@@ -18,48 +11,15 @@ const criarEtapa = async (req, res) => {
 };
 
 const listarEtapas = async (req, res) => {
-  const { sortBy, pageIndex, pageSize, searchTerm, tipo, ...rest } = req.query;
+  const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
 
-  const schema = Etapa.schema;
-
-  const camposBusca = ["codigo", "nome", "posicao", "status"];
-
-  // Monta a query para buscar serviços baseados nos demais filtros
-  const filterFromFiltros = filtersUtils.queryFiltros({
-    filtros: rest,
-    schema,
-  });
-
-  // Monta a query para buscar serviços baseados no searchTerm
-  const searchTermCondition = filtersUtils.querySearchTerm({
-    searchTerm,
-    schema,
-    camposBusca,
-  });
-
-  const queryResult = {
-    $and: [
-      filterFromFiltros, // Filtros principais
-      searchTermCondition, // Filtros de busca
-    ],
-  };
-
-  let sorting = {};
-
-  if (sortBy) {
-    const [campo, direcao] = sortBy.split(".");
-    const campoFormatado = campo.replaceAll("_", ".");
-    sorting[campoFormatado] = direcao === "desc" ? -1 : 1;
-  }
-
-  const page = parseInt(pageIndex) || 0;
-  const limite = parseInt(pageSize) || 10;
-  const skip = page * limite;
-
-  const [etapas, totalDeEtapas] = await Promise.all([
-    Etapa.find(queryResult).skip(skip).limit(limite),
-    Etapa.countDocuments(queryResult),
-  ]);
+  const { etapas, limite, totalDeEtapas, page } =
+    await EtapaService.listarComPaginacao({
+      filtros: rest,
+      pageIndex,
+      pageSize,
+      searchTerm,
+    });
 
   sendPaginatedResponse({
     res,
@@ -74,8 +34,10 @@ const listarEtapas = async (req, res) => {
   });
 };
 
-const listarEtapasAtivas = async (req, res) => {
-  const etapas = await Etapa.find({ status: "ativo" }).sort({ posicao: 1 });
+const listarEtapasAtivasPorEsteira = async (req, res) => {
+  const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
+    esteira: req.params.esteira,
+  });
   sendResponse({
     res,
     statusCode: 200,
@@ -83,34 +45,12 @@ const listarEtapasAtivas = async (req, res) => {
   });
 };
 
-const obterEtapa = async (req, res) => {
-  const etapa = await Etapa.findById(req.params.id);
-  if (!etapa) {
-    return sendErrorResponse({
-      res,
-      statusCode: 404,
-      message: "Etapa não encontrada",
-    });
-  }
-  sendResponse({
-    res,
-    statusCode: 200,
-    etapa,
-  });
-};
-
 const atualizarEtapa = async (req, res) => {
-  const etapa = await Etapa.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
+  const etapa = await EtapaService.atualizar({
+    etapa: req.body,
+    id: req.params.id,
   });
-  if (!etapa) {
-    return sendErrorResponse({
-      res,
-      statusCode: 404,
-      message: "Etapa não encontrada",
-    });
-  }
+
   sendResponse({
     res,
     statusCode: 200,
@@ -118,15 +58,8 @@ const atualizarEtapa = async (req, res) => {
   });
 };
 
-const excluirEtapa = async (req, res) => {
-  const etapa = await Etapa.findByIdAndDelete(req.params.id);
-  if (!etapa) {
-    return sendErrorResponse({
-      res,
-      statusCode: 404,
-      message: "Etapa não encontrada",
-    });
-  }
+const excluir = async (req, res) => {
+  const etapa = await EtapaService.excluir({ id: req.params.id });
   sendResponse({
     res,
     statusCode: 200,
@@ -137,5 +70,7 @@ const excluirEtapa = async (req, res) => {
 module.exports = {
   criarEtapa,
   listarEtapas,
-  listarEtapasAtivas,
+  listarEtapasAtivasPorEsteira,
+  atualizarEtapa,
+  excluir,
 };
