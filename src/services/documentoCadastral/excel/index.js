@@ -88,13 +88,12 @@ const processarJsonDocumentosCadastrais = async ({ json, usuario }) => {
         });
       }
 
-      const documentoCadastral = await criarNovoDocumentoCadastral({
+      await criarNovoDocumentoCadastral({
         documentoCadastral: { ...documentoCadastralObj, pessoa: pessoa._id },
         usuario,
       });
 
       detalhes.novosDocumentosCadastrais += 1;
-      await documentoCadastral.save();
     } catch (error) {
       arquivoDeErro.push(row);
       detalhes.linhasLidasComErro += 1;

@@ -10,6 +10,7 @@ const { mapExporter } = require("./mapExporter");
 const Servico = require("../../../models/Servico.js");
 const Lista = require("../../../models/Lista.js");
 const ServicoService = require("../../servico");
+const Pessoa = require("../../../models/Pessoa.js");
 
 // const criarNovoTipoDeServico = async ({ tipo, usuario }) => {
 //   const tipos = await Lista.findOne({ codigo: "tipo-servico-tomado" });
@@ -46,6 +47,34 @@ const criarNovaServico = async ({ servico, usuario }) => {
 
   await novaServico.save();
   return novaServico;
+};
+
+const criarNovaPessoa = async ({ pessoa, usuario }) => {
+  const novaPessoa = new Pessoa(pessoa);
+
+  registrarAcao({
+    acao: ACOES.ADICIONADO,
+    entidade: ENTIDADES.PESSOA,
+    origem: ORIGENS.IMPORTACAO,
+    dadosAtualizados: novaPessoa,
+    idRegistro: novaPessoa._id,
+    usuario: usuario,
+  });
+
+  await novaPessoa.save();
+  return novaPessoa;
+};
+
+const buscarPessoaPorDocumento = async ({ documento }) => {
+  if (!documento) return null;
+
+  const pessoaExistente = await Pessoa.findOne({
+    documento,
+    status: { $ne: "arquivado" },
+  });
+
+  if (!pessoaExistente) return null;
+  return pessoaExistente;
 };
 
 // const buscarServicoPorDocumentoEAtualizar = async ({
@@ -97,6 +126,17 @@ const processarJsonServicos = async ({ json, usuario }) => {
 
       const servicoObj = await mapImporter({ row });
 
+      let pessoa = await buscarPessoaPorDocumento({
+        documento: servicoObj?.pessoa?.documento,
+      });
+
+      if (!pessoa) {
+        pessoa = await criarNovaPessoa({
+          pessoa: servicoObj.pessoa,
+          usuario,
+        });
+      }
+
       // let servico = await buscarServicoPorDocumentoEAtualizar({
       //   documento: servicoObj?.documento,
       //   servico: servicoObj,
@@ -107,7 +147,7 @@ const processarJsonServicos = async ({ json, usuario }) => {
 
       // if (!servico) {
       await criarNovaServico({
-        servico: servicoObj,
+        servico: { ...servicoObj, pessoa: pessoa._id },
         usuario,
       });
 
