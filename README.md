@@ -70,26 +70,26 @@ git clone https://github.com/oondemand/central-oondemand.git
 cd central-oondemand
 ```
 
-2. Inicialise o banco de dados
+2. Inicialize o banco de dados
 
 ```bash
 docker-compose -f infra/docker/docker-compose.yml up -d
 ```
 
 3. Criar o .env
-   > Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.dev**
+   > Se você preferir voce pode simplismente criar o arquivo **.env** na raiz do projeto e copiar as variaveis do **.env.example**
 
 ```bash
-cp .env.dev .env
+cp .env.example .env
 ```
 
-ou no cmd do windowns
+ou no cmd do windows
 
 ```bash
-copy .env.dev .env
+copy .env.example .env
 ```
 
-4. Instalar as dependencias
+4. Instalar as dependências
 
 ```bash
 npm install
@@ -102,6 +102,8 @@ npm run dev
 ```
 
 6. Popular banco de dados
+
+Com a aplicação rodando, execute o seguinte comando no seu terminal: 
 
 > Uma base omie oficial não é necessária, porém desta forma você tera problemas na integração com o omie.
 
