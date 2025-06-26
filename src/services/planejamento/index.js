@@ -24,7 +24,7 @@ const listarServicosComPaginacao = async ({
     "valor",
     "dataContratacao",
     "dataConclusao",
-    "status",
+    "statusProcessamento",
   ];
 
   const query = FiltersUtils.buildQuery({

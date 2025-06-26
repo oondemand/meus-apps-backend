@@ -31,7 +31,7 @@ const reprovar = async (req, res) => {
 };
 
 const createTicket = async (req, res) => {
-  const ticket = ServicoTomadoTicketService.criar({ ticket: req.body });
+  const ticket = await ServicoTomadoTicketService.criar({ ticket: req.body });
 
   sendResponse({
     res,

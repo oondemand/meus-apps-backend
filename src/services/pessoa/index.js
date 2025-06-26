@@ -67,6 +67,27 @@ const listarComPaginacao = async ({
   return { pessoas, totalDePessoas, page, limite };
 };
 
+const buscarIdsPessoasFiltrados = async ({
+  filtros,
+  searchTerm,
+  camposBusca,
+}) => {
+  if (!filtros && !searchTerm) return [];
+
+  const pessoasQuery = FiltersUtils.buildQuery({
+    filtros,
+    schema: Pessoa.schema,
+    searchTerm,
+    camposBusca,
+  });
+
+  const pessoasIds = await Pessoa.find({
+    $and: pessoasQuery,
+  }).select("_id");
+
+  return pessoasIds.length > 0 ? pessoasIds.map((e) => e._id) : [];
+};
+
 module.exports = {
   criar,
   buscarPorId,
@@ -74,4 +95,5 @@ module.exports = {
   excluir,
   listarComPaginacao,
   buscarPorDocumento,
+  buscarIdsPessoasFiltrados,
 };

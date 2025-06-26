@@ -10,28 +10,16 @@ const Arquivo = require("../../models/Arquivo");
 const ServicoNaoEncontradoError = require("../errors/servico/servicoNaoEncontrado");
 const { criarNomePersonalizado } = require("../../utils/formatters");
 const ArquivoNaoEncontradoError = require("../errors/arquivo/arquivoNaoEncontradoError");
-
-const buscarIdsPessoasFiltrados = async ({ filtros, searchTerm }) => {
-  if (!filtros && !searchTerm) return [];
-
-  const pessoasQuery = FiltersUtils.buildQuery({
-    filtros,
-    schema: Pessoa.schema,
-    searchTerm,
-    camposBusca: ["nome", "documento"],
-  });
-
-  const pessoasIds = await Pessoa.find({
-    $and: pessoasQuery,
-  }).select("_id");
-
-  return pessoasIds.length > 0 ? pessoasIds.map((e) => e._id) : [];
-};
+const EtapaService = require("../etapa");
 
 const criar = async ({ ticket }) => {
+  const etapas = await EtapaService.listarEtapasAtivasPorEsteira({
+    esteira: "servicos-tomados",
+  });
+
   const novoTicket = new ServicoTomadoTicket({
     ...ticket,
-    etapa: "requisicao",
+    etapa: etapas[0]?.codigo,
   });
   await novoTicket.save();
   return novoTicket;
