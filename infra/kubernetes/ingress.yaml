@@ -5,8 +5,9 @@ metadata:
   namespace: central-oondemand
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   ingressClassName: nginx
   tls:
@@ -18,7 +19,7 @@ spec:
       http:
         paths:
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: central-oondemand-backend-service
