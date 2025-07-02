@@ -2,7 +2,7 @@ const Pessoa = require("../../models/Pessoa");
 const Validations = require("./validations");
 
 const criar = async ({ pessoa }) => {
-  Validations.validarDocumentoExistente({ pessoa });
+  // await Validations.validarDocumentoExistente({ pessoa });
   const novaPessoa = new Pessoa(pessoa);
   return await novaPessoa.save();
 };

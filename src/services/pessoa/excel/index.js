@@ -7,7 +7,7 @@ const {
 } = require("../../../constants/controleAlteracao.js");
 const { mapImporter } = require("./mapImporter.js");
 const { mapExporter } = require("./mapExporter");
-const Pessoa = require("../../../models/Pessoa.js");
+const Pessoa = require("../../../models/Pessoa");
 const Lista = require("../../../models/Lista.js");
 const PessoaService = require("../../pessoa");
 
