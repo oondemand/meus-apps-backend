@@ -9,8 +9,6 @@ const criar = async ({ pessoa }) => {
 };
 
 const atualizar = async ({ id, pessoa }) => {
-  console.log("Pessoa", pessoa);
-
   const pessoaAtualizada = await Pessoa.findByIdAndUpdate(id, pessoa, {
     new: true,
   });
