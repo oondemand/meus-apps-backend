@@ -1,6 +1,6 @@
 {
   "name": "central-oondemand-backend",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Backend para central oondemand",
   "main": "src/server.js",
   "scripts": {
@@ -54,13 +54,36 @@
           "types": [
             {
               "type": "feat",
-              "section": "Features"
+              "section": "✨ Features"
             },
             {
               "type": "fix",
-              "section": "Bug Fixes"
+              "section": "🐛 Bug Fixes"
             },
-            {}
+            {
+              "type": "docs",
+              "section": "📝 Documentation"
+            },
+            {
+              "type": "style",
+              "section": "💅 Code Style"
+            },
+            {
+              "type": "refactor",
+              "section": "🔨 Refactoring"
+            },
+            {
+              "type": "perf",
+              "section": "⚡ Performance"
+            },
+            {
+              "type": "test",
+              "section": "🧪 Tests"
+            },
+            {
+              "type": "chore",
+              "section": "🔧 Chores"
+            }
           ]
         }
       }

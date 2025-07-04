@@ -5,7 +5,7 @@ const PaginationUtils = require("../../utils/pagination");
 const PessoaNaoEncontradaError = require("../errors/pessoa/pessoaNaoEncontradaError");
 
 const criar = async ({ pessoa }) => {
-  return PessoaBusiness.criar({ pessoa });
+  return await PessoaBusiness.criar({ pessoa });
 };
 
 const atualizar = async ({ id, pessoa }) => {

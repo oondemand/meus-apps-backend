@@ -10,7 +10,7 @@ const { mapExporter } = require("./mapExporter");
 const Servico = require("../../../models/Servico.js");
 const Lista = require("../../../models/Lista.js");
 const ServicoService = require("../../servico");
-const Pessoa = require("../../../models/Pessoa.js");
+const Pessoa = require("../../../models/Pessoa");
 
 // const criarNovoTipoDeServico = async ({ tipo, usuario }) => {
 //   const tipos = await Lista.findOne({ codigo: "tipo-servico-tomado" });

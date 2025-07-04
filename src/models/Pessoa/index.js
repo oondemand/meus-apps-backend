@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const pessoaFisica = require("./pessoaFisica");
+const pessoaJuridica = require("./pessoaJuridica");
 const { Schema } = mongoose;
 
 const schema = new Schema(
@@ -14,6 +16,8 @@ const schema = new Schema(
       type: String,
       maxlength: 100,
     },
+    pessoaFisica: pessoaFisica,
+    pessoaJuridica: pessoaJuridica,
     documento: {
       type: String,
       maxlength: 20,
