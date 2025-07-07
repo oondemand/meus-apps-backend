@@ -36,8 +36,8 @@ jobs:
       - name: Construir e publicar imagem
         run: |
           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/central-oondemand-backend:${{ env.TAG }}-homolog .
-          docker push ghcr.io/oondemand/central-oondemand-backend:${{ env.TAG }}-homolog
+          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --tag ghcr.io/oondemand/auth-backend:${{ env.TAG }}-homolog .
+          docker push ghcr.io/oondemand/auth-backend:${{ env.TAG }}-homolog
 
       - name: Criar kubeconfig
         run: |
@@ -64,7 +64,6 @@ jobs:
           DB_AUTH_SOURCE: ${{ secrets.DB_AUTH_SOURCE }}
           DB_REPLICA_SET: ${{ secrets.DB_REPLICA_SET_HOMOLOG }}
           DB_TSL: ${{ secrets.DB_TSL_HOMOLOG }}
-          API_OMIE: ${{ secrets.API_OMIE }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           BASE_URL_CST: ${{ secrets.BASE_URL_CST_HOMOLOG }}
           BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER_HOMOLOG }}

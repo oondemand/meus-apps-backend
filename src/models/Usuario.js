@@ -2,34 +2,17 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const configuracoesSchema = new mongoose.Schema({ idioma: { type: String } });
-
 const UsuarioSchema = new mongoose.Schema({
-  tipo: {
-    type: String,
-    enum: ["prestador", "tomador", "admin", "contabilidade"],
-    default: "prestador",
-  },
+  tipo: { type: String, enum: ["master", "usuario"], default: "usuario" },
+  email: { type: String, required: true, unique: true },
+  telefone: { type: String },
   nome: { type: String, required: true },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    validate: {
-      validator: function (v) {
-        return /\S+@\S+\.\S+/.test(v);
-      },
-      message: (props) => `${props.value} não é um e-mail válido!`,
-    },
-  },
   senha: { type: String, required: true },
   status: {
     type: String,
-    enum: ["ativo", "inativo", "arquivado"],
+    enum: ["ativo", "inativo", "pendente"],
     default: "ativo",
   },
-  configuracoes: { type: configuracoesSchema },
 });
 
 UsuarioSchema.pre("save", async function (next) {
@@ -42,7 +25,7 @@ UsuarioSchema.pre("save", async function (next) {
 UsuarioSchema.methods.gerarToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",
-  }); // Token expira em 24 horas
+  });
 };
 
 module.exports = mongoose.model("Usuario", UsuarioSchema);

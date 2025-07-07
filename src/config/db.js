@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-// Verificar o ambiente atual
-const isProduction = process.env.NODE_ENV === "production";
-
 // Selecionar a configuração correta
 const config = {
   dbServer: process.env.DB_SERVER,

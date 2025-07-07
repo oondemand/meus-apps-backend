@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: central-oondemand-backend
+  name: auth-backend
   namespace: central-oondemand
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: central-oondemand-backend
+      app: auth-backend
   template:
     metadata:
       labels:
-        app: central-oondemand-backend
+        app: auth-backend
     spec:
       containers:
-        - name: central-oondemand-backend-container
-          image: ghcr.io/oondemand/central-oondemand-backend:${IMAGE_TAG}
+        - name: auth-backend-container
+          image: ghcr.io/oondemand/auth-backend:${IMAGE_TAG}
           ports:
             - containerPort: 4000
           resources:
