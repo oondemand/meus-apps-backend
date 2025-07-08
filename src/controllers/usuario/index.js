@@ -16,19 +16,19 @@ const criarUsuario = async (req, res) => {
 //   sendResponse({ res, statusCode: 200, usuario });
 // };
 
-// const atualizarUsuario = async (req, res) => {
-//   const usuario = await UsuarioService.atualizar({
-//     id: req.params.id,
-//     usuario: req.body,
-//   });
+const atualizarUsuario = async (req, res) => {
+  const usuario = await UsuarioService.atualizar({
+    id: req.params.id,
+    usuario: req.body,
+  });
 
-//   sendResponse({ res, statusCode: 200, usuario });
-// };
+  sendResponse({ res, statusCode: 200, usuario });
+};
 
-// const excluirUsuario = async (req, res) => {
-//   const usuario = await UsuarioService.excluir({ id: req.params.id });
-//   sendResponse({ res, statusCode: 200, usuario });
-// };
+const deletarUsuario = async (req, res) => {
+  const usuario = await UsuarioService.deletar({ id: req.params.id });
+  sendResponse({ res, statusCode: 200, usuario });
+};
 
 // const loginUsuario = async (req, res) => {
 //   const { email, senha } = req.body;
@@ -206,8 +206,8 @@ module.exports = {
   // listarUsuarios,
   criarUsuario,
   // obterUsuario,
-  // atualizarUsuario,
-  // excluirUsuario,
+  atualizarUsuario,
+  deletarUsuario,
   // validarToken,
   // esqueciMinhaSenha,
   // alterarSenha,

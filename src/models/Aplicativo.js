@@ -9,6 +9,7 @@ const aplicativoSchema = new mongoose.Schema({
     enum: ["ativo", "inativo", "suspenso"],
     default: "ativo",
   },
+  usuarios: { type: [mongoose.Schema.Types.ObjectId], ref: "Usuario" },
 });
 
 module.exports = mongoose.model("Aplicativo", aplicativoSchema);

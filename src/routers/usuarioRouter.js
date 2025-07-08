@@ -5,10 +5,9 @@ const UsuarioController = require("../controllers/usuario");
 const { asyncHandler } = require("../utils/helpers");
 
 router.post("/", asyncHandler(UsuarioController.criarUsuario));
+router.put("/:id", asyncHandler(UsuarioController.atualizarUsuario));
+router.delete("/:id", asyncHandler(UsuarioController.deletarUsuario));
 
 // router.get("/", asyncHandler(UsuarioController.listarUsuarios));
-// router.get("/:id", asyncHandler(UsuarioController.obterUsuario));
-// router.put("/:id", asyncHandler(UsuarioController.atualizarUsuario));
-// router.delete("/:id", asyncHandler(UsuarioController.excluirUsuario));
 
 module.exports = router;

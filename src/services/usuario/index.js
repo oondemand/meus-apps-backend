@@ -1,5 +1,5 @@
 const Usuario = require("../../models/Usuario");
-const CredenciaisInvalidasError = require("../errors/usuario/credenciaisInvalidas");
+// const CredenciaisInvalidasError = require("../errors/usuario/credenciaisInvalidas");
 const UsuarioNaoEncontradoError = require("../errors/usuario/usuarioNaoEncontrado");
 const bcrypt = require("bcryptjs");
 const FiltersUtils = require("../../utils/pagination/filter");
@@ -31,14 +31,11 @@ const deletar = async ({ id }) => {
 //   return usuario;
 // };
 
-// const buscarUsuarioPorEmail = async ({ email }) => {
-//   const usuario = await Usuario.findOne({
-//     email,
-//     status: { $ne: "arquivado" },
-//   });
-//   if (!usuario || !email) throw new UsuarioNaoEncontradoError();
-//   return usuario;
-// };
+const buscarUsuarioPorEmail = async ({ email }) => {
+  const usuario = await Usuario.findOne({ email });
+  if (!usuario) throw new UsuarioNaoEncontradoError();
+  return usuario;
+};
 
 // const login = async ({ email, senha }) => {
 //   const usuario = await buscarUsuarioPorEmail({ email });
@@ -89,6 +86,6 @@ module.exports = {
   deletar,
   atualizar,
   // buscarUsuarioPorId,
-  // buscarUsuarioPorEmail,
+  buscarUsuarioPorEmail,
   // listarComPaginacao,
 };

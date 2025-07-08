@@ -4,6 +4,9 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const authMiddleware = require("./middlewares/authMiddleware");
+const errorMiddleware = require("./middlewares/errorMiddleware");
+
 dotenv.config();
 
 const app = express();
@@ -15,13 +18,14 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
-// app.use("/auth", require("./routers/authRouter"));
+app.use("/auth", require("./routers/authRouter"));
 
-// app.use(authMiddleware);
+app.use(authMiddleware);
 // app.use(logMiddleware);
 
 app.use("/usuarios", require("./routers/usuarioRouter"));
+app.use("/aplicativos", require("./routers/aplicativoRouter"));
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 module.exports = app;
