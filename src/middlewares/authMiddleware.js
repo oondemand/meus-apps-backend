@@ -9,6 +9,7 @@ const authMiddleware = async (req, res, next) => {
     return Helpers.sendErrorResponse({
       res,
       message: "Acesso negado. Token ausente!",
+      statusCode: 401,
     });
   }
 

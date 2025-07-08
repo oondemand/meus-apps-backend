@@ -27,9 +27,16 @@ const atualizar = async ({ id, aplicativo }) => {
   return aplicativoAtualizado;
 };
 
+const obterPorId = async ({ id }) => {
+  const aplicativo = await Aplicativo.findById(id).populate("usuarios");
+  if (!aplicativo) throw new AplicativoNaoEncontradoError();
+  return aplicativo;
+};
+
 module.exports = {
   criar,
   listar,
   deletar,
   atualizar,
+  obterPorId,
 };

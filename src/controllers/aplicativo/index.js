@@ -1,6 +1,6 @@
 const AplicativoService = require("../../services/aplicativo");
 const Helpers = require("../../utils/helpers");
-const Aplicativo = require("../../models/Aplicativo");
+
 // const emailUtils = require("../../utils/emailUtils");
 // const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
@@ -8,6 +8,16 @@ const Aplicativo = require("../../models/Aplicativo");
 const criarAplicativo = async (req, res) => {
   const aplicativo = await AplicativoService.criar({ aplicativo: req.body });
   Helpers.sendResponse({ res, statusCode: 201, aplicativo });
+};
+
+const buscarPorId = async (req, res) => {
+  console.log("LOG", req.params.id);
+
+  const aplicativo = await AplicativoService.obterPorId({
+    id: req.params.id,
+  });
+
+  Helpers.sendResponse({ res, statusCode: 200, aplicativo });
 };
 
 const atualizarAplicativo = async (req, res) => {
@@ -34,4 +44,5 @@ module.exports = {
   atualizarAplicativo,
   deletarAplicativo,
   listarTodos,
+  buscarPorId,
 };
