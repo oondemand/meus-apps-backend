@@ -8,6 +8,7 @@ router.get("/", asyncHandler(AplicativoController.listarTodos));
 router.get("/:id", asyncHandler(AplicativoController.buscarPorId));
 
 router.post("/", asyncHandler(AplicativoController.criarAplicativo));
+router.post("/:id", asyncHandler(AplicativoController.convidarUsuario));
 
 router.put("/:id", asyncHandler(AplicativoController.atualizarAplicativo));
 

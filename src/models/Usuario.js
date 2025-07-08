@@ -6,12 +6,12 @@ const UsuarioSchema = new mongoose.Schema({
   tipo: { type: String, enum: ["master", "usuario"], default: "usuario" },
   email: { type: String, required: true, unique: true },
   telefone: { type: String },
-  nome: { type: String, required: true },
-  senha: { type: String, required: true },
+  nome: { type: String },
+  senha: { type: String },
   status: {
     type: String,
     enum: ["ativo", "inativo", "pendente"],
-    default: "ativo",
+    default: "pendente",
   },
 });
 

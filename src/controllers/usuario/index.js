@@ -22,12 +22,12 @@ const atualizarUsuario = async (req, res) => {
     usuario: req.body,
   });
 
-  sendResponse({ res, statusCode: 200, usuario });
+  Helpers.sendResponse({ res, statusCode: 200, usuario });
 };
 
 const deletarUsuario = async (req, res) => {
   const usuario = await UsuarioService.deletar({ id: req.params.id });
-  sendResponse({ res, statusCode: 200, usuario });
+  Helpers.sendResponse({ res, statusCode: 200, usuario });
 };
 
 // const loginUsuario = async (req, res) => {

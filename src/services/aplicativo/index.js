@@ -1,4 +1,6 @@
 const Aplicativo = require("../../models/Aplicativo");
+const Usuario = require("../../models/Usuario");
+
 const AplicativoNaoEncontradoError = require("../errors/aplicativo/aplicativoNaoEncontrado");
 
 const criar = async ({ aplicativo }) => {
@@ -33,10 +35,42 @@ const obterPorId = async ({ id }) => {
   return aplicativo;
 };
 
+const convidarUsuario = async ({ email, id }) => {
+  const usuarioExistente = await Usuario.findOne({
+    email,
+  });
+
+  if (!usuarioExistente) {
+    const usuario = new Usuario({
+      email,
+      senha: "123456",
+    });
+
+    await usuario.save();
+
+    const aplicativo = await Aplicativo.findByIdAndUpdate(
+      id,
+      { $addToSet: { usuarios: usuario } },
+      { new: true }
+    );
+
+    return aplicativo;
+  }
+
+  const aplicativo = await Aplicativo.findByIdAndUpdate(
+    id,
+    { $addToSet: { usuarios: usuarioExistente?._id } },
+    { new: true }
+  );
+
+  return aplicativo;
+};
+
 module.exports = {
   criar,
   listar,
   deletar,
   atualizar,
   obterPorId,
+  convidarUsuario,
 };

@@ -39,10 +39,20 @@ const listarTodos = async (req, res) => {
   Helpers.sendResponse({ res, statusCode: 200, aplicativos });
 };
 
+const convidarUsuario = async (req, res) => {
+  await AplicativoService.convidarUsuario({
+    email: req?.body?.email,
+    id: req?.params?.id,
+  });
+
+  Helpers.sendResponse({ res, statusCode: 200 });
+};
+
 module.exports = {
   criarAplicativo,
   atualizarAplicativo,
   deletarAplicativo,
   listarTodos,
   buscarPorId,
+  convidarUsuario,
 };
