@@ -1,7 +1,7 @@
 const sgMail = require("@sendgrid/mail");
 const { format } = require("date-fns");
 const Sistema = require("../models/Sistema");
-const { conviteTemplate } = require("../constants/template");
+// const { conviteTemplate } = require("../constants/template");
 
 const enviarEmail = async (emailTo, assunto, corpo, anexos = []) => {
   const config = await Sistema.findOne();
@@ -77,12 +77,16 @@ const emailImportarRpas = async ({ usuario, detalhes }) => {
     const corpo = `<h1>Olá, ${usuario.nome}!</h1>
     <p>Foram importados ${detalhes.sucesso} arquivos.</p>
     <p>Arquivos com erro ${detalhes.erros.quantidade} arquivos.</p>
-    ${detalhes.erros.quantidade > 0 ? "<p>Segue em anexo o log de erros</p>" : ""}
+    ${
+      detalhes.erros.quantidade > 0
+        ? "<p>Segue em anexo o log de erros</p>"
+        : ""
+    }
     `;
 
     if (detalhes.erros.quantidade > 0) {
       const arquivoDeErros = Buffer.from(detalhes.erros.logs).toString(
-        "base64",
+        "base64"
       );
       const anexos = [
         {
@@ -119,22 +123,22 @@ const emailErroIntegracaoOmie = async ({ usuario, error }) => {
   }
 };
 
-const emailLinkCadastroUsuarioPrestador = async ({ email, nome, url }) => {
-  try {
-    const emailTo = {
-      email,
-      nome,
-    };
+// const emailLinkCadastroUsuarioPrestador = async ({ email, nome, url }) => {
+//   try {
+//     const emailTo = {
+//       email,
+//       nome,
+//     };
 
-    const assunto = "Acesso Liberado";
+//     const assunto = "Acesso Liberado";
 
-    const corpo = await conviteTemplate({ url });
+//     const corpo = await conviteTemplate({ url });
 
-    return await enviarEmail(emailTo, assunto, corpo);
-  } catch (error) {
-    throw error;
-  }
-};
+//     return await enviarEmail(emailTo, assunto, corpo);
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 const emailTeste = async ({ email }) => {
   try {
@@ -149,7 +153,7 @@ const emailTeste = async ({ email }) => {
     return await enviarEmail(emailTo, assunto, corpo);
   } catch (error) {
     throw new Error(
-      "Erro ao enviar e-mail para detalhes de importação de prestadores",
+      "Erro ao enviar e-mail para detalhes de importação de prestadores"
     );
   }
 };
@@ -159,5 +163,5 @@ module.exports = {
   emailEsqueciMinhaSenha,
   emailImportarRpas,
   emailErroIntegracaoOmie,
-  emailLinkCadastroUsuarioPrestador,
+  // emailLinkCadastroUsuarioPrestador,
 };

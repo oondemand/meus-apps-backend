@@ -25,6 +25,7 @@ app.use(authMiddleware);
 
 app.use("/usuarios", require("./routers/usuarioRouter"));
 app.use("/aplicativos", require("./routers/aplicativoRouter"));
+app.use("/sistema", require("./routers/sistemaRouter"));
 
 app.use(errorMiddleware);
 
