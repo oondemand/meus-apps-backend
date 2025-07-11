@@ -1,5 +1,5 @@
 {
-  "name": "auth-backend",
+  "name": "meus-apps-backend",
   "version": "0.0.0",
   "description": "serviço backend para autenticação",
   "main": "src/server.js",

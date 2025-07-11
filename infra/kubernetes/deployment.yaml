@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-backend
+  name: meus-apps-backend
   namespace: central-oondemand
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth-backend
+      app: meus-apps-backend
   template:
     metadata:
       labels:
-        app: auth-backend
+        app: meus-apps-backend
     spec:
       containers:
-        - name: auth-backend-container
-          image: ghcr.io/oondemand/auth-backend:${IMAGE_TAG}
+        - name: meus-apps-backend-container
+          image: ghcr.io/oondemand/meus-apps-backend:${IMAGE_TAG}
           ports:
             - containerPort: 4000
           resources:
