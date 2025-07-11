@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const UsuarioService = require("../usuario");
 const CredenciaisInvalidasError = require("../errors/auth/credenciaisInvalidas");
+const GenericError = require("../errors/generic");
+const Usuario = require("../../models/Usuario");
+const jwt = require("jsonwebtoken");
 
 const login = async ({ email, senha }) => {
   const usuario = await UsuarioService.buscarUsuarioPorEmail({ email });
@@ -9,6 +12,27 @@ const login = async ({ email, senha }) => {
   return usuario;
 };
 
+const primeiroAcesso = async ({ body }) => {
+  if (!body.code)
+    throw new GenericError(
+      "Você não tem permissão para realizar essa operação, o link de primeiro acesso pode estar inválido",
+      401
+    );
+
+  // try {
+  const decoded = jwt.verify(body.code, process.env.JWT_SECRET);
+  const usuario = await Usuario.findByIdAndUpdate(decoded.id, body);
+  if (!usuario) throw new GenericError("Usuário não encontrado", 401);
+
+  return usuario;
+  // } catch (error) {
+  //   console.log(error);
+
+  //   throw new GenericError("Token inválido", 401);
+  // }
+};
+
 module.exports = {
   login,
+  primeiroAcesso,
 };

@@ -9,7 +9,12 @@ const aplicativoSchema = new mongoose.Schema({
     enum: ["ativo", "inativo", "suspenso"],
     default: "ativo",
   },
-  usuarios: { type: [mongoose.Schema.Types.ObjectId], ref: "Usuario" },
+  ambiente: { type: String, enum: ["prod", "homolog", "teste"] },
+  usuarios: {
+    usuario: { type: [mongoose.Schema.Types.ObjectId], ref: "Usuario" },
+    tipoAcesso: String,
+    // permissoes: [],
+  },
 });
 
 module.exports = mongoose.model("Aplicativo", aplicativoSchema);

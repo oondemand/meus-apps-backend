@@ -22,7 +22,23 @@ const validarToken = async (req, res) => {
   Helpers.sendResponse({ res, statusCode: 200, usuario: req.usuario });
 };
 
+const primeiroAcesso = async (req, res) => {
+  const usuario = await AuthService.primeiroAcesso({ body: req.body });
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    token: usuario.gerarToken(),
+    usuario: {
+      _id: usuario._id,
+      nome: usuario.nome,
+      tipo: usuario.tipo,
+    },
+  });
+};
+
 module.exports = {
   login,
   validarToken,
+  primeiroAcesso,
 };

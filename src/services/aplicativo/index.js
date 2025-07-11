@@ -1,5 +1,6 @@
 const Aplicativo = require("../../models/Aplicativo");
 const Usuario = require("../../models/Usuario");
+const { emailPrimeiroAcesso } = require("../../utils/emailUtils");
 
 const AplicativoNaoEncontradoError = require("../errors/aplicativo/aplicativoNaoEncontrado");
 
@@ -50,9 +51,20 @@ const convidarUsuario = async ({ email, id }) => {
 
     const aplicativo = await Aplicativo.findByIdAndUpdate(
       id,
-      { $addToSet: { usuarios: usuario } },
+      { $addToSet: { usuarios: usuario?._id } },
       { new: true }
     );
+
+    const token = usuario.gerarToken();
+    const url = new URL("/first-login", process.env.BASE_CLIENT_URL);
+    url.searchParams.append("code", token);
+
+    console.log("🟨 [CONVITE ENVIADO] URL ", url.toString());
+
+    await emailPrimeiroAcesso({
+      usuario,
+      url,
+    });
 
     return aplicativo;
   }

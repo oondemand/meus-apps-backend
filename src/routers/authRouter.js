@@ -10,5 +10,6 @@ router.get(
   authMiddleware,
   asyncHandler(AuthController.validarToken)
 );
+router.post("/primeiro-acesso", asyncHandler(AuthController.primeiroAcesso));
 
 module.exports = router;
