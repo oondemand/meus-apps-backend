@@ -11,8 +11,6 @@ const criarAplicativo = async (req, res) => {
 };
 
 const buscarPorId = async (req, res) => {
-  console.log("LOG", req.params.id);
-
   const aplicativo = await AplicativoService.obterPorId({
     id: req.params.id,
   });
@@ -35,7 +33,7 @@ const deletarAplicativo = async (req, res) => {
 };
 
 const listarTodos = async (req, res) => {
-  const aplicativos = await AplicativoService.listar();
+  const aplicativos = await AplicativoService.listar({ usuario: req.usuario });
   Helpers.sendResponse({ res, statusCode: 200, aplicativos });
 };
 

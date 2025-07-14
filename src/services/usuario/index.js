@@ -11,12 +11,13 @@ const criar = async ({ usuario }) => {
 };
 
 const atualizar = async ({ id, usuario }) => {
-  const usuarioAtualizado = await Usuario.findByIdAndUpdate(id, usuario, {
-    new: true,
-  });
+  const usuarioExistente = await Usuario.findById(id);
+  if (!usuarioExistente) return new UsuarioNaoEncontradoError();
 
-  if (!usuarioAtualizado) return new UsuarioNaoEncontradoError();
-  return usuarioAtualizado;
+  Object.assign(usuarioExistente, usuario);
+  await usuarioExistente.save();
+
+  return usuarioExistente;
 };
 
 const deletar = async ({ id }) => {

@@ -12,6 +12,12 @@ const UsuarioSchema = new mongoose.Schema({
   telefone: { type: String },
   nome: { type: String },
   senha: { type: String },
+  aplicativos: [
+    {
+      aplicativo: { type: mongoose.Schema.Types.ObjectId, ref: "Aplicativo" },
+      tipoAcesso: String,
+    },
+  ],
   status: {
     type: String,
     enum: ["ativo", "inativo", "pendente"],
