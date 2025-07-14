@@ -22,7 +22,7 @@ const primeiroAcesso = async ({ body }) => {
   const decoded = jwt.verify(body.code, process.env.JWT_SECRET);
   const usuario = await Usuario.findById(decoded.id);
 
-  Object.assign(usuario, body);
+  Object.assign(usuario, { ...body, status: "ativo" });
   await usuario.save();
 
   if (!usuario) throw new GenericError("Usuário não encontrado", 401);

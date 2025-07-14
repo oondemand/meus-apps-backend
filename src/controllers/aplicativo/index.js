@@ -40,6 +40,7 @@ const listarTodos = async (req, res) => {
 const convidarUsuario = async (req, res) => {
   await AplicativoService.convidarUsuario({
     email: req?.body?.email,
+    tipoAcesso: req?.body?.tipoAcesso,
     id: req?.params?.id,
   });
 

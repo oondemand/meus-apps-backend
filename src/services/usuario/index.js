@@ -4,6 +4,7 @@ const UsuarioNaoEncontradoError = require("../errors/usuario/usuarioNaoEncontrad
 const bcrypt = require("bcryptjs");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
+const Aplicativo = require("../../models/Aplicativo");
 
 const criar = async ({ usuario }) => {
   const novoUsuario = new Usuario(usuario);
@@ -22,7 +23,14 @@ const atualizar = async ({ id, usuario }) => {
 
 const deletar = async ({ id }) => {
   const usuarioDeletado = await Usuario.findByIdAndDelete(id);
-  if (!usuarioDeletado) return new UsuarioNaoEncontradoError();
+  if (!usuarioDeletado) throw new UsuarioNaoEncontradoError();
+
+  // Remove o usuário deletado dos aplicativos
+  await Aplicativo.updateMany(
+    { "usuarios.usuario": id },
+    { $pull: { usuarios: { usuario: id } } }
+  );
+
   return usuarioDeletado;
 };
 
@@ -38,13 +46,6 @@ const buscarUsuarioPorEmail = async ({ email }) => {
   return usuario;
 };
 
-// const login = async ({ email, senha }) => {
-//   const usuario = await buscarUsuarioPorEmail({ email });
-//   if (!(await bcrypt.compare(senha, usuario.senha)))
-//     throw new CredenciaisInvalidasError();
-//   return usuario;
-// };
-
 const listarComPaginacao = async ({
   pageIndex,
   pageSize,
@@ -53,7 +54,7 @@ const listarComPaginacao = async ({
   ...rest
 }) => {
   const schema = Usuario.schema;
-  const camposBusca = ["status", "nome", "email", "tipo"];
+  const camposBusca = ["status", "nome", "email", "tipo", "telefone"];
 
   const query = FiltersUtils.buildQuery({
     filtros,
@@ -72,7 +73,8 @@ const listarComPaginacao = async ({
       $and: [{ status: { $ne: "arquivado" } }, ...query],
     })
       .skip(skip)
-      .limit(limite),
+      .limit(limite)
+      .populate("aplicativos aplicativos.aplicativo"),
     Usuario.countDocuments({
       $and: [{ status: { $ne: "arquivado" } }, ...query],
     }),

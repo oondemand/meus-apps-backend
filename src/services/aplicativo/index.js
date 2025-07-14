@@ -13,6 +13,13 @@ const criar = async ({ aplicativo }) => {
 const deletar = async ({ id }) => {
   const aplicativoDeletado = await Aplicativo.findByIdAndDelete(id);
   if (!aplicativoDeletado) throw new AplicativoNaoEncontradoError();
+
+  // Remove o aplicativo deletado dos usuários
+  await Usuario.updateMany(
+    { "aplicativos.aplicativo": id },
+    { $pull: { aplicativos: { aplicativo: id } } }
+  );
+
   return aplicativoDeletado;
 };
 
