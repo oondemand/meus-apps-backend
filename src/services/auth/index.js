@@ -19,17 +19,15 @@ const primeiroAcesso = async ({ body }) => {
       401
     );
 
-  // try {
   const decoded = jwt.verify(body.code, process.env.JWT_SECRET);
-  const usuario = await Usuario.findByIdAndUpdate(decoded.id, body);
+  const usuario = await Usuario.findById(decoded.id);
+
+  Object.assign(usuario, body);
+  await usuario.save();
+
   if (!usuario) throw new GenericError("Usuário não encontrado", 401);
 
   return usuario;
-  // } catch (error) {
-  //   console.log(error);
-
-  //   throw new GenericError("Token inválido", 401);
-  // }
 };
 
 module.exports = {

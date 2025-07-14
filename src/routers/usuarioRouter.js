@@ -8,6 +8,6 @@ router.post("/", asyncHandler(UsuarioController.criarUsuario));
 router.put("/:id", asyncHandler(UsuarioController.atualizarUsuario));
 router.delete("/:id", asyncHandler(UsuarioController.deletarUsuario));
 
-// router.get("/", asyncHandler(UsuarioController.listarUsuarios));
+router.get("/", asyncHandler(UsuarioController.listarUsuarios));
 
 module.exports = router;

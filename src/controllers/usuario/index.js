@@ -178,32 +178,32 @@ const deletarUsuario = async (req, res) => {
 //   });
 // };
 
-// const listarUsuarios = async (req, res) => {
-//   const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
+const listarUsuarios = async (req, res) => {
+  const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
 
-//   const { limite, page, totalDeUsuarios, usuarios } =
-//     await UsuarioService.listarComPaginacao({
-//       filtros: rest,
-//       pageIndex,
-//       pageSize,
-//       searchTerm,
-//     });
+  const { limite, page, totalDeUsuarios, usuarios } =
+    await UsuarioService.listarComPaginacao({
+      filtros: rest,
+      pageIndex,
+      pageSize,
+      searchTerm,
+    });
 
-//   sendPaginatedResponse({
-//     res,
-//     statusCode: 200,
-//     results: usuarios,
-//     pagination: {
-//       currentPage: page,
-//       totalPages: Math.ceil(totalDeUsuarios / limite),
-//       totalItems: totalDeUsuarios,
-//       itemsPerPage: limite,
-//     },
-//   });
-// };
+  Helpers.sendPaginatedResponse({
+    res,
+    statusCode: 200,
+    results: usuarios,
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(totalDeUsuarios / limite),
+      totalItems: totalDeUsuarios,
+      itemsPerPage: limite,
+    },
+  });
+};
 
 module.exports = {
-  // listarUsuarios,
+  listarUsuarios,
   criarUsuario,
   // obterUsuario,
   atualizarUsuario,

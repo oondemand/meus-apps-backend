@@ -45,41 +45,41 @@ const buscarUsuarioPorEmail = async ({ email }) => {
 //   return usuario;
 // };
 
-// const listarComPaginacao = async ({
-//   pageIndex,
-//   pageSize,
-//   searchTerm,
-//   filtros,
-//   ...rest
-// }) => {
-//   const schema = Usuario.schema;
-//   const camposBusca = ["status", "nome", "email", "tipo"];
+const listarComPaginacao = async ({
+  pageIndex,
+  pageSize,
+  searchTerm,
+  filtros,
+  ...rest
+}) => {
+  const schema = Usuario.schema;
+  const camposBusca = ["status", "nome", "email", "tipo"];
 
-//   const query = FiltersUtils.buildQuery({
-//     filtros,
-//     schema,
-//     searchTerm,
-//     camposBusca,
-//   });
+  const query = FiltersUtils.buildQuery({
+    filtros,
+    schema,
+    searchTerm,
+    camposBusca,
+  });
 
-//   const { page, limite, skip } = PaginationUtils.buildPaginationQuery({
-//     pageIndex,
-//     pageSize,
-//   });
+  const { page, limite, skip } = PaginationUtils.buildPaginationQuery({
+    pageIndex,
+    pageSize,
+  });
 
-//   const [usuarios, totalDeUsuarios] = await Promise.all([
-//     Usuario.find({
-//       $and: [{ status: { $ne: "arquivado" } }, ...query],
-//     })
-//       .skip(skip)
-//       .limit(limite),
-//     Usuario.countDocuments({
-//       $and: [{ status: { $ne: "arquivado" } }, ...query],
-//     }),
-//   ]);
+  const [usuarios, totalDeUsuarios] = await Promise.all([
+    Usuario.find({
+      $and: [{ status: { $ne: "arquivado" } }, ...query],
+    })
+      .skip(skip)
+      .limit(limite),
+    Usuario.countDocuments({
+      $and: [{ status: { $ne: "arquivado" } }, ...query],
+    }),
+  ]);
 
-//   return { usuarios, totalDeUsuarios, page, limite };
-// };
+  return { usuarios, totalDeUsuarios, page, limite };
+};
 
 module.exports = {
   criar,
@@ -88,5 +88,5 @@ module.exports = {
   atualizar,
   // buscarUsuarioPorId,
   buscarUsuarioPorEmail,
-  // listarComPaginacao,
+  listarComPaginacao,
 };
