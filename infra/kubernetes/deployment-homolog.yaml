@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: meus-apps-backend-homolog
-  namespace: central-oondemand-homolog
+  namespace: meus-apps-homolog
 spec:
   replicas: 1
   selector:
@@ -50,7 +50,5 @@ spec:
               value: "${API_OMIE}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
-            - name: BASE_URL_CST
-              value: "${BASE_URL_CST}"
-            - name: BASE_URL_APP_PUBLISHER
-              value: "${BASE_URL_APP_PUBLISHER}"
+            - name: BASE_CLIENT_URL
+              value: "${BASE_CLIENT_URL}"

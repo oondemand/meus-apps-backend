@@ -1,4 +1,4 @@
-name: Deploy adn publish backend
+name: Deploy and publish meus-apps-backend
 
 on:
   pull_request:
@@ -24,10 +24,10 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Criar release com release-it
-        run: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Criar release com release-it
+      #   run: npm run release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Obter tag da release
         id: extract_tag
@@ -68,5 +68,4 @@ jobs:
           DB_TSL: ${{ secrets.DB_TSL }}
           API_OMIE: ${{ secrets.API_OMIE }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          BASE_URL_CST: ${{ secrets.BASE_URL_CST }}
-          BASE_URL_APP_PUBLISHER: ${{ secrets.BASE_URL_APP_PUBLISHER }}
+          BASE_CLIENT_URL: ${{ secrets.BASE_CLIENT_URL }}

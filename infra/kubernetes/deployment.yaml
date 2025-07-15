@@ -52,7 +52,5 @@ spec:
               value: "${JWT_SECRET}"
             - name: SENDGRID_REMETENTE
               value: "${SENDGRID_REMETENTE}"
-            - name: BASE_URL_CST
-              value: "${BASE_URL_CST}"
-            - name: BASE_URL_APP_PUBLISHER
-              value: "${BASE_URL_APP_PUBLISHER}"
+            - name: BASE_CLIENT_URL
+              value: "${BASE_CLIENT_URL}"
