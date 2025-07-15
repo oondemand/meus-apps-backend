@@ -10,6 +10,7 @@ const aplicativoSchema = new mongoose.Schema({
     enum: ["ativo", "inativo", "suspenso"],
     default: "ativo",
   },
+  appKey: { type: String, unique: true, required: true },
   ambiente: { type: String, enum: ["prod", "homolog", "teste"] },
   usuarios: [
     {

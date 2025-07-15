@@ -100,6 +100,15 @@ const convidarUsuario = async ({ email, tipoAcesso = "padrão", id }) => {
   return await Aplicativo.findById(id).populate("usuarios.usuario");
 };
 
+const acessarAplicativo = async ({ appId, userId }) => {
+  const usuario = await Usuario.findById(userId);
+  if (!usuario) throw new UsuarioNaoEncontradoError();
+  const aplicativo = await Aplicativo.findById(appId);
+  if (!aplicativo) throw new AplicativoNaoEncontradoError();
+
+  return { usuario, aplicativo };
+};
+
 module.exports = {
   criar,
   listar,
@@ -107,4 +116,5 @@ module.exports = {
   atualizar,
   obterPorId,
   convidarUsuario,
+  acessarAplicativo,
 };

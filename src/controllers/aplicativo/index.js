@@ -47,11 +47,28 @@ const convidarUsuario = async (req, res) => {
   Helpers.sendResponse({ res, statusCode: 200 });
 };
 
+const acessarAplicativo = async (req, res) => {
+  const { appId } = req.query;
+  const { usuario, aplicativo } = await AplicativoService.acessarAplicativo({
+    appId,
+    userId: req.usuario?._id,
+  });
+
+  const token = usuario.gerarToken();
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    redirect: `${aplicativo.url}?code=${token}#minha-ancora`,
+  });
+};
+
 module.exports = {
-  criarAplicativo,
-  atualizarAplicativo,
-  deletarAplicativo,
   listarTodos,
   buscarPorId,
+  criarAplicativo,
   convidarUsuario,
+  deletarAplicativo,
+  acessarAplicativo,
+  atualizarAplicativo,
 };

@@ -32,8 +32,8 @@ UsuarioSchema.pre("save", async function (next) {
   next();
 });
 
-UsuarioSchema.methods.gerarToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+UsuarioSchema.methods.gerarToken = function (props = {}) {
+  return jwt.sign({ id: this._id, ...props }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
 };
