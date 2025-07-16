@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: meus-apps-backend-ingress
-  namespace: central-oondemand
+  namespace: meus-apps
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -12,10 +12,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api.app1.central.oondemand.online
+        - api.meus-apps.oondemand.online
       secretName: app-tls
   rules:
-    - host: api.app1.central.oondemand.online
+    - host: api.meus-apps.oondemand.online
       http:
         paths:
           - path: /
