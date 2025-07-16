@@ -24,10 +24,10 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      # - name: Criar release com release-it
-      #   run: npm run release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Criar release com release-it
+        run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Obter tag da release
         id: extract_tag
