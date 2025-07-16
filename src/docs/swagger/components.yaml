@@ -1,0 +1,124 @@
+securitySchemes:
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+
+parameters:
+  PageIndexParam:
+    in: query
+    name: pageIndex
+    schema:
+      type: integer
+      default: 0
+    description: Número da página
+
+  PageSizeParam:
+    in: query
+    name: pageSize
+    schema:
+      type: integer
+      default: 10
+    description: Quantidade de itens por página
+
+schemas:
+  BasePaginatedResponse:
+    type: object
+    properties:
+      pagination:
+        type: object
+        properties:
+          currentPage:
+            type: integer
+          totalPages:
+            type: integer
+          totalItems:
+            type: integer
+          itemsPerPage:
+            type: integer
+
+  Usuario:
+    type: object
+    properties:
+      _id:
+        type: string
+      tipo:
+        type: string
+        enum: [master, admin-app, padrao]
+        default: padrao
+      nome:
+        type: string
+      email:
+        type: string
+      telefone:
+        type: string
+      senha:
+        type: string
+      aplicativos:
+        type: array
+        items:
+          type: object
+          properties:
+            aplicativo:
+              type: string
+              description: ObjectId do aplicativo
+            tipoAcesso:
+              type: string
+      status:
+        type: string
+        enum: [ativo, inativo, pendente]
+        default: pendente
+
+  Aplicativo:
+    type: object
+    properties:
+      _id:
+        type: string
+      url:
+        type: string
+      icone:
+        type: string
+      nome:
+        type: string
+      tipoAcessoUrl:
+        type: string
+      status:
+        type: string
+        enum: [ativo, inativo, suspenso]
+        default: ativo
+      appKey:
+        type: string
+      ambiente:
+        type: string
+        enum: [prod, homolog, teste]
+      usuarios:
+        type: array
+        items:
+          type: object
+          properties:
+            usuario:
+              type: string
+              description: ObjectId do usuário
+            tipoAcesso:
+              type: string
+
+  Sistema:
+    type: object
+    properties:
+      _id:
+        type: string
+      sendgrid_api_key:
+        type: string
+      remetente:
+        type: object
+        properties:
+          nome:
+            type: string
+          email:
+            type: string
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time

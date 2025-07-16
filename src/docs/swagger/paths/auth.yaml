@@ -1,0 +1,97 @@
+/auth/login:
+  post:
+    tags:
+      - Autenticação
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              senha:
+                type: string
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                usuario:
+                  $ref: "#/components/schemas/Usuario"
+
+/auth/validar-token:
+  get:
+    tags:
+      - Autenticação
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  $ref: "#/components/schemas/Usuario"
+
+/auth/autenticar-aplicativo:
+  get:
+    tags:
+      - Autenticação
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    email:
+                      type: string
+                    nome:
+                      type: string
+                    aplicativo:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        nome:
+                          type: string
+                        tipoAcesso:
+                          type: string
+
+/auth/primeiro-acesso:
+  post:
+    tags:
+      - Autenticação
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              senha:
+                type: string
+              nome:
+                type: string
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                usuario:
+                  $ref: "#/components/schemas/Usuario"
