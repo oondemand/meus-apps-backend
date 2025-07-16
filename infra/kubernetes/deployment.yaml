@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: central-oondemand-backend
+  name: meus-apps-backend
   namespace: central-oondemand
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: central-oondemand-backend
+      app: meus-apps-backend
   template:
     metadata:
       labels:
-        app: central-oondemand-backend
+        app: meus-apps-backend
     spec:
       containers:
-        - name: central-oondemand-backend-container
-          image: ghcr.io/oondemand/central-oondemand-backend:${IMAGE_TAG}
+        - name: meus-apps-backend-container
+          image: ghcr.io/oondemand/meus-apps-backend:${IMAGE_TAG}
           ports:
             - containerPort: 4000
           resources:
@@ -52,7 +52,5 @@ spec:
               value: "${JWT_SECRET}"
             - name: SENDGRID_REMETENTE
               value: "${SENDGRID_REMETENTE}"
-            - name: BASE_URL_CST
-              value: "${BASE_URL_CST}"
-            - name: BASE_URL_APP_PUBLISHER
-              value: "${BASE_URL_APP_PUBLISHER}"
+            - name: BASE_CLIENT_URL
+              value: "${BASE_CLIENT_URL}"

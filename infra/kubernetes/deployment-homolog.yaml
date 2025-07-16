@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: central-oondemand-backend-homolog
-  namespace: central-oondemand-homolog
+  name: meus-apps-backend-homolog
+  namespace: meus-apps-homolog
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: central-oondemand-backend-homolog
+      app: meus-apps-backend-homolog
   template:
     metadata:
       labels:
-        app: central-oondemand-backend-homolog
+        app: meus-apps-backend-homolog
     spec:
       containers:
-        - name: central-oondemand-backend-homolog-container
-          image: ghcr.io/oondemand/central-oondemand-backend:${IMAGE_TAG}-homolog
+        - name: meus-apps-backend-homolog-container
+          image: ghcr.io/oondemand/meus-apps-backend:${IMAGE_TAG}-homolog
           ports:
             - containerPort: 4000
           resources:
@@ -50,7 +50,5 @@ spec:
               value: "${API_OMIE}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
-            - name: BASE_URL_CST
-              value: "${BASE_URL_CST}"
-            - name: BASE_URL_APP_PUBLISHER
-              value: "${BASE_URL_APP_PUBLISHER}"
+            - name: BASE_CLIENT_URL
+              value: "${BASE_CLIENT_URL}"

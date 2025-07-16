@@ -1,20 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const UsuarioController = require("../controllers/usuario");
+const AuthController = require("../controllers/auth");
 const authMiddleware = require("../middlewares/authMiddleware");
+const authAplicativo = require("../middlewares/authAplicativo");
+
 const { asyncHandler } = require("../utils/helpers");
 
-router.post("/login", asyncHandler(UsuarioController.loginUsuario));
+router.post("/login", asyncHandler(AuthController.login));
 router.get(
   "/validar-token",
   authMiddleware,
-  asyncHandler(UsuarioController.validarToken)
+  asyncHandler(AuthController.validarToken)
 );
 
-router.post(
-  "/esqueci-minha-senha",
-  asyncHandler(UsuarioController.esqueciMinhaSenha)
+router.get(
+  "/autenticar-aplicativo",
+  authMiddleware,
+  authAplicativo,
+  asyncHandler(AuthController.autenticarApp)
 );
 
-router.post("/alterar-senha", asyncHandler(UsuarioController.alterarSenha));
+router.post("/primeiro-acesso", asyncHandler(AuthController.primeiroAcesso));
+
 module.exports = router;

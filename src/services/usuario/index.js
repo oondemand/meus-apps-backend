@@ -1,9 +1,10 @@
 const Usuario = require("../../models/Usuario");
-const CredenciaisInvalidasError = require("../errors/usuario/credenciaisInvalidas");
+// const CredenciaisInvalidasError = require("../errors/usuario/credenciaisInvalidas");
 const UsuarioNaoEncontradoError = require("../errors/usuario/usuarioNaoEncontrado");
 const bcrypt = require("bcryptjs");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
+const Aplicativo = require("../../models/Aplicativo");
 
 const criar = async ({ usuario }) => {
   const novoUsuario = new Usuario(usuario);
@@ -11,40 +12,37 @@ const criar = async ({ usuario }) => {
 };
 
 const atualizar = async ({ id, usuario }) => {
-  const usuarioAtualizado = await Usuario.findByIdAndUpdate(id, usuario, {
-    new: true,
-  });
-  if (!usuarioAtualizado) return new UsuarioNaoEncontradoError();
-  return usuarioAtualizado;
+  const usuarioExistente = await Usuario.findById(id);
+  if (!usuarioExistente) return new UsuarioNaoEncontradoError();
+
+  Object.assign(usuarioExistente, usuario);
+  await usuarioExistente.save();
+
+  return usuarioExistente;
 };
 
-const excluir = async ({ id }) => {
-  const usuarioExcluido = await Usuario.findByIdAndUpdate(id, {
-    status: "arquivado",
-  });
-  if (!usuarioExcluido) return new UsuarioNaoEncontradoError();
-  return usuarioExcluido;
+const deletar = async ({ id }) => {
+  const usuarioDeletado = await Usuario.findByIdAndDelete(id);
+  if (!usuarioDeletado) throw new UsuarioNaoEncontradoError();
+
+  // Remove o usuário deletado dos aplicativos
+  await Aplicativo.updateMany(
+    { "usuarios.usuario": id },
+    { $pull: { usuarios: { usuario: id } } }
+  );
+
+  return usuarioDeletado;
 };
 
-const buscarUsuarioPorId = async ({ id }) => {
-  const usuario = await Usuario.findById(id);
-  if (!usuario || !id) throw new UsuarioNaoEncontradoError();
-  return usuario;
-};
+// const buscarUsuarioPorId = async ({ id }) => {
+//   const usuario = await Usuario.findById(id);
+//   if (!usuario || !id) throw new UsuarioNaoEncontradoError();
+//   return usuario;
+// };
 
 const buscarUsuarioPorEmail = async ({ email }) => {
-  const usuario = await Usuario.findOne({
-    email,
-    status: { $ne: "arquivado" },
-  });
-  if (!usuario || !email) throw new UsuarioNaoEncontradoError();
-  return usuario;
-};
-
-const login = async ({ email, senha }) => {
-  const usuario = await buscarUsuarioPorEmail({ email });
-  if (!(await bcrypt.compare(senha, usuario.senha)))
-    throw new CredenciaisInvalidasError();
+  const usuario = await Usuario.findOne({ email });
+  if (!usuario) throw new UsuarioNaoEncontradoError();
   return usuario;
 };
 
@@ -56,7 +54,7 @@ const listarComPaginacao = async ({
   ...rest
 }) => {
   const schema = Usuario.schema;
-  const camposBusca = ["status", "nome", "email", "tipo"];
+  const camposBusca = ["status", "nome", "email", "tipo", "telefone"];
 
   const query = FiltersUtils.buildQuery({
     filtros,
@@ -75,7 +73,8 @@ const listarComPaginacao = async ({
       $and: [{ status: { $ne: "arquivado" } }, ...query],
     })
       .skip(skip)
-      .limit(limite),
+      .limit(limite)
+      .populate("aplicativos aplicativos.aplicativo"),
     Usuario.countDocuments({
       $and: [{ status: { $ne: "arquivado" } }, ...query],
     }),
@@ -86,10 +85,10 @@ const listarComPaginacao = async ({
 
 module.exports = {
   criar,
-  login,
-  excluir,
+  // login,
+  deletar,
   atualizar,
-  buscarUsuarioPorId,
+  // buscarUsuarioPorId,
   buscarUsuarioPorEmail,
   listarComPaginacao,
 };

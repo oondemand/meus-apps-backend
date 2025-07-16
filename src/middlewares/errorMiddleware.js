@@ -1,5 +1,5 @@
 const multer = require("multer");
-const helpers = require("../utils/helpers");
+const Helpers = require("../utils/helpers");
 const GenericError = require("../services/errors/generic");
 
 const errorMiddleware = (error, _, res, next) => {
@@ -7,7 +7,7 @@ const errorMiddleware = (error, _, res, next) => {
 
   if (error instanceof multer.MulterError) {
     if (error.code === "LIMIT_FILE_SIZE") {
-      return helpers.sendErrorResponse({
+      return Helpers.sendErrorResponse({
         res,
         status: 513,
         error: error.message,
@@ -15,7 +15,7 @@ const errorMiddleware = (error, _, res, next) => {
       });
     }
 
-    return helpers.sendErrorResponse({
+    return Helpers.sendErrorResponse({
       res,
       statusCode: 500,
       error: error.message,
@@ -24,9 +24,7 @@ const errorMiddleware = (error, _, res, next) => {
   }
 
   if (error instanceof GenericError) {
-    console.log("ERROR:", error.statusCode);
-
-    return helpers.sendErrorResponse({
+    return Helpers.sendErrorResponse({
       res,
       statusCode: error.statusCode,
       error: error.details,
@@ -34,7 +32,7 @@ const errorMiddleware = (error, _, res, next) => {
     });
   }
 
-  return helpers.sendErrorResponse({
+  return Helpers.sendErrorResponse({
     res,
     statusCode: 500,
     error: error.message,
