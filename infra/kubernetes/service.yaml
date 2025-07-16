@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: meus-apps-backend-service
-  namespace: central-oondemand
+  namespace: meus-apps
 spec:
   type: NodePort
   selector:

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: meus-apps-backend
-  namespace: central-oondemand
+  namespace: meus-apps
 spec:
   replicas: 1
   selector:
@@ -46,8 +46,6 @@ spec:
               value: "${DB_REPLICA_SET}"
             - name: DB_TSL
               value: "${DB_TSL}"
-            - name: API_OMIE
-              value: "${API_OMIE}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
             - name: SENDGRID_REMETENTE

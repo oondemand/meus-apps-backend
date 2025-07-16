@@ -46,8 +46,6 @@ spec:
               value: "${DB_REPLICA_SET}"
             - name: DB_TSL
               value: "${DB_TSL}"
-            - name: API_OMIE
-              value: "${API_OMIE}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
             - name: BASE_CLIENT_URL
