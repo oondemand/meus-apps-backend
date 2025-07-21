@@ -1,4 +1,4 @@
-name: Deploy meus-apps-backend
+name: Deploy and publish meus-apps-backend homolog
 
 on:
   push:
