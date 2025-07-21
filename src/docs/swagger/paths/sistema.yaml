@@ -1,0 +1,52 @@
+/sistema/:
+  get:
+    tags:
+      - Sistema
+    description: Retorna as configurações do sistema.
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sistema"
+/sistema/{id}:
+  put:
+    tags:
+      - Sistema
+    description: Atualiza as configurações do sistema.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID da configuração do sistema
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Sistema"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sistema"
+/sistema/teste-email:
+  post:
+    tags:
+      - Sistema
+    description: Testa o envio de e-mail.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+    responses:
+      200:
+        description: E-mail enviado com sucesso

@@ -1,4 +1,4 @@
-name: Deploy meus-apps-backend
+name: Deploy and publish meus-apps-backend homolog
 
 on:
   push:
@@ -65,4 +65,4 @@ jobs:
           DB_REPLICA_SET: ${{ secrets.DB_REPLICA_SET_HOMOLOG }}
           DB_TSL: ${{ secrets.DB_TSL_HOMOLOG }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          BASE_CLIENT_URL: ${{ secrets.BASE_CLIENT_URL }}
+          BASE_CLIENT_URL: ${{ secrets.BASE_CLIENT_URL_HOMOLOG }}

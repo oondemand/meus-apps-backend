@@ -7,6 +7,9 @@ const morgan = require("morgan");
 const authMiddleware = require("./middlewares/authMiddleware");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./docs/swagger");
+
 dotenv.config();
 
 const app = express();
@@ -18,7 +21,9 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
+app.use("/", require("./routers/statusRouter"));
 app.use("/auth", require("./routers/authRouter"));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(authMiddleware);
 // app.use(logMiddleware);

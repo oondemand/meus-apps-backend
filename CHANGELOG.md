@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1 (2025-07-21)
+
+## 0.2.0 (2025-07-21)
+
+### ✨ Features
+
+* update workflow name for clarity in deployment process ([a187a4c](https://github.com/oondemand/meus-apps-backend/commit/a187a4c2c8f67a81ecfff88ef1440413a8122f03))
+
+## 0.1.6 (2025-07-16)
+
+## 0.1.5 (2025-07-16)
+
 ## 0.1.4 (2025-07-16)
 
 ## 0.1.3 (2025-07-16)

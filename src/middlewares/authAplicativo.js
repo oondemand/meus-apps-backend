@@ -13,10 +13,16 @@ const authAplicativo = async (req, res, next) => {
   }
 
   try {
-    const aplicativo = await Aplicativo.findOne({
+    let aplicativo = await Aplicativo.findOne({
       appKey: origin,
       "usuarios.usuario": req.usuario._id,
     });
+
+    if (!aplicativo && req.usuario.tipo === "master") {
+      aplicativo = await Aplicativo.findOne({
+        appKey: origin,
+      });
+    }
 
     if (!aplicativo) {
       return Helpers.sendErrorResponse({

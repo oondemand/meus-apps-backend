@@ -1,0 +1,135 @@
+/aplicativos/:
+  post:
+    tags:
+      - Aplicativos
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Aplicativo"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aplicativo"
+  get:
+    tags:
+      - Aplicativos
+    description: Lista paginada de aplicativos.
+    parameters:
+      - $ref: "#/components/parameters/PageIndexParam"
+      - $ref: "#/components/parameters/PageSizeParam"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BasePaginatedResponse"
+                - type: object
+                  properties:
+                    results:
+                      items:
+                        $ref: "#/components/schemas/Aplicativo"
+/aplicativos/acessar-aplicativo:
+  get:
+    tags:
+      - Aplicativos
+    parameters:
+      - in: query
+        name: appId
+        required: true
+        schema:
+          type: string
+        description: ID do aplicativo
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirect:
+                  type: string
+/aplicativos/{id}:
+  get:
+    tags:
+      - Aplicativos
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do aplicativo
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aplicativo"
+  put:
+    tags:
+      - Aplicativos
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do aplicativo
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Aplicativo"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aplicativo"
+  delete:
+    tags:
+      - Aplicativos
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do aplicativo
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aplicativo"
+  post:
+    tags:
+      - Aplicativos
+    summary: Convidar usuário para o aplicativo
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: ID do aplicativo
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              tipoAcesso:
+                type: string
+    responses:
+      200:
+        description: Usuário convidado com sucesso
