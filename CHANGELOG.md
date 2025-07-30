@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2025-07-30)
+
+### ✨ Features
+
+* run deploy on push at branch main ([6a7d61d](https://github.com/oondemand/meus-apps-backend/commit/6a7d61d6fc8278fbb28d08c40f1f09bc7ec96998))
+
 ## 0.2.2 (2025-07-21)
 
 ## 0.2.1 (2025-07-21)
