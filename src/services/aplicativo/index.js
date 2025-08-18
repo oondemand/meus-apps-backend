@@ -57,6 +57,12 @@ const obterPorId = async ({ id }) => {
   return aplicativo;
 };
 
+const obterPorAppKey = async ({ appKey }) => {
+  const aplicativo = await Aplicativo.findOne({ appKey });
+  if (!aplicativo) throw new AplicativoNaoEncontradoError();
+  return aplicativo;
+};
+
 const convidarUsuario = async ({ email, tipoAcesso = "padrão", id }) => {
   const aplicativo = await Aplicativo.findById(id);
   if (!aplicativo) throw new AplicativoNaoEncontradoError();
@@ -115,6 +121,7 @@ module.exports = {
   deletar,
   atualizar,
   obterPorId,
+  obterPorAppKey,
   convidarUsuario,
   acessarAplicativo,
 };

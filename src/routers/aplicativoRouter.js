@@ -6,6 +6,8 @@ const { asyncHandler } = require("../utils/helpers");
 
 router.get("/", asyncHandler(AplicativoController.listarTodos));
 router.get("/acessar-aplicativo", AplicativoController.acessarAplicativo);
+router.get("/acessar-assistentes", AplicativoController.acessarAssistente);
+
 router.get("/:id", asyncHandler(AplicativoController.buscarPorId));
 
 router.post("/", asyncHandler(AplicativoController.criarAplicativo));

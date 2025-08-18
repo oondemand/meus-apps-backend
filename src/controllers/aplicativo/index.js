@@ -1,3 +1,4 @@
+const Sistema = require("../../models/Sistema");
 const AplicativoService = require("../../services/aplicativo");
 const Helpers = require("../../utils/helpers");
 
@@ -59,7 +60,29 @@ const acessarAplicativo = async (req, res) => {
   Helpers.sendResponse({
     res,
     statusCode: 200,
-    redirect: `${aplicativo.url}?code=${token}#minha-ancora`,
+    redirect: `${aplicativo.url}?code=${token}`,
+  });
+};
+
+const acessarAssistente = async (req, res) => {
+  const { appId } = req.query;
+  const sistemaConfig = await Sistema.findOne();
+
+  const app = await AplicativoService.obterPorAppKey({
+    appKey: sistemaConfig.assistentes.appKey,
+  });
+
+  const { usuario, aplicativo } = await AplicativoService.acessarAplicativo({
+    appId,
+    userId: req.usuario?._id,
+  });
+
+  const token = usuario.gerarToken();
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    redirect: `${app.url}/assistentes?code=${token}&searchTerm=${aplicativo._id}`,
   });
 };
 
@@ -71,4 +94,5 @@ module.exports = {
   deletarAplicativo,
   acessarAplicativo,
   atualizarAplicativo,
+  acessarAssistente,
 };

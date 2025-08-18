@@ -7,6 +7,7 @@ const authAplicativo = require("../middlewares/authAplicativo");
 const { asyncHandler } = require("../utils/helpers");
 
 router.post("/login", asyncHandler(AuthController.login));
+
 router.get(
   "/validar-token",
   authMiddleware,
