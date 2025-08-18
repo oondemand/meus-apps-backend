@@ -82,7 +82,7 @@ const acessarAssistente = async (req, res) => {
   Helpers.sendResponse({
     res,
     statusCode: 200,
-    redirect: `${app.url}/?code=${token}&searchTerm=${aplicativo._id}`,
+    redirect: `${app.url}/?code=${token}&app=${aplicativo._id}`,
   });
 };
 
