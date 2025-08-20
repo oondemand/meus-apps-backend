@@ -88,7 +88,7 @@ const convidarUsuario = async ({ email, tipoAcesso = "padrao", id }) => {
       $addToSet: { usuarios: { usuario: usuario._id, tipoAcesso } },
     });
 
-    const token = usuario.gerarToken();
+    const token = usuario.gerarToken({ aplicativo: id });
     const url = new URL("/first-login", process.env.BASE_CLIENT_URL);
     url.searchParams.append("code", token);
 

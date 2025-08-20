@@ -45,7 +45,18 @@ const autenticarApp = async (req, res) => {
 };
 
 const primeiroAcesso = async (req, res) => {
-  const usuario = await AuthService.primeiroAcesso({ body: req.body });
+  const { usuario, tokenExpirado } = await AuthService.primeiroAcesso({
+    body: req.body,
+  });
+
+  if (tokenExpirado) {
+    return Helpers.sendErrorResponse({
+      res,
+      statusCode: 404,
+      message:
+        "Link de autenticação expirado, um novo link foi enviado para o seu email!",
+    });
+  }
 
   Helpers.sendResponse({
     res,
