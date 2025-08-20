@@ -1,5 +1,7 @@
+const { default: mongoose } = require("mongoose");
 const Aplicativo = require("../models/Aplicativo");
 const Helpers = require("../utils/helpers");
+const Sistema = require("../models/Sistema");
 
 const authAplicativo = async (req, res, next) => {
   const origin = req.headers.origin;
@@ -15,7 +17,7 @@ const authAplicativo = async (req, res, next) => {
   try {
     let aplicativo = await Aplicativo.findOne({
       appKey: origin,
-      "usuarios.usuario": req.usuario._id,
+      "usuarios.usuario": new mongoose.Types.ObjectId(req.usuario._id),
     });
 
     if (!aplicativo && req.usuario.tipo === "master") {
@@ -35,6 +37,8 @@ const authAplicativo = async (req, res, next) => {
     req.aplicativo = aplicativo;
     next();
   } catch (error) {
+    console.log(error);
+
     return Helpers.sendErrorResponse({
       res,
       statusCode: 401,

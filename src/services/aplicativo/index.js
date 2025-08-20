@@ -1,4 +1,5 @@
 const Aplicativo = require("../../models/Aplicativo");
+const Sistema = require("../../models/Sistema");
 const Usuario = require("../../models/Usuario");
 const { emailPrimeiroAcesso } = require("../../utils/emailUtils");
 
@@ -27,13 +28,18 @@ const listar = async ({ usuario }) => {
   const usuarioExistente = await Usuario.findById(usuario);
   if (!usuarioExistente) throw new UsuarioNaoEncontradoError();
 
+  const sistema = await Sistema.findOne();
+
   if (usuario.tipo === "master") {
-    const aplicativos = await Aplicativo.find();
+    const aplicativos = await Aplicativo.find({
+      appKey: { $ne: sistema.assistentes.appKey },
+    });
     return aplicativos;
   }
 
   const aplicativos = await Aplicativo.find({
     "usuarios.usuario": usuarioExistente._id,
+    appKey: { $ne: sistema.assistentes.appKey },
   });
 
   return aplicativos;
@@ -63,7 +69,7 @@ const obterPorAppKey = async ({ appKey }) => {
   return aplicativo;
 };
 
-const convidarUsuario = async ({ email, tipoAcesso = "padrão", id }) => {
+const convidarUsuario = async ({ email, tipoAcesso = "padrao", id }) => {
   const aplicativo = await Aplicativo.findById(id);
   if (!aplicativo) throw new AplicativoNaoEncontradoError();
 
