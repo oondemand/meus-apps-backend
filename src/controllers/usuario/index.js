@@ -179,7 +179,7 @@ const deletarUsuario = async (req, res) => {
 // };
 
 const listarUsuarios = async (req, res) => {
-  const { pageIndex, pageSize, searchTerm, ...rest } = req.query;
+  const { pageIndex, pageSize, searchTerm, aplicativoId, ...rest } = req.query;
 
   const { limite, page, totalDeUsuarios, usuarios } =
     await UsuarioService.listarComPaginacao({
@@ -187,6 +187,7 @@ const listarUsuarios = async (req, res) => {
       pageIndex,
       pageSize,
       searchTerm,
+      aplicativoId,
     });
 
   Helpers.sendPaginatedResponse({

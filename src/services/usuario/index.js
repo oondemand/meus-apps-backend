@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const FiltersUtils = require("../../utils/pagination/filter");
 const PaginationUtils = require("../../utils/pagination");
 const Aplicativo = require("../../models/Aplicativo");
+const { default: mongoose } = require("mongoose");
 
 const criar = async ({ usuario }) => {
   const novoUsuario = new Usuario(usuario);
@@ -51,6 +52,7 @@ const listarComPaginacao = async ({
   pageSize,
   searchTerm,
   filtros,
+  aplicativoId,
   ...rest
 }) => {
   const schema = Usuario.schema;
@@ -68,15 +70,19 @@ const listarComPaginacao = async ({
     pageSize,
   });
 
+  const aplicativo = aplicativoId
+    ? { "aplicativos.aplicativo": new mongoose.Types.ObjectId(aplicativoId) }
+    : [];
+
   const [usuarios, totalDeUsuarios] = await Promise.all([
     Usuario.find({
-      $and: [{ status: { $ne: "arquivado" } }, ...query],
+      $and: [{ status: { $ne: "arquivado" }, ...aplicativo }, ...query],
     })
       .skip(skip)
       .limit(limite)
       .populate("aplicativos aplicativos.aplicativo"),
     Usuario.countDocuments({
-      $and: [{ status: { $ne: "arquivado" } }, ...query],
+      $and: [{ status: { $ne: "arquivado" }, ...aplicativo }, ...query],
     }),
   ]);
 
