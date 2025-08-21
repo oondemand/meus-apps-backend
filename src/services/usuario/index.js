@@ -35,11 +35,11 @@ const deletar = async ({ id }) => {
   return usuarioDeletado;
 };
 
-// const buscarUsuarioPorId = async ({ id }) => {
-//   const usuario = await Usuario.findById(id);
-//   if (!usuario || !id) throw new UsuarioNaoEncontradoError();
-//   return usuario;
-// };
+const buscarUsuarioPorId = async ({ id }) => {
+  const usuario = await Usuario.findById(id);
+  if (!usuario || !id) throw new UsuarioNaoEncontradoError();
+  return usuario;
+};
 
 const buscarUsuarioPorEmail = async ({ email }) => {
   const usuario = await Usuario.findOne({ email });
@@ -94,7 +94,7 @@ module.exports = {
   // login,
   deletar,
   atualizar,
-  // buscarUsuarioPorId,
-  buscarUsuarioPorEmail,
   listarComPaginacao,
+  buscarUsuarioPorId,
+  buscarUsuarioPorEmail,
 };

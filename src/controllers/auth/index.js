@@ -52,7 +52,7 @@ const primeiroAcesso = async (req, res) => {
   if (tokenExpirado) {
     return Helpers.sendErrorResponse({
       res,
-      statusCode: 404,
+      statusCode: 401,
       message:
         "Link de autenticação expirado, um novo link foi enviado para o seu email!",
     });

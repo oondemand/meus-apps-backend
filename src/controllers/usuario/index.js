@@ -11,10 +11,12 @@ const criarUsuario = async (req, res) => {
   Helpers.sendResponse({ res, statusCode: 201, usuario });
 };
 
-// const obterUsuario = async (req, res) => {
-//   const usuario = await UsuarioService.buscarUsuarioPorId(req.params.id);
-//   sendResponse({ res, statusCode: 200, usuario });
-// };
+const obterUsuario = async (req, res) => {
+  const usuario = await UsuarioService.buscarUsuarioPorId({
+    id: req.params.id,
+  });
+  Helpers.sendResponse({ res, statusCode: 200, usuario });
+};
 
 const atualizarUsuario = async (req, res) => {
   const usuario = await UsuarioService.atualizar({
@@ -206,7 +208,7 @@ const listarUsuarios = async (req, res) => {
 module.exports = {
   listarUsuarios,
   criarUsuario,
-  // obterUsuario,
+  obterUsuario,
   atualizarUsuario,
   deletarUsuario,
   // validarToken,
