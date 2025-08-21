@@ -43,6 +43,7 @@ const convidarUsuario = async (req, res) => {
     email: req?.body?.email,
     tipoAcesso: req?.body?.tipoAcesso,
     id: req?.params?.id,
+    editarAssistente: req?.body?.editarAssistente,
   });
 
   Helpers.sendResponse({ res, statusCode: 200 });

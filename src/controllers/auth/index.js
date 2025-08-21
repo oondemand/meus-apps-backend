@@ -43,6 +43,8 @@ const autenticarApp = async (req, res) => {
     _id: req.usuario._id,
     email: req.usuario.email,
     nome: req.usuario?.nome,
+    editarAssistente:
+      req.usuario.tipo === "master" ? true : req.usuario?.editarAssistente,
     aplicativo: {
       _id: req.aplicativo._id,
       nome: req.aplicativo.nome,

@@ -69,7 +69,12 @@ const obterPorAppKey = async ({ appKey }) => {
   return aplicativo;
 };
 
-const convidarUsuario = async ({ email, tipoAcesso = "padrao", id }) => {
+const convidarUsuario = async ({
+  email,
+  tipoAcesso = "padrao",
+  id,
+  editarAssistente,
+}) => {
   const aplicativo = await Aplicativo.findById(id);
   if (!aplicativo) throw new AplicativoNaoEncontradoError();
 
@@ -80,6 +85,7 @@ const convidarUsuario = async ({ email, tipoAcesso = "padrao", id }) => {
       email,
       senha: "123456",
       aplicativos: [{ aplicativo: id, tipoAcesso }],
+      editarAssistente,
     });
 
     await usuario.save();

@@ -9,6 +9,7 @@ const UsuarioSchema = new mongoose.Schema({
     default: "padrao",
   },
   email: { type: String, required: true, unique: true },
+  editarAssistente: { type: Boolean, default: false },
   telefone: { type: String },
   nome: { type: String },
   senha: { type: String },
