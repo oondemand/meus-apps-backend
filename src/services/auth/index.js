@@ -4,7 +4,10 @@ const CredenciaisInvalidasError = require("../errors/auth/credenciaisInvalidas")
 const GenericError = require("../errors/generic");
 const Usuario = require("../../models/Usuario");
 const jwt = require("jsonwebtoken");
-const { emailPrimeiroAcesso } = require("../../utils/emailUtils");
+const {
+  emailPrimeiroAcesso,
+  emailEsqueciMinhaSenha,
+} = require("../../utils/emailUtils");
 
 const login = async ({ email, senha }) => {
   const usuario = await UsuarioService.buscarUsuarioPorEmail({ email });
@@ -48,7 +51,42 @@ const primeiroAcesso = async ({ body }) => {
   }
 };
 
+const esqueciMinhaSenha = async ({ email }) => {
+  const usuario = await UsuarioService.buscarUsuarioPorEmail({ email });
+
+  const token = usuario.gerarToken();
+
+  const url = new URL("/alterar-senha", process.env.BASE_CLIENT_URL);
+  url.searchParams.append("code", token);
+
+  await emailEsqueciMinhaSenha({
+    usuario,
+    url: url.toString(),
+  });
+
+  return usuario;
+};
+
+const alterarSenha = async ({ code, novaSenha, confirmacao }) => {
+  if (!novaSenha)
+    throw new GenericError("Nova senha é um campo obrigatório", 404);
+
+  if (!confirmacao)
+    throw new GenericError("Confirmação é um campo obrigatório", 404);
+
+  if (novaSenha !== confirmacao)
+    throw new GenericError("A confirmação precisa ser igual a senha.", 400);
+
+  const decoded = jwt.verify(code, process.env.JWT_SECRET);
+
+  const usuario = await Usuario.findById(decoded.id);
+  usuario.senha = novaSenha;
+  return await usuario.save();
+};
+
 module.exports = {
   login,
+  alterarSenha,
   primeiroAcesso,
+  esqueciMinhaSenha,
 };

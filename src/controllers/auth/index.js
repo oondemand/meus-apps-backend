@@ -70,9 +70,41 @@ const primeiroAcesso = async (req, res) => {
   });
 };
 
+const esqueciMinhaSenha = async (req, res) => {
+  const { email } = req.body;
+  await AuthService.esqueciMinhaSenha({ email });
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    message: "Email enviado",
+  });
+};
+
+const alterarSenha = async (req, res) => {
+  const usuario = await AuthService.alterarSenha({
+    code: req?.body?.code,
+    novaSenha: req?.body?.novaSenha,
+    confirmacao: req?.body?.confirmacao,
+  });
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    token: usuario.gerarToken(),
+    usuario: {
+      _id: usuario._id,
+      nome: usuario.nome,
+      tipo: usuario.tipo,
+    },
+  });
+};
+
 module.exports = {
   login,
+  alterarSenha,
   validarToken,
-  primeiroAcesso,
   autenticarApp,
+  primeiroAcesso,
+  esqueciMinhaSenha,
 };

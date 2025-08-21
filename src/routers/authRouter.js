@@ -23,4 +23,11 @@ router.get(
 
 router.post("/primeiro-acesso", asyncHandler(AuthController.primeiroAcesso));
 
+router.post(
+  "/esqueci-minha-senha",
+  asyncHandler(AuthController.esqueciMinhaSenha)
+);
+
+router.post("/alterar-senha", asyncHandler(AuthController.alterarSenha));
+
 module.exports = router;
