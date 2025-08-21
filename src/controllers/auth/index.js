@@ -1,3 +1,4 @@
+const Sistema = require("../../models/Sistema");
 const AuthService = require("../../services/auth");
 const Helpers = require("../../utils/helpers");
 
@@ -23,12 +24,20 @@ const validarToken = async (req, res) => {
 };
 
 const autenticarApp = async (req, res) => {
-  const tipoAcesso =
-    req.usuario.tipo === "master"
-      ? "master"
-      : req.aplicativo.usuarios.find(
-          (item) => item.usuario?.toString() === req.usuario._id?.toString()
-        ).tipoAcesso;
+  const sistema = await Sistema.findOne();
+
+  let tipoAcesso = "padrao";
+
+  if (req.usuario.tipo === "master") {
+    tipoAcesso = "master";
+  }
+
+  if (req.aplicativo.appKey !== sistema.assistentes.appKey) {
+    tipoAcesso = req.aplicativo.usuarios.find((item) => {
+      console.log(item);
+      return item.usuario?._id?.toString() === req.usuario._id?.toString();
+    }).tipoAcesso;
+  }
 
   const usuario = {
     _id: req.usuario._id,

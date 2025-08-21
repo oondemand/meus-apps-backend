@@ -17,6 +17,7 @@ const authMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.usuario = await Usuario.findById(decoded.id).select("-senha");
+
     if (!req.usuario) {
       return Helpers.sendErrorResponse({
         res,

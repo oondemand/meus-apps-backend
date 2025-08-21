@@ -20,6 +20,14 @@ const authAplicativo = async (req, res, next) => {
       "usuarios.usuario": new mongoose.Types.ObjectId(req.usuario._id),
     });
 
+    const sistema = await Sistema.findOne({});
+
+    if (sistema.assistentes.appKey === origin) {
+      aplicativo = await Aplicativo.findOne({
+        appKey: origin,
+      });
+    }
+
     if (!aplicativo && req.usuario.tipo === "master") {
       aplicativo = await Aplicativo.findOne({
         appKey: origin,
