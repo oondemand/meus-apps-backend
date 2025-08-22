@@ -137,6 +137,11 @@ const atualizarTipoAcessoDoUsuario = async ({
     { $set: { "usuarios.$.tipoAcesso": novoTipoAcesso } }
   );
 
+  await Usuario.updateOne(
+    { _id: usuarioId, "aplicativos.aplicativo": id },
+    { $set: { "aplicativos.$.tipoAcesso": novoTipoAcesso } }
+  );
+
   if (!aplicativo) throw new AplicativoNaoEncontradoError();
   return aplicativo;
 };

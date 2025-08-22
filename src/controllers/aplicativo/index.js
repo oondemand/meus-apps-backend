@@ -91,7 +91,7 @@ const atualizarTipoAcessoDoUsuario = async (req, res) => {
   const aplicativo = await AplicativoService.atualizarTipoAcessoDoUsuario({
     id: req.params.id,
     usuarioId: req.params.usuarioId,
-    novoTipoAcesso: req.body.tipoAcesso,
+    novoTipoAcesso: req.body.tipoDeAcesso,
   });
 
   Helpers.sendResponse({
