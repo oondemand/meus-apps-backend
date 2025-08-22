@@ -32,7 +32,10 @@ const autenticarApp = async (req, res) => {
     tipoAcesso = "master";
   }
 
-  if (req.aplicativo.appKey !== sistema.assistentes.appKey) {
+  if (
+    req.aplicativo.appKey !== sistema.assistentes.appKey &&
+    req.usuario.tipo !== "master"
+  ) {
     tipoAcesso = req.aplicativo.usuarios.find((item) => {
       console.log(item);
       return item.usuario?._id?.toString() === req.usuario._id?.toString();
@@ -49,7 +52,7 @@ const autenticarApp = async (req, res) => {
       _id: req.aplicativo._id,
       nome: req.aplicativo.nome,
       tipoAcesso,
-    },  
+    },
   };
 
   Helpers.sendResponse({ res, statusCode: 200, usuario });
