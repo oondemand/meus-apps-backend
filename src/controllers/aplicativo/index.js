@@ -87,6 +87,20 @@ const acessarAssistente = async (req, res) => {
   });
 };
 
+const atualizarTipoAcessoDoUsuario = async (req, res) => {
+  const aplicativo = await AplicativoService.atualizarTipoAcessoDoUsuario({
+    id: req.params.id,
+    usuarioId: req.params.usuarioId,
+    novoTipoAcesso: req.body.tipoAcesso,
+  });
+
+  Helpers.sendResponse({
+    res,
+    statusCode: 200,
+    aplicativo,
+  });
+};
+
 module.exports = {
   listarTodos,
   buscarPorId,
@@ -94,6 +108,7 @@ module.exports = {
   convidarUsuario,
   deletarAplicativo,
   acessarAplicativo,
-  atualizarAplicativo,
   acessarAssistente,
+  atualizarAplicativo,
+  atualizarTipoAcessoDoUsuario,
 };

@@ -15,4 +15,9 @@ router.post("/:id", asyncHandler(AplicativoController.convidarUsuario));
 router.put("/:id", asyncHandler(AplicativoController.atualizarAplicativo));
 router.delete("/:id", asyncHandler(AplicativoController.deletarAplicativo));
 
+router.put(
+  "/:id/usuarios/:usuarioId/tipo-acesso",
+  asyncHandler(AplicativoController.atualizarTipoAcessoDoUsuario)
+);
+
 module.exports = router;

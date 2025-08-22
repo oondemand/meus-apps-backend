@@ -49,7 +49,7 @@ const autenticarApp = async (req, res) => {
       _id: req.aplicativo._id,
       nome: req.aplicativo.nome,
       tipoAcesso,
-    },
+    },  
   };
 
   Helpers.sendResponse({ res, statusCode: 200, usuario });

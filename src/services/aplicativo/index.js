@@ -127,6 +127,20 @@ const acessarAplicativo = async ({ appId, userId }) => {
   return { usuario, aplicativo };
 };
 
+const atualizarTipoAcessoDoUsuario = async ({
+  id,
+  usuarioId,
+  novoTipoAcesso,
+}) => {
+  const aplicativo = await Aplicativo.findOneAndUpdate(
+    { _id: id, "usuarios.usuario": usuarioId },
+    { $set: { "usuarios.$.tipoAcesso": novoTipoAcesso } }
+  );
+
+  if (!aplicativo) throw new AplicativoNaoEncontradoError();
+  return aplicativo;
+};
+
 module.exports = {
   criar,
   listar,
@@ -136,4 +150,5 @@ module.exports = {
   obterPorAppKey,
   convidarUsuario,
   acessarAplicativo,
+  atualizarTipoAcessoDoUsuario,
 };
