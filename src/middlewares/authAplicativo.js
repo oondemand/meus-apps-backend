@@ -22,7 +22,7 @@ const authAplicativo = async (req, res, next) => {
 
     const sistema = await Sistema.findOne({});
 
-    if (sistema.assistentes.appKey === origin) {
+    if (sistema.assistentes?.appKey === origin) {
       aplicativo = await Aplicativo.findOne({
         appKey: origin,
       });

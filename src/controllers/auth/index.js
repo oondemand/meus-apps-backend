@@ -33,11 +33,10 @@ const autenticarApp = async (req, res) => {
   }
 
   if (
-    req.aplicativo.appKey !== sistema.assistentes.appKey &&
+    req.aplicativo?.appKey !== sistema.assistentes?.appKey &&
     req.usuario.tipo !== "master"
   ) {
     tipoAcesso = req.aplicativo.usuarios.find((item) => {
-      console.log(item);
       return item.usuario?._id?.toString() === req.usuario._id?.toString();
     }).tipoAcesso;
   }
