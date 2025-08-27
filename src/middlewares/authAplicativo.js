@@ -21,8 +21,12 @@ const authAplicativo = async (req, res, next) => {
     });
 
     const sistema = await Sistema.findOne({});
+    const aplicativosComAcessoLivre = [
+      sistema.assistentes?.appKey,
+      sistema.suporte?.appKey,
+    ];
 
-    if (sistema.assistentes?.appKey === origin) {
+    if (aplicativosComAcessoLivre.includes(origin)) {
       aplicativo = await Aplicativo.findOne({
         appKey: origin,
       });
@@ -43,6 +47,7 @@ const authAplicativo = async (req, res, next) => {
     }
 
     req.aplicativo = aplicativo;
+    req.acessoLiberado = aplicativosComAcessoLivre.includes(origin);
     next();
   } catch (error) {
     console.log(error);

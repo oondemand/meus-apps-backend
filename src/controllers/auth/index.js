@@ -24,18 +24,13 @@ const validarToken = async (req, res) => {
 };
 
 const autenticarApp = async (req, res) => {
-  const sistema = await Sistema.findOne();
-
   let tipoAcesso = "padrao";
 
   if (req.usuario.tipo === "master") {
     tipoAcesso = "master";
   }
 
-  if (
-    req.aplicativo?.appKey !== sistema.assistentes?.appKey &&
-    req.usuario.tipo !== "master"
-  ) {
+  if (!req.acessoLiberado && req.usuario.tipo !== "master") {
     tipoAcesso = req.aplicativo.usuarios.find((item) => {
       return item.usuario?._id?.toString() === req.usuario._id?.toString();
     }).tipoAcesso;

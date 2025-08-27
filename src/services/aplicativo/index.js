@@ -34,11 +34,15 @@ const listar = async ({ usuario }) => {
     const aplicativos = await Aplicativo.find({
       appKey: { $ne: sistema.assistentes?.appKey },
     });
+
     return aplicativos;
   }
 
   const aplicativos = await Aplicativo.find({
-    "usuarios.usuario": usuarioExistente._id,
+    $or: [
+      { "usuarios.usuario": usuarioExistente._id },
+      { appKey: sistema.suporte?.appKey },
+    ],
     appKey: { $ne: sistema.assistentes?.appKey },
   });
 
