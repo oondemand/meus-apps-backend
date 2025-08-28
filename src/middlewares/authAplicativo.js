@@ -47,7 +47,6 @@ const authAplicativo = async (req, res, next) => {
     }
 
     req.aplicativo = aplicativo;
-    req.acessoLiberado = aplicativosComAcessoLivre.includes(origin);
     next();
   } catch (error) {
     console.log(error);

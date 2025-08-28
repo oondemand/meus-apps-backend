@@ -24,13 +24,34 @@ const validarToken = async (req, res) => {
 };
 
 const autenticarApp = async (req, res) => {
+  const origin = req.headers.origin;
   let tipoAcesso = "padrao";
 
   if (req.usuario.tipo === "master") {
     tipoAcesso = "master";
   }
 
-  if (!req.acessoLiberado && req.usuario.tipo !== "master") {
+  const sistema = await Sistema.findOne({});
+
+  const aplicativosComAcessoLivre = [
+    sistema.assistentes?.appKey,
+    sistema.suporte?.appKey,
+  ];
+
+  const acessoLiberado = aplicativosComAcessoLivre.includes(origin);
+
+  if (
+    acessoLiberado &&
+    req.aplicativo.usuarios.some(
+      (item) => item.usuario?._id?.toString() === req.usuario._id?.toString()
+    )
+  ) {
+    tipoAcesso = req.aplicativo.usuarios.find((item) => {
+      return item.usuario?._id?.toString() === req.usuario._id?.toString();
+    }).tipoAcesso;
+  }
+
+  if (!acessoLiberado && req.usuario.tipo !== "master") {
     tipoAcesso = req.aplicativo.usuarios.find((item) => {
       return item.usuario?._id?.toString() === req.usuario._id?.toString();
     }).tipoAcesso;
